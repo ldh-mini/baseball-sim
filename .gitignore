@@ -19,7 +19,7 @@ __pycache__/
 *.pyc
 
 # 임시 캐시 / 일별 산출물 (재생성 가능)
-schedule-today.json
+# schedule-today.json은 GitHub Pages 정적 fetch용으로 트랙킹
 schedule-2025-*.json
 schedule-2026-*.json
 prediction-log.backup-*.json

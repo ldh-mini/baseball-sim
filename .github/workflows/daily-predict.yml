@@ -104,7 +104,7 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
           # 추적할 산출물: 데이터 파일만 (kbo-simulation.jsx는 blend가 매번 수정해 머지 충돌 위험)
-          git add team-stats.json team-stats-snapshots/ recent-stats.json prediction-log.json 2>/dev/null || true
+          git add team-stats.json team-stats-snapshots/ recent-stats.json prediction-log.json schedule-today.json 2>/dev/null || true
 
           if git diff --cached --quiet; then
             echo "변경사항 없음"
