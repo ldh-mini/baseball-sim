@@ -113,5 +113,6 @@ jobs:
 
           DATE=$(date +%Y-%m-%d)
           MODE="${{ steps.mode.outputs.mode }}"
-          git commit -m "auto: ${MODE} ${DATE} [skip ci]"
+          # [skip ci] 제거 — deploy-pages가 자동 재배포되도록 (daily-predict 자체는 path filter로 트리거 안 됨)
+          git commit -m "auto: ${MODE} ${DATE}"
           git push

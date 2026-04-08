@@ -794,6 +794,35 @@ const KBO_STADIUM_TO_ID = {
 // 현재 KBO 최신 시즌 연도 (실제 일정이 있는 연도)
 const KBO_CURRENT_SEASON = 2026;
 const _scheduleCache = {};
+// ── 정적 데이터 fetch 헬퍼 (GitHub Pages 환경) ──
+// daily-predict workflow가 매일 생성한 schedule-today.json을 우선 사용
+const STATIC_BASE = (typeof import.meta !== "undefined" && import.meta.env?.BASE_URL) || "/";
+async function fetchStaticJSON(filename) {
+  try {
+    const r = await fetch(`${STATIC_BASE}data/${filename}`);
+    if (!r.ok) return null;
+    return await r.json();
+  } catch { return null; }
+}
+
+async function tryStaticSchedule(dateStr) {
+  // schedule-today.json 의 date 필드와 일치하면 사용
+  const data = await fetchStaticJSON("schedule-today.json");
+  if (!data || data.date !== dateStr) return null;
+  // 정적 schedule을 jsx 내부 포맷({date,time,awayName,homeName,stadiumRaw,...}) 으로 변환
+  const [, mo, da] = dateStr.split("-");
+  const dayLabel = `${mo}.${da}`;
+  return data.games.map(g => ({
+    date: dayLabel,
+    time: g.time || "18:30",
+    awayName: g.away,
+    homeName: g.home,
+    stadiumRaw: g.stadium || "",
+    awayScore: null, homeScore: null, hasResult: false,
+    _spFromStatic: { awaySP: g.awaySP || "", homeSP: g.homeSP || "" },
+  }));
+}
+
 async function fetchKBOSchedule(year, month) {
   const key = `${year}-${month}`;
   if (_scheduleCache[key]) return _scheduleCache[key];
@@ -1519,6 +1548,22 @@ const TodayTab = () => {
       setLoading(true); setSch([]); setSource("");
       const [y,mo] = d.split("-");
       const year = parseInt(y), month = parseInt(mo);
+
+      // ── 1순위: 정적 schedule-today.json (GitHub Pages, daily-predict workflow가 매일 갱신) ──
+      const staticGames = await tryStaticSchedule(d);
+      if (!cancel && staticGames && staticGames.length > 0) {
+        const staticSpMap = {};
+        for (const g of staticGames) {
+          staticSpMap[`${g.awayName}_${g.homeName}`] = g._spFromStatic;
+        }
+        const games = parseKBOGames(staticGames, d, staticSpMap);
+        if (!cancel && games.length > 0) {
+          setSch(games); setSource("static-data"); setLoading(false);
+          return;
+        }
+      }
+
+      // ── 2순위: KBO 공식 API (로컬 dev 환경) ──
       // 선택된 연도로 먼저 시도, 실패 시 KBO 최신 시즌으로 재시도
       let allGames = await fetchKBOSchedule(year, month);
       if((!allGames || allGames.length === 0) && year !== KBO_CURRENT_SEASON){

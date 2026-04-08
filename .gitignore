@@ -24,6 +24,9 @@ schedule-2025-*.json
 schedule-2026-*.json
 prediction-log.backup-*.json
 
+# public/data: 빌드 시 워크플로우가 자동 생성 (root 데이터 파일을 복사)
+public/data/
+
 # Logs
 npm-debug.log*
 yarn-debug.log*
