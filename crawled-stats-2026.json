@@ -1,0 +1,1233 @@
+{
+  "kt": {
+    "id": "kt",
+    "name": "KT 위즈",
+    "short": "KT",
+    "color": "#000000",
+    "stadium": "suwon",
+    "lineup": [
+      {
+        "name": "최원준",
+        "pos": "DH",
+        "bat": "R",
+        "avg": 0.333,
+        "obp": 0.455,
+        "slg": 0.333,
+        "hr": 0,
+        "spd": 4,
+        "recentForm": 0.89
+      },
+      {
+        "name": "안현민",
+        "pos": "DH",
+        "bat": "R",
+        "avg": 0.286,
+        "obp": 0.545,
+        "slg": 0.714,
+        "hr": 0,
+        "spd": 4,
+        "recentForm": 1.13
+      },
+      {
+        "name": "김현수",
+        "pos": "DH",
+        "bat": "L",
+        "avg": 0.111,
+        "obp": 0.273,
+        "slg": 0.111,
+        "hr": 0,
+        "spd": 4,
+        "recentForm": 0.75
+      },
+      {
+        "name": "힐리어드",
+        "pos": "LF",
+        "bat": "L",
+        "avg": 0.375,
+        "obp": 0.4,
+        "slg": 0.75,
+        "hr": 1,
+        "spd": 4,
+        "recentForm": 1.07
+      },
+      {
+        "name": "허경민",
+        "pos": "2B",
+        "bat": "R",
+        "avg": 0.75,
+        "obp": 0.778,
+        "slg": 1.125,
+        "hr": 1,
+        "spd": 4,
+        "recentForm": 1.3
+      },
+      {
+        "name": "이강민",
+        "pos": "DH",
+        "bat": "R",
+        "avg": 0.429,
+        "obp": 0.5,
+        "slg": 0.571,
+        "hr": 0,
+        "spd": 4,
+        "recentForm": 1.04
+      },
+      {
+        "name": "한승택",
+        "pos": "DH",
+        "bat": "R",
+        "avg": 0.125,
+        "obp": 0.125,
+        "slg": 0.125,
+        "hr": 0,
+        "spd": 4,
+        "recentForm": 0.75
+      },
+      {
+        "name": "장성우",
+        "pos": "C",
+        "bat": "R",
+        "avg": 0.4,
+        "obp": 0.5,
+        "slg": 0.6,
+        "hr": 0,
+        "spd": 4,
+        "recentForm": 1.05
+      },
+      {
+        "name": "류현인",
+        "pos": "DH",
+        "bat": "R",
+        "avg": 0.333,
+        "obp": 0.333,
+        "slg": 0.333,
+        "hr": 0,
+        "spd": 4,
+        "recentForm": 0.83
+      }
+    ],
+    "starters": [
+      {
+        "name": "사우어",
+        "throws": "R",
+        "era": 5.4,
+        "whip": 2,
+        "k9": 1.8,
+        "bb9": 9,
+        "ip": 5,
+        "recentForm": 0.89
+      }
+    ],
+    "bullpen": {
+      "era": 2.25,
+      "whip": 1.14,
+      "k9": 5.3,
+      "bb9": 3.8
+    },
+    "teamRating": 76
+  },
+  "lg": {
+    "id": "lg",
+    "name": "LG 트윈스",
+    "short": "LG",
+    "color": "#C30452",
+    "stadium": "jamsil",
+    "lineup": [
+      {
+        "name": "홍창기",
+        "pos": "RF",
+        "bat": "R",
+        "avg": 0.286,
+        "obp": 0.545,
+        "slg": 0.286,
+        "hr": 0,
+        "spd": 9,
+        "recentForm": 0.92
+      },
+      {
+        "name": "오스틴",
+        "pos": "DH",
+        "bat": "R",
+        "avg": 0.667,
+        "obp": 0.7,
+        "slg": 0.778,
+        "hr": 0,
+        "spd": 4,
+        "recentForm": 1.24
+      },
+      {
+        "name": "문성주",
+        "pos": "LF",
+        "bat": "L",
+        "avg": 0.444,
+        "obp": 0.4,
+        "slg": 0.444,
+        "hr": 0,
+        "spd": 9,
+        "recentForm": 0.92
+      },
+      {
+        "name": "문보경",
+        "pos": "DH",
+        "bat": "R",
+        "avg": 0.429,
+        "obp": 0.5,
+        "slg": 0.571,
+        "hr": 0,
+        "spd": 4,
+        "recentForm": 1.04
+      },
+      {
+        "name": "신민재",
+        "pos": "3B",
+        "bat": "R",
+        "avg": 0.1,
+        "obp": 0.1,
+        "slg": 0.1,
+        "hr": 0,
+        "spd": 4,
+        "recentForm": 0.75
+      },
+      {
+        "name": "박동원",
+        "pos": "C",
+        "bat": "R",
+        "avg": 0.5,
+        "obp": 0.667,
+        "slg": 1,
+        "hr": 1,
+        "spd": 4,
+        "recentForm": 1.3
+      },
+      {
+        "name": "박해민",
+        "pos": "CF",
+        "bat": "L",
+        "avg": 0.143,
+        "obp": 0.333,
+        "slg": 0.143,
+        "hr": 0,
+        "spd": 9,
+        "recentForm": 0.75
+      },
+      {
+        "name": "구본혁",
+        "pos": "2B",
+        "bat": "R",
+        "avg": 0.125,
+        "obp": 0.222,
+        "slg": 0.125,
+        "hr": 0,
+        "spd": 4,
+        "recentForm": 0.75
+      },
+      {
+        "name": "오지환",
+        "pos": "SS",
+        "bat": "R",
+        "avg": 0.143,
+        "obp": 0.143,
+        "slg": 0.286,
+        "hr": 0,
+        "spd": 4,
+        "recentForm": 0.75
+      }
+    ],
+    "starters": [
+      {
+        "name": "임찬규",
+        "throws": "L",
+        "era": 5.4,
+        "whip": 1.6,
+        "k9": 1.8,
+        "bb9": 3.6,
+        "ip": 5,
+        "recentForm": 0.89
+      }
+    ],
+    "bullpen": {
+      "era": 4,
+      "whip": 1.5,
+      "k9": 8,
+      "bb9": 4.5
+    },
+    "teamRating": 65
+  },
+  "kia": {
+    "id": "kia",
+    "name": "기아 타이거즈",
+    "short": "기아",
+    "color": "#EA0029",
+    "stadium": "gwangju",
+    "lineup": [
+      {
+        "name": "카스트로",
+        "pos": "LF",
+        "bat": "S",
+        "avg": 0.556,
+        "obp": 0.6,
+        "slg": 1,
+        "hr": 1,
+        "spd": 4,
+        "recentForm": 1.3
+      },
+      {
+        "name": "나성범",
+        "pos": "RF",
+        "bat": "R",
+        "avg": 0.333,
+        "obp": 0.4,
+        "slg": 0.667,
+        "hr": 1,
+        "spd": 4,
+        "recentForm": 1.03
+      },
+      {
+        "name": "김도영",
+        "pos": "DH",
+        "bat": "R",
+        "avg": 0.25,
+        "obp": 0.4,
+        "slg": 0.25,
+        "hr": 0,
+        "spd": 4,
+        "recentForm": 0.82
+      },
+      {
+        "name": "김호령",
+        "pos": "DH",
+        "bat": "R",
+        "avg": 0,
+        "obp": 0.2,
+        "slg": 0.15,
+        "hr": 0,
+        "spd": 4,
+        "recentForm": 0.75
+      },
+      {
+        "name": "김선빈",
+        "pos": "2B",
+        "bat": "R",
+        "avg": 0.5,
+        "obp": 0.667,
+        "slg": 0.5,
+        "hr": 0,
+        "spd": 4,
+        "recentForm": 1.08
+      },
+      {
+        "name": "윤도현",
+        "pos": "DH",
+        "bat": "R",
+        "avg": 0.222,
+        "obp": 0.222,
+        "slg": 0.222,
+        "hr": 0,
+        "spd": 9,
+        "recentForm": 0.75
+      }
+    ],
+    "starters": [
+      {
+        "name": "네일",
+        "throws": "R",
+        "era": 0,
+        "whip": 0.5,
+        "k9": 7.5,
+        "bb9": 1.5,
+        "ip": 6,
+        "recentForm": 1.02
+      }
+    ],
+    "bullpen": {
+      "era": 18,
+      "whip": 3.5,
+      "k9": 4.5,
+      "bb9": 13.5
+    },
+    "teamRating": 95
+  },
+  "hanwha": {
+    "id": "hanwha",
+    "name": "한화 이글스",
+    "short": "한화",
+    "color": "#FF6600",
+    "stadium": "daejeon",
+    "lineup": [
+      {
+        "name": "페라자",
+        "pos": "LF",
+        "bat": "R",
+        "avg": 0.545,
+        "obp": 0.545,
+        "slg": 0.636,
+        "hr": 0,
+        "spd": 9,
+        "recentForm": 1.09
+      },
+      {
+        "name": "문현빈",
+        "pos": "CF",
+        "bat": "R",
+        "avg": 0.5,
+        "obp": 0.636,
+        "slg": 0.75,
+        "hr": 0,
+        "spd": 4,
+        "recentForm": 1.19
+      },
+      {
+        "name": "오재원",
+        "pos": "DH",
+        "bat": "R",
+        "avg": 0.364,
+        "obp": 0.364,
+        "slg": 0.364,
+        "hr": 0,
+        "spd": 4,
+        "recentForm": 0.86
+      },
+      {
+        "name": "노시환",
+        "pos": "3B",
+        "bat": "R",
+        "avg": 0.3,
+        "obp": 0.364,
+        "slg": 0.3,
+        "hr": 0,
+        "spd": 4,
+        "recentForm": 0.83
+      },
+      {
+        "name": "강백호",
+        "pos": "1B",
+        "bat": "R",
+        "avg": 0.273,
+        "obp": 0.273,
+        "slg": 0.636,
+        "hr": 1,
+        "spd": 4,
+        "recentForm": 0.95
+      },
+      {
+        "name": "채은성",
+        "pos": "DH",
+        "bat": "R",
+        "avg": 0.375,
+        "obp": 0.4,
+        "slg": 0.75,
+        "hr": 1,
+        "spd": 4,
+        "recentForm": 1.07
+      },
+      {
+        "name": "심우준",
+        "pos": "DH",
+        "bat": "R",
+        "avg": 0.375,
+        "obp": 0.444,
+        "slg": 0.875,
+        "hr": 1,
+        "spd": 4,
+        "recentForm": 1.16
+      },
+      {
+        "name": "하주석",
+        "pos": "DH",
+        "bat": "R",
+        "avg": 0.429,
+        "obp": 0.429,
+        "slg": 0.429,
+        "hr": 0,
+        "spd": 4,
+        "recentForm": 0.93
+      },
+      {
+        "name": "최재훈",
+        "pos": "DH",
+        "bat": "R",
+        "avg": 0.167,
+        "obp": 0.167,
+        "slg": 0.167,
+        "hr": 0,
+        "spd": 4,
+        "recentForm": 0.75
+      }
+    ],
+    "starters": [
+      {
+        "name": "왕옌청",
+        "throws": "R",
+        "era": 5.06,
+        "whip": 0.94,
+        "k9": 9,
+        "bb9": 1.8,
+        "ip": 5,
+        "recentForm": 0.9
+      },
+      {
+        "name": "에르난데스",
+        "throws": "L",
+        "era": 7.71,
+        "whip": 1.71,
+        "k9": 6.8,
+        "bb9": 9,
+        "ip": 4,
+        "recentForm": 0.85
+      }
+    ],
+    "bullpen": {
+      "era": 9,
+      "whip": 2.5,
+      "k9": 9,
+      "bb9": 9
+    },
+    "teamRating": 74
+  },
+  "ssg": {
+    "id": "ssg",
+    "name": "SSG 랜더스",
+    "short": "SSG",
+    "color": "#CE0E2D",
+    "stadium": "incheon",
+    "lineup": [
+      {
+        "name": "박성한",
+        "pos": "DH",
+        "bat": "R",
+        "avg": 0.4,
+        "obp": 0.7,
+        "slg": 0.6,
+        "hr": 0,
+        "spd": 4,
+        "recentForm": 1.15
+      },
+      {
+        "name": "에레디아",
+        "pos": "LF",
+        "bat": "R",
+        "avg": 0.222,
+        "obp": 0.3,
+        "slg": 0.556,
+        "hr": 1,
+        "spd": 4,
+        "recentForm": 0.93
+      },
+      {
+        "name": "최정",
+        "pos": "DH",
+        "bat": "R",
+        "avg": 0.167,
+        "obp": 0.4,
+        "slg": 0.167,
+        "hr": 0,
+        "spd": 4,
+        "recentForm": 0.78
+      },
+      {
+        "name": "김재환",
+        "pos": "LF",
+        "bat": "L",
+        "avg": 0,
+        "obp": 0.111,
+        "slg": 0.15,
+        "hr": 0,
+        "spd": 4,
+        "recentForm": 0.75
+      },
+      {
+        "name": "고명준",
+        "pos": "RF",
+        "bat": "R",
+        "avg": 0.5,
+        "obp": 0.5,
+        "slg": 1.25,
+        "hr": 2,
+        "spd": 4,
+        "recentForm": 1.3
+      },
+      {
+        "name": "조형우",
+        "pos": "DH",
+        "bat": "R",
+        "avg": 0.25,
+        "obp": 0.25,
+        "slg": 0.5,
+        "hr": 0,
+        "spd": 4,
+        "recentForm": 0.88
+      },
+      {
+        "name": "최지훈",
+        "pos": "DH",
+        "bat": "R",
+        "avg": 0.2,
+        "obp": 0.5,
+        "slg": 0.2,
+        "hr": 0,
+        "spd": 9,
+        "recentForm": 0.85
+      },
+      {
+        "name": "김성욱",
+        "pos": "DH",
+        "bat": "L",
+        "avg": 0.143,
+        "obp": 0.143,
+        "slg": 0.143,
+        "hr": 0,
+        "spd": 4,
+        "recentForm": 0.75
+      }
+    ],
+    "starters": [
+      {
+        "name": "김건우",
+        "throws": "R",
+        "era": 3.6,
+        "whip": 1.6,
+        "k9": 7.2,
+        "bb9": 5.4,
+        "ip": 5,
+        "recentForm": 0.93
+      },
+      {
+        "name": "화이트",
+        "throws": "R",
+        "era": 11.25,
+        "whip": 2.75,
+        "k9": 9,
+        "bb9": 4.5,
+        "ip": 4,
+        "recentForm": 0.78
+      }
+    ],
+    "bullpen": {
+      "era": 4,
+      "whip": 0.5,
+      "k9": 18,
+      "bb9": 3
+    },
+    "teamRating": 50
+  },
+  "kiwoom": {
+    "id": "kiwoom",
+    "name": "키움 히어로즈",
+    "short": "키움",
+    "color": "#820024",
+    "stadium": "gocheok",
+    "lineup": [
+      {
+        "name": "이주형",
+        "pos": "LF",
+        "bat": "R",
+        "avg": 0.111,
+        "obp": 0.273,
+        "slg": 0.222,
+        "hr": 0,
+        "spd": 4,
+        "recentForm": 0.75
+      },
+      {
+        "name": "안치홍",
+        "pos": "2B",
+        "bat": "R",
+        "avg": 0.5,
+        "obp": 0.7,
+        "slg": 0.833,
+        "hr": 0,
+        "spd": 4,
+        "recentForm": 1.27
+      },
+      {
+        "name": "브룩스",
+        "pos": "1B",
+        "bat": "R",
+        "avg": 0.444,
+        "obp": 0.5,
+        "slg": 0.444,
+        "hr": 0,
+        "spd": 4,
+        "recentForm": 0.97
+      },
+      {
+        "name": "어준서",
+        "pos": "DH",
+        "bat": "R",
+        "avg": 0.111,
+        "obp": 0.2,
+        "slg": 0.111,
+        "hr": 0,
+        "spd": 4,
+        "recentForm": 0.75
+      },
+      {
+        "name": "김건희",
+        "pos": "DH",
+        "bat": "R",
+        "avg": 0.5,
+        "obp": 0.5,
+        "slg": 0.5,
+        "hr": 0,
+        "spd": 4,
+        "recentForm": 1
+      },
+      {
+        "name": "이형종",
+        "pos": "DH",
+        "bat": "R",
+        "avg": 0,
+        "obp": 0.5,
+        "slg": 0.15,
+        "hr": 0,
+        "spd": 4,
+        "recentForm": 0.75
+      },
+      {
+        "name": "최주환",
+        "pos": "DH",
+        "bat": "R",
+        "avg": 0.286,
+        "obp": 0.286,
+        "slg": 0.429,
+        "hr": 0,
+        "spd": 4,
+        "recentForm": 0.86
+      },
+      {
+        "name": "박찬혁",
+        "pos": "DH",
+        "bat": "R",
+        "avg": 0.2,
+        "obp": 0.333,
+        "slg": 0.2,
+        "hr": 0,
+        "spd": 4,
+        "recentForm": 0.77
+      }
+    ],
+    "starters": [
+      {
+        "name": "알칸타라",
+        "throws": "R",
+        "era": 5.06,
+        "whip": 1.69,
+        "k9": 9,
+        "bb9": 1.8,
+        "ip": 5,
+        "recentForm": 0.9
+      }
+    ],
+    "bullpen": {
+      "era": 4.5,
+      "whip": 2,
+      "k9": 9,
+      "bb9": 2.3
+    },
+    "teamRating": 54
+  },
+  "nc": {
+    "id": "nc",
+    "name": "NC 다이노스",
+    "short": "NC",
+    "color": "#315288",
+    "stadium": "changwon",
+    "lineup": [
+      {
+        "name": "김주원",
+        "pos": "SS",
+        "bat": "R",
+        "avg": 0.25,
+        "obp": 0.4,
+        "slg": 0.375,
+        "hr": 0,
+        "spd": 9,
+        "recentForm": 0.89
+      },
+      {
+        "name": "박건우",
+        "pos": "RF",
+        "bat": "R",
+        "avg": 0.444,
+        "obp": 0.444,
+        "slg": 1.111,
+        "hr": 2,
+        "spd": 4,
+        "recentForm": 1.28
+      },
+      {
+        "name": "김휘집",
+        "pos": "CF",
+        "bat": "R",
+        "avg": 0.333,
+        "obp": 0.556,
+        "slg": 0.333,
+        "hr": 0,
+        "spd": 4,
+        "recentForm": 0.94
+      },
+      {
+        "name": "박민우",
+        "pos": "2B",
+        "bat": "R",
+        "avg": 0.25,
+        "obp": 0.333,
+        "slg": 0.375,
+        "hr": 0,
+        "spd": 9,
+        "recentForm": 0.85
+      },
+      {
+        "name": "김형준",
+        "pos": "DH",
+        "bat": "R",
+        "avg": 0.111,
+        "obp": 0.111,
+        "slg": 0.444,
+        "hr": 1,
+        "spd": 4,
+        "recentForm": 0.78
+      },
+      {
+        "name": "데이비슨",
+        "pos": "DH",
+        "bat": "R",
+        "avg": 0.333,
+        "obp": 0.5,
+        "slg": 0.667,
+        "hr": 0,
+        "spd": 4,
+        "recentForm": 1.08
+      },
+      {
+        "name": "최정원",
+        "pos": "DH",
+        "bat": "R",
+        "avg": 0,
+        "obp": 0.333,
+        "slg": 0.15,
+        "hr": 0,
+        "spd": 4,
+        "recentForm": 0.75
+      },
+      {
+        "name": "서호철",
+        "pos": "3B",
+        "bat": "R",
+        "avg": 0,
+        "obp": 0.167,
+        "slg": 0.15,
+        "hr": 0,
+        "spd": 4,
+        "recentForm": 0.75
+      }
+    ],
+    "starters": [
+      {
+        "name": "구창모",
+        "throws": "L",
+        "era": 0,
+        "whip": 0.6,
+        "k9": 5.4,
+        "bb9": 1.8,
+        "ip": 5,
+        "recentForm": 1
+      },
+      {
+        "name": "테일러",
+        "throws": "R",
+        "era": 3.6,
+        "whip": 1.2,
+        "k9": 10.8,
+        "bb9": 3.6,
+        "ip": 5,
+        "recentForm": 0.93
+      }
+    ],
+    "bullpen": {
+      "era": 4,
+      "whip": 1.25,
+      "k9": 4.5,
+      "bb9": 3
+    },
+    "teamRating": 64
+  },
+  "lotte": {
+    "id": "lotte",
+    "name": "롯데 자이언츠",
+    "short": "롯데",
+    "color": "#041E42",
+    "stadium": "sajik",
+    "lineup": [
+      {
+        "name": "레이예스",
+        "pos": "DH",
+        "bat": "R",
+        "avg": 0.429,
+        "obp": 0.6,
+        "slg": 1.286,
+        "hr": 2,
+        "spd": 4,
+        "recentForm": 1.3
+      },
+      {
+        "name": "손호영",
+        "pos": "LF",
+        "bat": "R",
+        "avg": 0.3,
+        "obp": 0.3,
+        "slg": 0.9,
+        "hr": 2,
+        "spd": 4,
+        "recentForm": 1.1
+      },
+      {
+        "name": "윤동희",
+        "pos": "CF",
+        "bat": "R",
+        "avg": 0.444,
+        "obp": 0.444,
+        "slg": 0.889,
+        "hr": 1,
+        "spd": 4,
+        "recentForm": 1.17
+      },
+      {
+        "name": "노진혁",
+        "pos": "DH",
+        "bat": "R",
+        "avg": 0.375,
+        "obp": 0.375,
+        "slg": 0.875,
+        "hr": 1,
+        "spd": 4,
+        "recentForm": 1.13
+      },
+      {
+        "name": "전준우",
+        "pos": "RF",
+        "bat": "R",
+        "avg": 0.375,
+        "obp": 0.375,
+        "slg": 0.75,
+        "hr": 1,
+        "spd": 4,
+        "recentForm": 1.06
+      },
+      {
+        "name": "한태양",
+        "pos": "DH",
+        "bat": "R",
+        "avg": 0.286,
+        "obp": 0.375,
+        "slg": 0.429,
+        "hr": 0,
+        "spd": 4,
+        "recentForm": 0.9
+      },
+      {
+        "name": "전민재",
+        "pos": "DH",
+        "bat": "R",
+        "avg": 0.167,
+        "obp": 0.25,
+        "slg": 0.167,
+        "hr": 0,
+        "spd": 4,
+        "recentForm": 0.75
+      },
+      {
+        "name": "유강남",
+        "pos": "C",
+        "bat": "R",
+        "avg": 0.125,
+        "obp": 0.125,
+        "slg": 0.125,
+        "hr": 0,
+        "spd": 4,
+        "recentForm": 0.75
+      }
+    ],
+    "starters": [
+      {
+        "name": "로드리게스",
+        "throws": "R",
+        "era": 0,
+        "whip": 1.4,
+        "k9": 7.2,
+        "bb9": 9,
+        "ip": 5,
+        "recentForm": 1
+      },
+      {
+        "name": "비슬리",
+        "throws": "R",
+        "era": 0,
+        "whip": 0.6,
+        "k9": 9,
+        "bb9": 1.8,
+        "ip": 5,
+        "recentForm": 1
+      }
+    ],
+    "bullpen": {
+      "era": 2.25,
+      "whip": 1.5,
+      "k9": 9,
+      "bb9": 4.5
+    },
+    "teamRating": 95
+  },
+  "samsung": {
+    "id": "samsung",
+    "name": "삼성 라이온즈",
+    "short": "삼성",
+    "color": "#074CA1",
+    "stadium": "daegu",
+    "lineup": [
+      {
+        "name": "김성윤",
+        "pos": "RF",
+        "bat": "R",
+        "avg": 0.25,
+        "obp": 0.333,
+        "slg": 0.375,
+        "hr": 0,
+        "spd": 4,
+        "recentForm": 0.85
+      },
+      {
+        "name": "이재현",
+        "pos": "3B",
+        "bat": "R",
+        "avg": 0.167,
+        "obp": 0.444,
+        "slg": 0.167,
+        "hr": 0,
+        "spd": 4,
+        "recentForm": 0.81
+      },
+      {
+        "name": "구자욱",
+        "pos": "LF",
+        "bat": "R",
+        "avg": 0.143,
+        "obp": 0.333,
+        "slg": 0.143,
+        "hr": 0,
+        "spd": 4,
+        "recentForm": 0.75
+      },
+      {
+        "name": "디아즈",
+        "pos": "DH",
+        "bat": "R",
+        "avg": 0.143,
+        "obp": 0.333,
+        "slg": 0.286,
+        "hr": 0,
+        "spd": 4,
+        "recentForm": 0.81
+      },
+      {
+        "name": "김영웅",
+        "pos": "DH",
+        "bat": "R",
+        "avg": 0,
+        "obp": 0.06,
+        "slg": 0.15,
+        "hr": 0,
+        "spd": 4,
+        "recentForm": 1
+      },
+      {
+        "name": "류지혁",
+        "pos": "DH",
+        "bat": "R",
+        "avg": 0.429,
+        "obp": 0.5,
+        "slg": 0.571,
+        "hr": 0,
+        "spd": 9,
+        "recentForm": 1.04
+      },
+      {
+        "name": "최형우",
+        "pos": "DH",
+        "bat": "R",
+        "avg": 0.286,
+        "obp": 0.375,
+        "slg": 0.286,
+        "hr": 0,
+        "spd": 4,
+        "recentForm": 0.83
+      },
+      {
+        "name": "김지찬",
+        "pos": "CF",
+        "bat": "R",
+        "avg": 0.167,
+        "obp": 0.375,
+        "slg": 0.333,
+        "hr": 0,
+        "spd": 4,
+        "recentForm": 0.85
+      }
+    ],
+    "starters": [
+      {
+        "name": "최원태",
+        "throws": "R",
+        "era": 3,
+        "whip": 1.5,
+        "k9": 7.5,
+        "bb9": 3,
+        "ip": 6,
+        "recentForm": 0.96
+      },
+      {
+        "name": "후라도",
+        "throws": "R",
+        "era": 4.5,
+        "whip": 1.17,
+        "k9": 3,
+        "bb9": 0,
+        "ip": 6,
+        "recentForm": 0.93
+      }
+    ],
+    "bullpen": {
+      "era": 4,
+      "whip": 1.25,
+      "k9": 8,
+      "bb9": 3
+    },
+    "teamRating": 50
+  },
+  "doosan": {
+    "id": "doosan",
+    "name": "두산 베어스",
+    "short": "두산",
+    "color": "#131230",
+    "stadium": "jamsil",
+    "lineup": [
+      {
+        "name": "강승호",
+        "pos": "3B",
+        "bat": "R",
+        "avg": 0.25,
+        "obp": 0.333,
+        "slg": 0.25,
+        "hr": 0,
+        "spd": 4,
+        "recentForm": 0.79
+      },
+      {
+        "name": "박찬호",
+        "pos": "DH",
+        "bat": "R",
+        "avg": 0.25,
+        "obp": 0.333,
+        "slg": 0.25,
+        "hr": 0,
+        "spd": 9,
+        "recentForm": 0.79
+      },
+      {
+        "name": "정수빈",
+        "pos": "DH",
+        "bat": "R",
+        "avg": 0.143,
+        "obp": 0.333,
+        "slg": 0.143,
+        "hr": 0,
+        "spd": 9,
+        "recentForm": 0.75
+      },
+      {
+        "name": "양석환",
+        "pos": "DH",
+        "bat": "R",
+        "avg": 0.143,
+        "obp": 0.25,
+        "slg": 0.571,
+        "hr": 1,
+        "spd": 4,
+        "recentForm": 0.91
+      },
+      {
+        "name": "양의지",
+        "pos": "DH",
+        "bat": "R",
+        "avg": 0,
+        "obp": 0.06,
+        "slg": 0.15,
+        "hr": 0,
+        "spd": 4,
+        "recentForm": 1
+      },
+      {
+        "name": "안재석",
+        "pos": "DH",
+        "bat": "R",
+        "avg": 0.286,
+        "obp": 0.286,
+        "slg": 0.429,
+        "hr": 0,
+        "spd": 4,
+        "recentForm": 0.86
+      },
+      {
+        "name": "김민석",
+        "pos": "DH",
+        "bat": "R",
+        "avg": 0.4,
+        "obp": 0.5,
+        "slg": 1,
+        "hr": 1,
+        "spd": 4,
+        "recentForm": 1.25
+      },
+      {
+        "name": "박준순",
+        "pos": "DH",
+        "bat": "R",
+        "avg": 0.167,
+        "obp": 0.167,
+        "slg": 0.167,
+        "hr": 0,
+        "spd": 4,
+        "recentForm": 0.75
+      }
+    ],
+    "starters": [
+      {
+        "name": "플렉센",
+        "throws": "R",
+        "era": 4.5,
+        "whip": 1.75,
+        "k9": 6.8,
+        "bb9": 11.3,
+        "ip": 4,
+        "recentForm": 0.91
+      },
+      {
+        "name": "곽빈",
+        "throws": "R",
+        "era": 9,
+        "whip": 1.75,
+        "k9": 11.3,
+        "bb9": 4.5,
+        "ip": 4,
+        "recentForm": 0.82
+      }
+    ],
+    "bullpen": {
+      "era": 4,
+      "whip": 1.25,
+      "k9": 8,
+      "bb9": 3
+    },
+    "teamRating": 50
+  }
+}

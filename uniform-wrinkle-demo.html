@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>야구 유니폼 주름 시뮬레이션</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Pretendard', 'Noto Sans KR', -apple-system, sans-serif;
+    background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 50%, #16213e 100%);
+    color: #e0e0e0;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+  }
+  .container { max-width: 920px; width: 100%; }
+  .header { text-align: center; margin-bottom: 20px; }
+  .header h1 {
+    font-size: 24px;
+    background: linear-gradient(90deg, #60a5fa, #a78bfa);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .header p { font-size: 13px; color: #888; margin-top: 4px; }
+  .main-grid { display: grid; grid-template-columns: 1fr 250px; gap: 16px; }
+  .panel {
+    background: rgba(255,255,255,0.05);
+    border-radius: 12px;
+    padding: 16px;
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+  .section-label {
+    font-size: 11px; color: #888; margin-bottom: 8px;
+    text-transform: uppercase; letter-spacing: 1px;
+  }
+  svg#sim {
+    width: 100%; display: block;
+    background: radial-gradient(ellipse at center, rgba(255,255,255,0.03) 0%, transparent 70%);
+    border-radius: 8px;
+  }
+  .controls { display: flex; flex-direction: column; gap: 12px; }
+  .action-btn {
+    padding: 10px 12px; border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.1);
+    background: rgba(255,255,255,0.05);
+    color: #aaa; cursor: pointer; text-align: left;
+    transition: all 0.2s; font-family: inherit;
+  }
+  .action-btn:hover { background: rgba(255,255,255,0.1); }
+  .action-btn.active { background: rgba(96,165,250,0.15); border-color: #60a5fa; color: #fff; }
+  .action-btn .name { font-weight: 600; font-size: 13px; }
+  .action-btn .desc { font-size: 10px; opacity: 0.7; margin-top: 2px; }
+  .team-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; }
+  .team-btn {
+    width: 36px; height: 36px; border-radius: 8px;
+    border: 2px solid transparent; cursor: pointer; transition: all 0.2s;
+  }
+  .team-btn.active { border-color: #fff; transform: scale(1.1); }
+  .team-name { font-size: 11px; color: #aaa; margin-top: 6px; text-align: center; }
+  .slider-row { margin-bottom: 8px; }
+  .slider-header { display: flex; justify-content: space-between; font-size: 11px; color: #aaa; margin-bottom: 4px; }
+  input[type="range"] { width: 100%; accent-color: #60a5fa; }
+  .playback-bar { display: flex; gap: 8px; justify-content: center; margin-top: 8px; }
+  .play-btn {
+    padding: 8px 16px; border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.15);
+    cursor: pointer; font-size: 13px; font-weight: 500;
+    transition: all 0.2s; font-family: inherit;
+  }
+  .play-btn.playing { background: rgba(239,68,68,0.2); color: #f87171; }
+  .play-btn.paused { background: rgba(34,197,94,0.2); color: #4ade80; }
+  .play-btn.reset { background: rgba(255,255,255,0.08); color: #ccc; }
+  select.speed {
+    padding: 8px 12px; border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.15);
+    background: rgba(255,255,255,0.08); color: #ccc;
+    font-size: 13px; font-family: inherit; cursor: pointer;
+  }
+  .footer {
+    margin-top: 16px; padding: 12px 16px;
+    background: rgba(255,255,255,0.03); border-radius: 8px;
+    font-size: 11px; color: #666; line-height: 1.6;
+  }
+  .footer strong { color: #888; }
+  label.debug-label {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 12px; color: #aaa; cursor: pointer;
+  }
+  @media (max-width: 700px) {
+    .main-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <h1>야구 유니폼 주름 시뮬레이션</h1>
+    <p>Spring-Mass 기반 천 물리 · 동작별 실시간 주름 변화</p>
+  </div>
+  <div class="main-grid">
+    <div class="panel">
+      <svg id="sim" viewBox="0 0 200 200"></svg>
+      <div class="playback-bar">
+        <button id="playBtn" class="play-btn playing" onclick="togglePlay()">⏸ 일시정지</button>
+        <button class="play-btn reset" onclick="resetSim()">↻ 초기화</button>
+        <select id="speedSel" class="speed" onchange="setSpeed(this.value)">
+          <option value="0.5">0.5x</option>
+          <option value="1" selected>1x</option>
+          <option value="2">2x</option>
+          <option value="3">3x</option>
+        </select>
+      </div>
+    </div>
+    <div class="controls">
+      <div class="panel">
+        <div class="section-label">동작 선택</div>
+        <div id="actionBtns"></div>
+      </div>
+      <div class="panel">
+        <div class="section-label">팀 유니폼</div>
+        <div id="teamGrid" class="team-grid"></div>
+        <div id="teamName" class="team-name"></div>
+      </div>
+      <div class="panel">
+        <div class="section-label">바람</div>
+        <div class="slider-row">
+          <div class="slider-header"><span>풍속</span><span id="windSpeedVal">1.0 m/s</span></div>
+          <input type="range" id="windSpeedSlider" min="0" max="5" step="0.1" value="1" oninput="updateWind()">
+        </div>
+        <div class="slider-row">
+          <div class="slider-header"><span>풍향</span><span id="windAngleVal">0°</span></div>
+          <input type="range" id="windAngleSlider" min="0" max="360" step="5" value="0" oninput="updateWind()">
+        </div>
+      </div>
+      <div class="panel">
+        <label class="debug-label">
+          <input type="checkbox" id="debugCheck" onchange="toggleDebug()">
+          물리 디버그 (질점·스프링 표시)
+        </label>
+      </div>
+    </div>
+  </div>
+  <div class="footer">
+    <strong>시뮬레이션 원리:</strong> Spring-Mass 모델로 유니폼 천을 격자(Grid)로 모델링합니다.
+    각 질점은 스프링으로 연결되어 있으며, 동작에 따른 외력·바람·중력이 실시간으로 적용됩니다.
+    주름은 격자 변형(deformation) 정도에 따라 그림자와 하이라이트로 시각화됩니다.
+    상의 몸통, 좌·우 소매, 하의 4개 패널이 독립적으로 시뮬레이션됩니다.
+  </div>
+</div>
+
+<script>
+// ── 물리 상수 ──
+const GRAVITY = 0.15, DAMPING = 0.96, SPRING_K = 0.4, REST_LEN = 12;
+
+// ── 팀 컬러 ──
+const TEAMS = {
+  samsung: { p: "#074CA1", s: "#FFFFFF", a: "#D4D4D4", n: "삼성 라이온즈" },
+  kia:     { p: "#C8102E", s: "#231F20", a: "#FFFFFF", n: "기아 타이거즈" },
+  lg:      { p: "#C30452", s: "#000000", a: "#FFFFFF", n: "LG 트윈스" },
+  doosan:  { p: "#131230", s: "#FFFFFF", a: "#ED1C24", n: "두산 베어스" },
+  kt:      { p: "#000000", s: "#E3002B", a: "#FFFFFF", n: "KT 위즈" },
+  ssg:     { p: "#CE0E2D", s: "#FFB81C", a: "#FFFFFF", n: "SSG 랜더스" },
+  hanwha:  { p: "#FF6600", s: "#1D1D1B", a: "#FFFFFF", n: "한화 이글스" },
+  lotte:   { p: "#002B5C", s: "#D00F31", a: "#FFFFFF", n: "롯데 자이언츠" },
+  nc:      { p: "#315288", s: "#C1A972", a: "#FFFFFF", n: "NC 다이노스" },
+  kiwoom:  { p: "#820024", s: "#000000", a: "#FFFFFF", n: "키움 히어로즈" },
+};
+
+// ── 동작 프리셋 ──
+const ACTIONS = {
+  idle:     { name: "대기",     desc: "가만히 서있는 자세",                     speed: 0 },
+  batting:  { name: "타격",     desc: "배트 스윙 시 상체 회전에 의한 주름",     speed: 0.08 },
+  pitching: { name: "투구",     desc: "와인드업~릴리스 팔·몸통 주름 변화",     speed: 0.06 },
+  running:  { name: "달리기",   desc: "전력 질주 시 바람에 의한 펄럭임",       speed: 0.12 },
+  sliding:  { name: "슬라이딩", desc: "슬라이딩 시 하체 유니폼 뭉침",         speed: 0.1 },
+};
+
+// ── 패널 정의 ──
+const PANELS_CFG = {
+  torso:   { rows: 8, cols: 6, ox: 75,  oy: 55,  label: "상의 몸통" },
+  pants:   { rows: 6, cols: 5, ox: 80,  oy: 125, label: "하의" },
+  sleeveL: { rows: 4, cols: 3, ox: 58,  oy: 60,  label: "좌 소매" },
+  sleeveR: { rows: 4, cols: 3, ox: 112, oy: 60,  label: "우 소매" },
+};
+
+// ── 상태 ──
+let curAction = "idle", curTeam = "samsung";
+let windSpeed = 1, windAngle = 0;
+let playing = true, speed = 1, time = 0, showDebug = false;
+let clothPanels = {}, animId = null;
+
+// ── 천 생성 ──
+function makeGrid(rows, cols, ox, oy) {
+  const pts = [];
+  for (let r = 0; r < rows; r++)
+    for (let c = 0; c < cols; c++)
+      pts.push({ x: ox+c*REST_LEN, y: oy+r*REST_LEN, ox: ox+c*REST_LEN, oy: oy+r*REST_LEN, vx: 0, vy: 0, pinned: r===0 });
+  return pts;
+}
+function makeSprings(rows, cols) {
+  const sp = [];
+  for (let r = 0; r < rows; r++)
+    for (let c = 0; c < cols; c++) {
+      const i = r*cols+c;
+      if (c < cols-1) sp.push([i, i+1, REST_LEN]);
+      if (r < rows-1) sp.push([i, i+cols, REST_LEN]);
+      if (c < cols-1 && r < rows-1) {
+        sp.push([i, i+cols+1, REST_LEN*1.41]);
+        sp.push([i+1, i+cols, REST_LEN*1.41]);
+      }
+    }
+  return sp;
+}
+function initCloth() {
+  clothPanels = {};
+  for (const [k, c] of Object.entries(PANELS_CFG))
+    clothPanels[k] = { pts: makeGrid(c.rows, c.cols, c.ox, c.oy), sp: makeSprings(c.rows, c.cols), rows: c.rows, cols: c.cols };
+}
+
+// ── 동작별 힘 ──
+function actionForce(t) {
+  const a = ACTIONS[curAction], tt = t * (a.speed || 0.05);
+  switch (curAction) {
+    case "batting": return { fx: Math.sin(tt*2)*3, fy: Math.cos(tt*1.5)*1 };
+    case "pitching": {
+      const ph = ((tt%(Math.PI*2))/(Math.PI*2));
+      if (ph < 0.3) return { fx: Math.sin(ph*10)*1.5, fy: -2*ph };
+      if (ph < 0.6) return { fx: 4*Math.sin((ph-.3)*10), fy: 2*Math.cos((ph-.3)*8) };
+      return { fx: 2*Math.cos((ph-.6)*8), fy: Math.sin((ph-.6)*6) };
+    }
+    case "running": return { fx: -2+Math.sin(tt*3)*1.5, fy: Math.abs(Math.sin(tt*3))*1.5-0.5 };
+    case "sliding": {
+      const sp = (Math.sin(tt*.5)+1)/2;
+      return { fx: -3*sp+Math.sin(tt*4)*.5, fy: 2*sp+Math.abs(Math.sin(tt*6)) };
+    }
+    default: return { fx: Math.sin(tt)*0.2, fy: Math.cos(tt*.5)*0.1 };
+  }
+}
+
+// ── 시뮬레이션 스텝 ──
+function simStep(pts, sp, wind, force) {
+  for (const p of pts) {
+    if (p.pinned) continue;
+    p.vx += wind.wx*0.05 + force.fx*0.08 + (Math.random()-.5)*wind.turb*0.3;
+    p.vy += GRAVITY + wind.wy*0.02 + force.fy*0.06 + (Math.random()-.5)*wind.turb*0.15;
+  }
+  for (let it = 0; it < 3; it++)
+    for (const [a, b, rest] of sp) {
+      const pa=pts[a], pb=pts[b], dx=pb.x-pa.x, dy=pb.y-pa.y;
+      const d = Math.sqrt(dx*dx+dy*dy)||.01, diff=(d-rest)/d*SPRING_K;
+      const ffx=dx*diff, ffy=dy*diff;
+      if (!pa.pinned) { pa.vx+=ffx; pa.vy+=ffy; }
+      if (!pb.pinned) { pb.vx-=ffx; pb.vy-=ffy; }
+    }
+  for (const p of pts) {
+    if (p.pinned) continue;
+    p.vx *= DAMPING; p.vy *= DAMPING;
+    p.x += p.vx; p.y += p.vy;
+    const md = 20;
+    p.x = Math.max(p.ox-md, Math.min(p.ox+md, p.x));
+    p.y = Math.max(p.oy-md, Math.min(p.oy+md, p.y));
+  }
+}
+
+// ── 선수 실루엣 패스 ──
+function playerPaths(t) {
+  const a = ACTIONS[curAction], tt = t * (a.speed || 0.05);
+  const poses = {
+    idle: [
+      "M100,50 L100,120", "M100,70 L75,95", "M100,70 L125,95",
+      "M100,120 L85,165", "M100,120 L115,165"
+    ],
+    batting: [
+      `M100,50 L${100+Math.sin(tt*2)*8},120`,
+      `M100,70 L${60+Math.sin(tt*2)*30},${60+Math.cos(tt*2)*20}`,
+      `M100,70 L${140+Math.sin(tt*2)*25},${55+Math.cos(tt*2)*15}`,
+      `M${100+Math.sin(tt*2)*5},120 L${80+Math.sin(tt)*5},165`,
+      `M${100+Math.sin(tt*2)*5},120 L${120-Math.sin(tt)*5},165`
+    ],
+    pitching: [
+      `M100,50 L${100+Math.sin(tt)*10},120`,
+      `M100,70 L${65+Math.cos(tt*1.5)*20},${70-Math.sin(tt)*30}`,
+      `M100,70 L${135+Math.sin(tt*1.5)*25},${50+Math.cos(tt)*35}`,
+      `M${100+Math.sin(tt)*5},120 L${75+Math.sin(tt*.8)*10},165`,
+      `M${100+Math.sin(tt)*5},120 L${125+Math.sin(tt*1.2)*15},${165-Math.abs(Math.sin(tt))*20}`
+    ],
+    running: [
+      "M95,50 L97,120",
+      `M97,70 L${70+Math.sin(tt*3)*20},${75-Math.abs(Math.sin(tt*3))*15}`,
+      `M97,70 L${125-Math.sin(tt*3)*20},${75-Math.abs(Math.cos(tt*3))*15}`,
+      `M97,120 L${80+Math.sin(tt*3)*15},${155+Math.sin(tt*3)*10}`,
+      `M97,120 L${115-Math.sin(tt*3)*15},${155-Math.sin(tt*3)*10}`
+    ],
+    sliding: [
+      `M${80+Math.sin(tt*.5)*5},80 L130,${110+Math.sin(tt)*3}`,
+      `M90,85 L${65+Math.sin(tt)*5},${60+Math.cos(tt)*5}`,
+      `M110,90 L${145+Math.sin(tt*.8)*8},${85+Math.cos(tt)*5}`,
+      `M130,110 L165,${120+Math.sin(tt*2)*3}`,
+      `M130,110 L160,${135+Math.sin(tt*2.5)*4}`
+    ]
+  };
+  return poses[curAction] || poses.idle;
+}
+
+// ── SVG 렌더링 ──
+const svg = () => document.getElementById("sim");
+const NS = "http://www.w3.org/2000/svg";
+
+function render() {
+  const s = svg(); if (!s) return;
+  // 전체 클리어
+  while (s.firstChild) s.removeChild(s.firstChild);
+
+  // defs
+  const defs = document.createElementNS(NS, "defs");
+  defs.innerHTML = `
+    <radialGradient id="spot" cx="50%" cy="30%" r="60%">
+      <stop offset="0%" stop-color="rgba(255,255,255,0.06)"/>
+      <stop offset="100%" stop-color="transparent"/>
+    </radialGradient>
+    <filter id="glow"><feGaussianBlur stdDeviation="1.5" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>`;
+  s.appendChild(defs);
+
+  // 배경
+  const bg = document.createElementNS(NS, "rect");
+  bg.setAttribute("width", 200); bg.setAttribute("height", 200);
+  bg.setAttribute("fill", "url(#spot)");
+  s.appendChild(bg);
+
+  // 선수 실루엣
+  const headCx = curAction === "sliding" ? 75 : 100;
+  const headCy = curAction === "sliding" ? 70 : 42;
+  const head = document.createElementNS(NS, "circle");
+  head.setAttribute("cx", headCx); head.setAttribute("cy", headCy);
+  head.setAttribute("r", 10); head.setAttribute("fill", "rgba(200,200,200,0.3)");
+  s.appendChild(head);
+
+  const limbs = playerPaths(time);
+  const widths = [6, 4, 4, 5, 5];
+  limbs.forEach((d, i) => {
+    const p = document.createElementNS(NS, "path");
+    p.setAttribute("d", d); p.setAttribute("stroke", "rgba(200,200,200,0.3)");
+    p.setAttribute("stroke-width", widths[i]); p.setAttribute("fill", "none");
+    p.setAttribute("stroke-linecap", "round"); p.setAttribute("opacity", "0.6");
+    s.appendChild(p);
+  });
+
+  const tm = TEAMS[curTeam];
+
+  // 천 패널 렌더링
+  for (const [key, panel] of Object.entries(clothPanels)) {
+    const { pts, rows, cols } = panel;
+    const cfg = PANELS_CFG[key];
+
+    // 주름 그림자
+    for (let r = 0; r < rows-1; r++)
+      for (let c = 0; c < cols-1; c++) {
+        const p0=pts[r*cols+c], p1=pts[r*cols+c+1], p2=pts[(r+1)*cols+c], p3=pts[(r+1)*cols+c+1];
+        const defX = Math.abs((p1.x-p0.x)-REST_LEN)+Math.abs((p3.x-p2.x)-REST_LEN);
+        const defY = Math.abs((p2.y-p0.y)-REST_LEN)+Math.abs((p3.y-p1.y)-REST_LEN);
+        const intensity = Math.min((defX+defY)/15, 1);
+        const lightSide = (p1.x-p0.x) > REST_LEN;
+        const rect = document.createElementNS(NS, "rect");
+        const cx = (p0.x+p1.x+p2.x+p3.x)/4, cy = (p0.y+p1.y+p2.y+p3.y)/4;
+        const w = Math.abs(p1.x-p0.x)+2, h = Math.abs(p2.y-p0.y)+2;
+        rect.setAttribute("x", cx-w/2); rect.setAttribute("y", cy-h/2);
+        rect.setAttribute("width", w); rect.setAttribute("height", h);
+        rect.setAttribute("fill", lightSide ? tm.p : tm.a);
+        rect.setAttribute("opacity", 0.15+intensity*0.4);
+        rect.setAttribute("rx", 1);
+        s.appendChild(rect);
+      }
+
+    // 주름선 (가로)
+    for (let r = 0; r < rows; r++) {
+      let d = "";
+      for (let c = 0; c < cols; c++) {
+        const p = pts[r*cols+c];
+        d += c===0 ? `M${p.x.toFixed(1)},${p.y.toFixed(1)}` : ` L${p.x.toFixed(1)},${p.y.toFixed(1)}`;
+      }
+      const path = document.createElementNS(NS, "path");
+      path.setAttribute("d", d); path.setAttribute("stroke", "rgba(0,0,0,0.2)");
+      path.setAttribute("stroke-width", 0.8); path.setAttribute("fill", "none");
+      path.setAttribute("stroke-linecap", "round");
+      s.appendChild(path);
+    }
+    // 주름선 (세로)
+    for (let c = 0; c < cols; c++) {
+      let d = "";
+      for (let r = 0; r < rows; r++) {
+        const p = pts[r*cols+c];
+        d += r===0 ? `M${p.x.toFixed(1)},${p.y.toFixed(1)}` : ` L${p.x.toFixed(1)},${p.y.toFixed(1)}`;
+      }
+      const path = document.createElementNS(NS, "path");
+      path.setAttribute("d", d); path.setAttribute("stroke", "rgba(0,0,0,0.12)");
+      path.setAttribute("stroke-width", 0.6); path.setAttribute("fill", "none");
+      path.setAttribute("stroke-linecap", "round");
+      s.appendChild(path);
+    }
+
+    // 디버그 질점
+    if (showDebug) {
+      const lbl = document.createElementNS(NS, "text");
+      lbl.setAttribute("x", cfg.ox); lbl.setAttribute("y", cfg.oy-6);
+      lbl.setAttribute("font-size", 9); lbl.setAttribute("fill", "#888");
+      lbl.textContent = cfg.label;
+      s.appendChild(lbl);
+      for (const p of pts) {
+        const c = document.createElementNS(NS, "circle");
+        c.setAttribute("cx", p.x); c.setAttribute("cy", p.y);
+        c.setAttribute("r", p.pinned ? 2 : 1.2);
+        c.setAttribute("fill", p.pinned ? "#ff4444" : "#44ff44");
+        c.setAttribute("opacity", 0.7);
+        s.appendChild(c);
+      }
+    }
+  }
+
+  // 바람 화살표
+  if (windSpeed > 0) {
+    const g = document.createElementNS(NS, "g");
+    g.setAttribute("transform", `translate(180,15) rotate(${windAngle})`);
+    g.innerHTML = `<line x1="-8" y1="0" x2="8" y2="0" stroke="#60a5fa" stroke-width="1.5" opacity="0.6"/>
+      <polygon points="8,0 4,-3 4,3" fill="#60a5fa" opacity="0.6"/>
+      <text x="0" y="-6" text-anchor="middle" font-size="6" fill="#60a5fa" opacity="0.5" transform="rotate(${-windAngle})">바람</text>`;
+    s.appendChild(g);
+  }
+
+  // 동작 이름
+  const label = document.createElementNS(NS, "text");
+  label.setAttribute("x", 100); label.setAttribute("y", 192);
+  label.setAttribute("text-anchor", "middle"); label.setAttribute("font-size", 10);
+  label.setAttribute("fill", "#60a5fa"); label.setAttribute("font-weight", 600);
+  label.setAttribute("filter", "url(#glow)");
+  label.textContent = ACTIONS[curAction].name;
+  s.appendChild(label);
+}
+
+// ── 애니메이션 루프 ──
+function animate() {
+  if (!playing) return;
+  time += speed;
+  const wr = windAngle * Math.PI / 180;
+  const wind = { wx: Math.cos(wr)*windSpeed, wy: Math.sin(wr)*windSpeed*0.3, turb: windSpeed*0.5 };
+  const force = actionForce(time);
+  for (const panel of Object.values(clothPanels))
+    simStep(panel.pts, panel.sp, wind, force);
+  render();
+  animId = requestAnimationFrame(animate);
+}
+
+// ── UI 핸들러 ──
+function setAction(key) {
+  curAction = key;
+  initCloth(); time = 0;
+  document.querySelectorAll(".action-btn").forEach(b => b.classList.toggle("active", b.dataset.key===key));
+}
+function setTeam(id) {
+  curTeam = id;
+  document.querySelectorAll(".team-btn").forEach(b => b.classList.toggle("active", b.dataset.id===id));
+  document.getElementById("teamName").textContent = TEAMS[id].n;
+}
+function updateWind() {
+  windSpeed = parseFloat(document.getElementById("windSpeedSlider").value);
+  windAngle = parseInt(document.getElementById("windAngleSlider").value);
+  document.getElementById("windSpeedVal").textContent = windSpeed.toFixed(1)+" m/s";
+  document.getElementById("windAngleVal").textContent = windAngle+"°";
+}
+function togglePlay() {
+  playing = !playing;
+  const btn = document.getElementById("playBtn");
+  btn.className = "play-btn " + (playing ? "playing" : "paused");
+  btn.textContent = playing ? "⏸ 일시정지" : "▶ 재생";
+  if (playing) animate();
+}
+function resetSim() { initCloth(); time = 0; }
+function setSpeed(v) { speed = parseFloat(v); }
+function toggleDebug() { showDebug = document.getElementById("debugCheck").checked; }
+
+// ── 초기 UI 생성 ──
+function buildUI() {
+  // 동작 버튼
+  const ab = document.getElementById("actionBtns");
+  for (const [k, a] of Object.entries(ACTIONS)) {
+    const btn = document.createElement("button");
+    btn.className = "action-btn" + (k===curAction?" active":"");
+    btn.dataset.key = k;
+    btn.innerHTML = `<div class="name">${a.name}</div><div class="desc">${a.desc}</div>`;
+    btn.onclick = () => setAction(k);
+    btn.style.marginBottom = "6px"; btn.style.display = "block"; btn.style.width = "100%";
+    ab.appendChild(btn);
+  }
+  // 팀 버튼
+  const tg = document.getElementById("teamGrid");
+  for (const [id, t] of Object.entries(TEAMS)) {
+    const btn = document.createElement("button");
+    btn.className = "team-btn" + (id===curTeam?" active":"");
+    btn.dataset.id = id;
+    btn.title = t.n;
+    btn.style.background = `linear-gradient(135deg, ${t.p}, ${t.s})`;
+    btn.onclick = () => setTeam(id);
+    tg.appendChild(btn);
+  }
+  document.getElementById("teamName").textContent = TEAMS[curTeam].n;
+}
+
+// ── 시작 ──
+buildUI();
+initCloth();
+animate();
+</script>
+</body>
+</html>

@@ -1,0 +1,52 @@
+[
+  {
+    "away": "KIA",
+    "home": "LG",
+    "awayScore": "7",
+    "homeScore": "2",
+    "winner": "KIA",
+    "stadium": "잠실",
+    "awaySP": "올러",
+    "homeSP": "톨허스트"
+  },
+  {
+    "away": "키움",
+    "home": "SSG",
+    "awayScore": "3",
+    "homeScore": "9",
+    "winner": "SSG",
+    "stadium": "문학",
+    "awaySP": "와일스",
+    "homeSP": "베니지아노"
+  },
+  {
+    "away": "두산",
+    "home": "삼성",
+    "awayScore": "5",
+    "homeScore": "5",
+    "winner": "삼성",
+    "stadium": "대구",
+    "awaySP": "잭로그",
+    "homeSP": "오러클린"
+  },
+  {
+    "away": "롯데",
+    "home": "NC",
+    "awayScore": "2",
+    "homeScore": "9",
+    "winner": "NC",
+    "stadium": "창원",
+    "awaySP": "박세웅",
+    "homeSP": "토다"
+  },
+  {
+    "away": "KT",
+    "home": "한화",
+    "awayScore": "9",
+    "homeScore": "4",
+    "winner": "KT",
+    "stadium": "대전",
+    "awaySP": "보쉴리",
+    "homeSP": "화이트"
+  }
+]

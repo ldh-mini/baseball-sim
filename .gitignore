@@ -1,0 +1,31 @@
+# Dependencies
+node_modules/
+dist/
+
+# Env / secrets
+.env
+.env.local
+.env.*.local
+
+# OS / IDE
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+
+# Python (legacy generate_docx.py 등)
+__pycache__/
+*.pyc
+
+# 임시 캐시 / 일별 산출물 (재생성 가능)
+schedule-today.json
+schedule-2025-*.json
+schedule-2026-*.json
+prediction-log.backup-*.json
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.log
