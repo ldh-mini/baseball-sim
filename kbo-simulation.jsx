@@ -1802,6 +1802,220 @@ const BacktestTab = () => {
 };
 
 // ═══════════════════════════════════════════════════════
+// PredictionLogTab — 누적 적중률 (정적 prediction-log.json fetch)
+// ═══════════════════════════════════════════════════════
+const PredictionLogTab = () => {
+  const [log, setLog] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    (async () => {
+      setLoading(true); setError("");
+      const data = await fetchStaticJSON("prediction-log.json");
+      if (!data) {
+        setError("prediction-log.json을 불러올 수 없습니다 (로컬 dev 환경에서는 GitHub Pages 빌드 후 확인 가능)");
+        setLoading(false);
+        return;
+      }
+      setLog(data);
+      setLoading(false);
+    })();
+  }, []);
+
+  // 분석: 확정 결과(hit !== null)만
+  const analysis = useMemo(() => {
+    if (!log || !log.predictions) return null;
+
+    // 모든 (version, date, game) flatten
+    const all = [];
+    for (const p of log.predictions) {
+      for (const g of p.games) {
+        if (g.hit !== null) {
+          all.push({ ...g, date: p.date, version: p.version });
+        }
+      }
+    }
+    if (all.length === 0) return { empty: true };
+
+    // 버전별 그룹화
+    const versions = {};
+    for (const g of all) {
+      if (!versions[g.version]) versions[g.version] = [];
+      versions[g.version].push(g);
+    }
+
+    // 기본 버전 선택 (v9.2-mom > 기본 default 우선)
+    const verList = Object.keys(versions).sort();
+    const primary = versions["v9.2-mom"] || versions["v9.2"] || versions[verList[0]];
+
+    // 전체
+    const total = primary.length;
+    const hits = primary.filter(g => g.hit).length;
+    const accuracy = ((hits / total) * 100).toFixed(1);
+
+    // 신뢰도별
+    const confStats = {};
+    for (const conf of ["★", "★★", "★★★"]) {
+      const sub = primary.filter(g => g.confidence === conf);
+      confStats[conf] = { hits: sub.filter(g => g.hit).length, total: sub.length };
+    }
+
+    // 팀별
+    const teamStats = {};
+    for (const g of primary) {
+      for (const team of [g.home, g.away]) {
+        if (!teamStats[team]) teamStats[team] = { hits: 0, total: 0 };
+        teamStats[team].total++;
+        if (g.hit) teamStats[team].hits++;
+      }
+    }
+    const teamRanked = Object.entries(teamStats)
+      .sort((a, b) => (b[1].hits / b[1].total) - (a[1].hits / a[1].total));
+
+    // 일자별
+    const dayStats = {};
+    for (const g of primary) {
+      if (!dayStats[g.date]) dayStats[g.date] = { hits: 0, total: 0 };
+      dayStats[g.date].total++;
+      if (g.hit) dayStats[g.date].hits++;
+    }
+    const days = Object.entries(dayStats).sort();
+
+    // 모멘텀 비교 (v9.1-no-mom vs v9.2-mom)
+    let abCompare = null;
+    if (versions["v9.1-no-mom"] && versions["v9.2-mom"]) {
+      const aHits = versions["v9.1-no-mom"].filter(g => g.hit).length;
+      const aTot = versions["v9.1-no-mom"].length;
+      const bHits = versions["v9.2-mom"].filter(g => g.hit).length;
+      const bTot = versions["v9.2-mom"].length;
+      abCompare = {
+        a: { name: "v9.1 (모멘텀 OFF)", hits: aHits, total: aTot, pct: (aHits / aTot * 100).toFixed(1) },
+        b: { name: "v9.2 (모멘텀 ON)", hits: bHits, total: bTot, pct: (bHits / bTot * 100).toFixed(1) },
+        delta: ((bHits / bTot - aHits / aTot) * 100).toFixed(1),
+      };
+    }
+
+    return {
+      empty: false,
+      version: verList.find(v => versions[v] === primary) || "default",
+      versions: verList,
+      total, hits, accuracy,
+      confStats, teamRanked, days, abCompare,
+      recentGames: primary.slice(-15).reverse(),
+    };
+  }, [log]);
+
+  if (loading) return <div className="glass-card-strong rounded-2xl p-8 text-center text-slate-400">📊 누적 데이터 로드 중...</div>;
+  if (error) return <div className="glass-card-strong rounded-2xl p-8 text-center text-amber-400">{error}</div>;
+  if (!analysis || analysis.empty) return <div className="glass-card-strong rounded-2xl p-8 text-center text-slate-400">📭 확정된 예측 결과가 없습니다.<br/>매일 17시 자동 예측 + 익일 09시 검증으로 데이터가 누적됩니다.</div>;
+
+  const accColor = parseFloat(analysis.accuracy) >= 65 ? "text-emerald-400"
+    : parseFloat(analysis.accuracy) >= 55 ? "text-neon-blue"
+    : parseFloat(analysis.accuracy) >= 50 ? "text-amber-400" : "text-red-400";
+
+  return (<div className="space-y-4 animate-fadeIn">
+    <div className="glass-card-strong rounded-2xl p-5">
+      <h2 className="text-lg font-black text-white mb-1">📈 누적 예측 적중률</h2>
+      <p className="text-sm text-slate-500">실전 환경에서 매일 17시 자동 예측, 익일 09시 KBO 결과로 자동 검증된 데이터입니다.<br/>버전: <span className="text-neon-purple font-bold">{analysis.version}</span> · 다른 버전: {analysis.versions.join(", ")}</p>
+    </div>
+
+    <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+      <div className="glass-card-strong rounded-2xl p-5 text-center">
+        <div className="text-xs text-slate-500 mb-1">전체 적중률</div>
+        <div className={`text-3xl font-black ${accColor}`}>{analysis.accuracy}%</div>
+        <div className="text-xs text-slate-500 mt-1">{analysis.hits}/{analysis.total}</div>
+      </div>
+      {["★★★", "★★", "★"].map(conf => {
+        const s = analysis.confStats[conf];
+        const pct = s.total > 0 ? (s.hits / s.total * 100).toFixed(1) : "—";
+        const col = conf === "★★★" ? "text-emerald-400" : conf === "★★" ? "text-neon-blue" : "text-slate-300";
+        return (<div key={conf} className="glass-card-strong rounded-2xl p-5 text-center">
+          <div className="text-xs text-slate-500 mb-1">{conf} 신뢰도</div>
+          <div className={`text-3xl font-black ${col}`}>{pct}{pct !== "—" && "%"}</div>
+          <div className="text-xs text-slate-500 mt-1">{s.hits}/{s.total}</div>
+        </div>);
+      })}
+    </div>
+
+    {analysis.abCompare && (<div className="glass-card-strong rounded-2xl p-5">
+      <h3 className="text-sm font-bold text-white mb-3">🧪 Layer 2C 모멘텀 A/B 비교</h3>
+      <div className="grid grid-cols-2 gap-3">
+        <div className="bg-dark-600/40 rounded-xl p-4 text-center border border-white/5">
+          <div className="text-xs text-slate-400 mb-1">{analysis.abCompare.a.name}</div>
+          <div className="text-2xl font-black text-slate-300">{analysis.abCompare.a.pct}%</div>
+          <div className="text-xs text-slate-500 mt-1">{analysis.abCompare.a.hits}/{analysis.abCompare.a.total}</div>
+        </div>
+        <div className="bg-accent-purple/15 rounded-xl p-4 text-center border border-accent-purple/30 shadow-glow-purple">
+          <div className="text-xs text-slate-400 mb-1">{analysis.abCompare.b.name}</div>
+          <div className="text-2xl font-black text-neon-purple">{analysis.abCompare.b.pct}%</div>
+          <div className="text-xs text-slate-500 mt-1">{analysis.abCompare.b.hits}/{analysis.abCompare.b.total}</div>
+        </div>
+      </div>
+      <div className="mt-3 text-center text-sm">
+        <span className="text-slate-500">순효과: </span>
+        <span className={`font-bold ${parseFloat(analysis.abCompare.delta) > 0 ? "text-emerald-400" : parseFloat(analysis.abCompare.delta) < 0 ? "text-red-400" : "text-slate-400"}`}>
+          {parseFloat(analysis.abCompare.delta) > 0 && "+"}{analysis.abCompare.delta}%p
+        </span>
+      </div>
+    </div>)}
+
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="glass-card-strong rounded-2xl p-5">
+        <h3 className="text-sm font-bold text-white mb-3">🏟️ 팀별 적중률</h3>
+        <div className="space-y-1.5">
+          {analysis.teamRanked.map(([team, s]) => {
+            const pct = (s.hits / s.total * 100).toFixed(0);
+            return (<div key={team} className="flex items-center gap-2 text-xs">
+              <div className="w-12 text-slate-400">{team}</div>
+              <div className="flex-1 bg-dark-600/40 rounded-full h-5 overflow-hidden border border-white/5">
+                <div className="h-full bg-gradient-to-r from-accent-blue to-accent-purple" style={{width: `${pct}%`}}/>
+              </div>
+              <div className="w-16 text-right text-slate-300 font-bold">{pct}%</div>
+              <div className="w-12 text-right text-slate-600">{s.hits}/{s.total}</div>
+            </div>);
+          })}
+        </div>
+      </div>
+
+      <div className="glass-card-strong rounded-2xl p-5">
+        <h3 className="text-sm font-bold text-white mb-3">📅 일자별 적중률</h3>
+        <div className="space-y-1.5">
+          {analysis.days.map(([d, s]) => {
+            const pct = (s.hits / s.total * 100).toFixed(0);
+            return (<div key={d} className="flex items-center gap-2 text-xs">
+              <div className="w-16 text-slate-400">{d.slice(5)}</div>
+              <div className="flex-1 bg-dark-600/40 rounded-full h-5 overflow-hidden border border-white/5">
+                <div className="h-full bg-gradient-to-r from-emerald-500/70 to-emerald-400" style={{width: `${pct}%`}}/>
+              </div>
+              <div className="w-12 text-right text-slate-300 font-bold">{pct}%</div>
+              <div className="w-12 text-right text-slate-600">{s.hits}/{s.total}</div>
+            </div>);
+          })}
+        </div>
+      </div>
+    </div>
+
+    <div className="glass-card-strong rounded-2xl overflow-hidden">
+      <div className="p-4 border-b border-white/5"><h3 className="text-sm font-bold text-white">📋 최근 15경기</h3></div>
+      <table className="w-full text-sm dark-table">
+        <thead><tr className="text-xs text-slate-400">
+          <th className="p-2.5 text-left">날짜</th><th className="p-2.5">경기</th>
+          <th className="p-2.5">예측</th><th className="p-2.5">실제</th><th className="p-2.5">결과</th>
+        </tr></thead>
+        <tbody>{analysis.recentGames.map((g, i) => (<tr key={i} className={g.hit ? "" : "opacity-70"}>
+          <td className="p-2.5 text-slate-500">{g.date.slice(5)}</td>
+          <td className="p-2.5 text-center"><span className="text-pink-400 font-bold">{g.away}</span><span className="text-slate-600 mx-1">@</span><span className="text-neon-blue font-bold">{g.home}</span></td>
+          <td className="p-2.5 text-center"><span className="text-neon-purple font-bold">{g.predWinner}</span> <span className="text-slate-500">{g.confidence}</span></td>
+          <td className="p-2.5 text-center text-slate-400">{g.actualAway}-{g.actualHome}</td>
+          <td className="p-2.5 text-center"><span className={`px-2 py-0.5 rounded-full text-xs font-bold ${g.hit ? "badge-hit" : "badge-miss"}`}>{g.hit ? "HIT" : "MISS"}</span></td>
+        </tr>))}</tbody>
+      </table>
+    </div>
+  </div>);
+};
+
+// ═══════════════════════════════════════════════════════
 // 메인 앱
 // ═══════════════════════════════════════════════════════
 
@@ -1812,10 +2026,10 @@ export default function KBOSimulation() {
       <div><div className="flex items-center gap-3"><h1 className="text-2xl font-black tracking-tight text-white glow-text">KBO 경기 예측 시뮬레이터</h1><span className="px-2 py-0.5 rounded-full text-xs font-bold bg-accent-purple/20 text-neon-purple border border-accent-purple/30">v8.3</span></div><p className="text-slate-500 mt-1 text-xs">AI 분석 파트너 {AI_NM} · 투수피로도/지능형교체/도루전략 · 요일/시간대/배당/H2H · Statiz 2025</p></div>
       <div className="text-3xl animate-glow rounded-full p-2">{AI_AV}</div></div>
       <div className="max-w-6xl mx-auto mt-5 flex gap-0.5">
-        {[{id:"virtual",label:"가상 대결",icon:"⚔️"},{id:"today",label:"오늘의 경기",icon:"📅"},{id:"backtest",label:"백테스트",icon:"📊"}].map(t=>(<button key={t.id} onClick={()=>setTab(t.id)} className={`px-5 py-2.5 text-sm font-bold transition-all ${tab===t.id?"tab-active rounded-t-xl":"tab-inactive rounded-t-xl"}`}>{t.icon} {t.label}</button>))}
+        {[{id:"virtual",label:"가상 대결",icon:"⚔️"},{id:"today",label:"오늘의 경기",icon:"📅"},{id:"log",label:"누적 적중률",icon:"📈"},{id:"backtest",label:"백테스트",icon:"📊"}].map(t=>(<button key={t.id} onClick={()=>setTab(t.id)} className={`px-5 py-2.5 text-sm font-bold transition-all ${tab===t.id?"tab-active rounded-t-xl":"tab-inactive rounded-t-xl"}`}>{t.icon} {t.label}</button>))}
       </div>
     </div>
-    <div className="max-w-6xl mx-auto p-4">{tab==="today"?<TodayTab/>:tab==="virtual"?<VirtualTab/>:<BacktestTab/>}
+    <div className="max-w-6xl mx-auto p-4">{tab==="today"?<TodayTab/>:tab==="virtual"?<VirtualTab/>:tab==="log"?<PredictionLogTab/>:<BacktestTab/>}
       <div className="text-center text-xs text-slate-600 py-8">KBO 경기 예측 시뮬레이터 v8.1 · {AI_NM} AI 분석 파트너 · Powered by Monte Carlo Simulation</div>
     </div>
   </div>);
