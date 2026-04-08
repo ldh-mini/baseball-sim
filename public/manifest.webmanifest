@@ -1,0 +1,32 @@
+{
+  "name": "KBO 경기 예측 시뮬레이터",
+  "short_name": "KBO Sim",
+  "description": "베이지안 블렌딩 + Layer 2C 모멘텀 + 시점기반 백테스트로 검증된 KBO 야구 경기 예측 시뮬레이터. 매일 자동 갱신.",
+  "start_url": "/baseball-sim/",
+  "scope": "/baseball-sim/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#0f1729",
+  "theme_color": "#7c3aed",
+  "lang": "ko",
+  "categories": ["sports", "entertainment"],
+  "icons": [
+    {
+      "src": "/baseball-sim/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/baseball-sim/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/baseball-sim/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
