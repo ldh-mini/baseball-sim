@@ -6,7 +6,7 @@ import fs from 'fs';
 // → team-stats-snapshots/*.json 의 rs/ra/runDiff 필드 채움
 // ═══════════════════════════════════════════════════════════════
 
-const BASE = 'http://localhost:5173/kbo-api';
+const BASE = process.env.KBO_BASE || 'http://localhost:5173/kbo-api';
 const SNAP_DIR = 'team-stats-snapshots';
 
 const NM = {

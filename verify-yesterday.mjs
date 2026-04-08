@@ -6,7 +6,7 @@ import fs from 'fs';
 // 사용법: node verify-yesterday.mjs [YYYY-MM-DD]
 // ═══════════════════════════════════════════════════════════════
 
-const BASE = 'http://localhost:5173/kbo-api';
+const BASE = process.env.KBO_BASE || 'http://localhost:5173/kbo-api';
 const LOG_FILE = 'prediction-log.json';
 
 // crawl-schedule.mjs의 fetchMonthSchedule 패턴 재사용 (점수 포함)

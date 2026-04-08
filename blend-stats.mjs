@@ -6,7 +6,7 @@ import fs from 'fs';
 // 2025 데이터 없는 선수는 리그평균을 prior로 사용
 // ═══════════════════════════════════════════════════════════════
 
-const BASE = 'http://localhost:5173/kbo-api';
+const BASE = process.env.KBO_BASE || 'http://localhost:5173/kbo-api';
 const TM = { '삼성':'samsung','KIA':'kia','LG':'lg','두산':'doosan','KT':'kt','SSG':'ssg','한화':'hanwha','롯데':'lotte','NC':'nc','키움':'kiwoom' };
 
 // ── KBO 리그 평균 (2025 시즌 기준 fallback) ──

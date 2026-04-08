@@ -5,7 +5,7 @@ import fs from 'fs';
 // 각 선수의 개인 상세 페이지에서 "최근 10경기" 합계를 추출
 // ═══════════════════════════════════════════════════════════════
 
-const BASE = 'http://localhost:5173/kbo-api';
+const BASE = process.env.KBO_BASE || 'http://localhost:5173/kbo-api';
 const CACHE_FILE = 'recent-stats.json';
 
 // ── 캐시 확인 ──

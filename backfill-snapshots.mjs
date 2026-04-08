@@ -9,7 +9,7 @@ import * as cheerio from 'cheerio';
 // 현재 운영 방침: 4/8부터 매일 npm run predict 시 자동 누적 → 1주 후 첫 검증
 // ═══════════════════════════════════════════════════════════════
 
-const BASE = 'http://localhost:5173/kbo-api';
+const BASE = process.env.KBO_BASE || 'http://localhost:5173/kbo-api';
 const URL_DAILY = `${BASE}/Record/TeamRank/TeamRankDaily.aspx`;
 const SNAP_DIR = 'team-stats-snapshots';
 

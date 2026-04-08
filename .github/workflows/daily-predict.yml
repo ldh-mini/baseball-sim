@@ -1,0 +1,117 @@
+name: Daily KBO Predict + Verify
+
+on:
+  schedule:
+    # 한국시간 매일 오전 9시 (UTC 0시) — 어제 결과 검증
+    - cron: '0 0 * * *'
+    # 한국시간 매일 오후 5시 (UTC 8시) — 오늘 경기 예측 (대부분 18:30 시작)
+    - cron: '0 8 * * *'
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: '실행 모드'
+        required: true
+        default: 'both'
+        type: choice
+        options:
+          - predict
+          - verify
+          - both
+
+jobs:
+  pipeline:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write   # 결과를 다시 commit하기 위해
+
+    env:
+      KBO_BASE: https://www.koreabaseball.com
+      TZ: Asia/Seoul
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Detect mode
+        id: mode
+        run: |
+          # workflow_dispatch면 입력값 사용, 스케줄이면 시각 기반
+          if [ -n "${{ inputs.mode }}" ]; then
+            echo "mode=${{ inputs.mode }}" >> $GITHUB_OUTPUT
+          else
+            HOUR=$(date -u +%H)
+            if [ "$HOUR" = "00" ]; then
+              echo "mode=verify" >> $GITHUB_OUTPUT
+            else
+              echo "mode=predict" >> $GITHUB_OUTPUT
+            fi
+          fi
+
+      # ─────────── 검증 (어제 결과) ───────────
+      - name: Verify yesterday
+        if: steps.mode.outputs.mode == 'verify' || steps.mode.outputs.mode == 'both'
+        continue-on-error: true
+        run: |
+          echo "🔍 어제 결과 검증..."
+          node verify-yesterday.mjs || echo "verify failed (예측 항목 없음 가능)"
+
+      # ─────────── 예측 (오늘 경기) ───────────
+      - name: Crawl team rank
+        if: steps.mode.outputs.mode == 'predict' || steps.mode.outputs.mode == 'both'
+        run: node crawl-teamrank.mjs
+
+      - name: Crawl schedule
+        if: steps.mode.outputs.mode == 'predict' || steps.mode.outputs.mode == 'both'
+        run: node crawl-schedule.mjs
+
+      - name: Crawl recent 10 games
+        if: steps.mode.outputs.mode == 'predict' || steps.mode.outputs.mode == 'both'
+        continue-on-error: true
+        run: node crawl-recent.mjs
+
+      - name: Blend stats
+        if: steps.mode.outputs.mode == 'predict' || steps.mode.outputs.mode == 'both'
+        run: node blend-stats.mjs
+
+      - name: Predict today
+        if: steps.mode.outputs.mode == 'predict' || steps.mode.outputs.mode == 'both'
+        run: node sim-today.mjs --log
+
+      - name: Reset jsx (blend-stats가 in-place 수정한 것을 원복)
+        if: always()
+        run: git checkout -- kbo-simulation.jsx 2>/dev/null || true
+
+      - name: Daily report
+        if: always()
+        continue-on-error: true
+        run: node stats-report.mjs || true
+
+      # ─────────── 결과 commit ───────────
+      - name: Commit results
+        if: success()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          # 추적할 산출물: 데이터 파일만 (kbo-simulation.jsx는 blend가 매번 수정해 머지 충돌 위험)
+          git add team-stats.json team-stats-snapshots/ recent-stats.json prediction-log.json 2>/dev/null || true
+
+          if git diff --cached --quiet; then
+            echo "변경사항 없음"
+            exit 0
+          fi
+
+          DATE=$(date +%Y-%m-%d)
+          MODE="${{ steps.mode.outputs.mode }}"
+          git commit -m "auto: ${MODE} ${DATE} [skip ci]"
+          git push

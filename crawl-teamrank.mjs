@@ -6,7 +6,8 @@ import fs from 'fs';
 // 결과: team-stats.json
 // ═══════════════════════════════════════════════════════════════
 
-const BASE = 'http://localhost:5173/kbo-api';
+// 로컬: Vite proxy / CI(Actions): KBO 공식 URL 직접
+const BASE = process.env.KBO_BASE || 'http://localhost:5173/kbo-api';
 const OUT_FILE = 'team-stats.json';
 const SNAP_DIR = 'team-stats-snapshots';
 

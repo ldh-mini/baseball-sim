@@ -6,7 +6,7 @@ import fs from 'fs';
 // 결과: schedule-today.json
 // ═══════════════════════════════════════════════════════════════
 
-const BASE = 'http://localhost:5173/kbo-api';
+const BASE = process.env.KBO_BASE || 'http://localhost:5173/kbo-api';
 const OUT_FILE = 'schedule-today.json';
 
 const NM = {
