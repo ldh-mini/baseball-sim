@@ -210,6 +210,133 @@ function mcnemarTest(log, vA, vB) {
   console.log(`   효과 크기: ${vB} ${bOnly > aOnly ? '+' : ''}${bOnly - aOnly}건 우위`);
 }
 
+// ── Calibration 리포트 (v9.5) ──
+function calibrationReport(log, versionFilter = null) {
+  console.log('='.repeat(70));
+  console.log(`🎯 Calibration / Reliability 리포트`);
+  console.log('='.repeat(70));
+
+  // 확정 결과만 + 버전 필터
+  const games = [];
+  for (const p of log.predictions) {
+    if (versionFilter && p.version !== versionFilter) continue;
+    for (const g of p.games) {
+      if (g.hit !== null) {
+        const predProb = Math.max(g.predHomePct, g.predAwayPct) / 100;
+        games.push({ ...g, predProb, version: p.version, date: p.date });
+      }
+    }
+  }
+  if (games.length === 0) { console.log('데이터 없음'); return; }
+
+  // 버전 자동 선택
+  if (!versionFilter) {
+    const versions = [...new Set(games.map(g => g.version))];
+    console.log(`사용 가능한 버전: ${versions.join(', ')}`);
+    console.log(`→ --calibration <version> 으로 특정 버전 분석 가능`);
+    // 가장 많이 나온 버전 자동 선택
+    const counts = {};
+    for (const g of games) counts[g.version] = (counts[g.version] || 0) + 1;
+    versionFilter = Object.entries(counts).sort((a, b) => b[1] - a[1])[0][0];
+  }
+  const filtered = games.filter(g => g.version === versionFilter);
+  console.log(`\n📌 분석 대상: ${versionFilter} (${filtered.length}경기)\n`);
+
+  // 빈 정의
+  const bins = [
+    { lo: 0.50, hi: 0.55, label: '[50%, 55%)' },
+    { lo: 0.55, hi: 0.60, label: '[55%, 60%)' },
+    { lo: 0.60, hi: 0.65, label: '[60%, 65%)' },
+    { lo: 0.65, hi: 0.70, label: '[65%, 70%)' },
+    { lo: 0.70, hi: 0.75, label: '[70%, 75%)' },
+    { lo: 0.75, hi: 0.80, label: '[75%, 80%)' },
+    { lo: 0.80, hi: 1.01, label: '[80%+]   ' },
+  ];
+  for (const b of bins) {
+    b.games = filtered.filter(g => g.predProb >= b.lo && g.predProb < b.hi);
+    b.n = b.games.length;
+    b.hits = b.games.filter(g => g.hit).length;
+    b.avgPred = b.n > 0 ? b.games.reduce((s, g) => s + g.predProb, 0) / b.n : 0;
+    b.actualRate = b.n > 0 ? b.hits / b.n : 0;
+    b.diff = b.n > 0 ? (b.actualRate - b.avgPred) : 0;
+  }
+
+  // 출력 표
+  console.log('빈              n    avg_pred   actual    diff      bar (실제↑이면 ↑, 예측↑이면 ↓)');
+  console.log('─'.repeat(85));
+  for (const b of bins) {
+    if (b.n === 0) {
+      console.log(`${b.label.padEnd(14)} ${String(b.n).padStart(3)}        -         -         -`);
+      continue;
+    }
+    const ap = (b.avgPred * 100).toFixed(1).padStart(5);
+    const ar = (b.actualRate * 100).toFixed(1).padStart(5);
+    const diff = (b.diff * 100).toFixed(1);
+    const sign = b.diff >= 0 ? '+' : '';
+    // 막대: avg_pred는 회색, actual은 색
+    const barLen = 25;
+    const predBar = Math.round(b.avgPred * barLen);
+    const actBar = Math.round(b.actualRate * barLen);
+    let bar = '';
+    for (let i = 0; i < barLen; i++) {
+      if (i < Math.min(predBar, actBar)) bar += '█';
+      else if (i < Math.max(predBar, actBar)) bar += b.actualRate > b.avgPred ? '▲' : '▽';
+      else bar += '·';
+    }
+    console.log(`${b.label.padEnd(14)} ${String(b.n).padStart(3)}    ${ap}%    ${ar}%   ${sign}${diff.padStart(5)}%  ${bar}`);
+  }
+
+  // Brier score & Log loss
+  const brier = filtered.reduce((s, g) => s + Math.pow(g.predProb - (g.hit ? 1 : 0), 2), 0) / filtered.length;
+  const eps = 1e-9;
+  const logLoss = -filtered.reduce((s, g) => {
+    const p = Math.min(1 - eps, Math.max(eps, g.predProb));
+    return s + (g.hit ? Math.log(p) : Math.log(1 - p));
+  }, 0) / filtered.length;
+
+  // Calibration RMSE (가중 평균)
+  let weightedSqErr = 0, totalN = 0;
+  for (const b of bins) {
+    if (b.n > 0) {
+      weightedSqErr += b.n * Math.pow(b.actualRate - b.avgPred, 2);
+      totalN += b.n;
+    }
+  }
+  const calibRMSE = Math.sqrt(weightedSqErr / totalN);
+
+  console.log('');
+  console.log(`📊 Brier score:        ${brier.toFixed(3)}  (낮을수록 좋음, 0.25 = 동전던지기)`);
+  console.log(`📊 Log loss:           ${logLoss.toFixed(3)}  (낮을수록 좋음)`);
+  console.log(`📊 Calibration RMSE:   ${(calibRMSE * 100).toFixed(1)}%  (대각선 평균 편차)`);
+
+  // Top-1 accuracy
+  const topHits = filtered.filter(g => g.hit).length;
+  console.log(`📊 Top-1 적중률:       ${(topHits / filtered.length * 100).toFixed(1)}% (${topHits}/${filtered.length})`);
+
+  // 진단
+  console.log('\n💡 진단:');
+  const overConf = bins.filter(b => b.n >= 3 && b.diff < -0.10).length;
+  const underConf = bins.filter(b => b.n >= 3 && b.diff > 0.10).length;
+  if (overConf >= underConf && overConf > 0) {
+    console.log(`  ⚠️  Over-confidence: ${overConf}개 빈에서 예측 확률 > 실제 적중률 (10%p+)`);
+    console.log(`  → temperature 압축 권장 (sim-today --temp 0.6 등)`);
+  } else if (underConf > 0) {
+    console.log(`  ⚠️  Under-confidence: ${underConf}개 빈에서 예측 < 실제`);
+  }
+  if (calibRMSE > 0.15) {
+    console.log(`  ⚠️  Calibration RMSE ${(calibRMSE * 100).toFixed(1)}% — 대각선에서 크게 벗어남`);
+  }
+
+  // threshold 권장
+  console.log('\n🎯 추천 threshold (현재 ★/★★/★★★ = 50/55/60):');
+  // 빈별 actualRate가 높은 순서대로 정렬해서 boundary 추출
+  const ranked = bins.filter(b => b.n >= 3).sort((a, b) => b.actualRate - a.actualRate);
+  if (ranked.length >= 3) {
+    console.log(`  현재 데이터에서 가장 잘 맞는 빈: ${ranked[0].label.trim()} (${(ranked[0].actualRate * 100).toFixed(1)}%)`);
+    console.log(`  ★★★는 actualRate 60% 이상인 빈만 사용 권장`);
+  }
+}
+
 function main() {
   if (!fs.existsSync(LOG_FILE)) {
     console.error(`❌ ${LOG_FILE} 없음`);
@@ -217,6 +344,11 @@ function main() {
   }
   const log = JSON.parse(fs.readFileSync(LOG_FILE, 'utf8'));
 
+  if (process.argv.includes('--calibration')) {
+    const idx = process.argv.indexOf('--calibration');
+    const version = process.argv[idx + 1] && !process.argv[idx + 1].startsWith('--') ? process.argv[idx + 1] : null;
+    return calibrationReport(log, version);
+  }
   if (process.argv.includes('--grid')) {
     return gridReport(log);
   }

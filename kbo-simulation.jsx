@@ -126,7 +126,7 @@ function getMatchupMod(pitcherName, batterName) {
 // ── 2024 시즌 백테스트용 레거시 데이터 ──
 const LEGACY_STARTERS_2024 = {
   kia: [
-    { name:"양현종", throws:"L", era:5.06, whip:1.49, k9:6.4, bb9:3.4, ip:172, recentForm:0.92, war:5.5, wpaLI:3.2 },
+    { name:"양현종", throws:"L", era:4.98, whip:1.474, k9:6.4, bb9:3.6, ip:172, recentForm:1.08, war:5.5, wpaLI:3.2 },
     { name:"네일", throws:"R", era:2.09, whip:1.004, k9:8.3, bb9:2.5, ip:6, recentForm:1.08, war:5.8, wpaLI:3.0 },
     { name:"이의리", throws:"R", era:4.476, whip:1.357, k9:7.833, bb9:3.786, ip:148, recentForm:1.0 },
   ],
@@ -152,11 +152,11 @@ const LEGACY_STARTERS_2024 = {
   ],
   kt: [
     { name:"쿠에바스", throws:"R", era:3.42, whip:1.16, k9:8.5, bb9:2.3, ip:170, recentForm:1.02 },
-    { name:"소형준", throws:"R", era:4.63, whip:1.45, k9:7.6, bb9:2.1, ip:152, recentForm:0.92 },
+    { name:"소형준", throws:"R", era:3.64, whip:1.302, k9:7.5, bb9:1.9, ip:152, recentForm:0.92 },
     { name:"벤자민", throws:"R", era:3.95, whip:1.26, k9:7.8, bb9:3.0, ip:145, recentForm:0.97 },
   ],
   hanwha: [
-    { name:"류현진", throws:"L", era:3.32, whip:1.097, k9:7.9, bb9:2.4, ip:145, recentForm:1.08 },
+    { name:"류현진", throws:"L", era:3.45, whip:1.137, k9:8.9, bb9:2.9, ip:145, recentForm:1.08 },
     { name:"한승혁", throws:"R", era:4.15, whip:1.28, k9:7.8, bb9:3.0, ip:152, recentForm:0.95 },
     { name:"쿠엘라", throws:"L", era:4.32, whip:1.30, k9:8.0, bb9:3.2, ip:140, recentForm:0.93 },
   ],
@@ -341,7 +341,7 @@ const LEGACY_STARTERS_2025 = {
   kt: [
     { name: "소형준", throws: "R", era:3.30, whip:1.15, k9:7.8, bb9:2.5, ip:155, recentForm: 1.08, war:4.19, fip:2.94 },
     { name: "헤이수스", throws: "R", era:3.96, whip:1.33, k9:9.1, bb9:2.4, ip:160, recentForm: 1.0, war:3.20, fip:3.50 },
-    { name: "고영표", throws: "R", era:3.3, whip:1.24, k9:8.6, bb9:1.7, ip:150, recentForm: 0.92, war:4.10, fip:3.16 },
+    { name: "고영표", throws: "R", era:3.37, whip:1.329, k9:10, bb9:1.9, ip:150, recentForm: 0.93, war:4.10, fip:3.16 },
     { name: "박영현", throws: "R", era:3.619, whip:1.244, k9:8.048, bb9:3.571, ip:70, recentForm: 1.05, war:2.50 },
     { name: "벤자민", throws: "R", era:3.80, whip:1.20, k9:8.0, bb9:2.8, ip:145, recentForm: 1.0, war:2.80 },
   ],
@@ -359,7 +359,7 @@ const LEGACY_STARTERS_2025 = {
   lotte: [
     { name: "박세웅", throws: "R", era:4.93, whip:1.30, k9:8.7, bb9:3.0, ip:160.2, recentForm: 0.90, war:2.50, fip:4.20 },
     { name: "감보아", throws: "R", era:3.60, whip:1.20, k9:9.8, bb9:2.8, ip:155, recentForm: 1.0, war:3.50, fip:3.30 },
-    { name: "나균안", throws: "R", era:3.76, whip:1.333, k9:7.9, bb9:3.1, ip:140, recentForm: 1.04, war:1.80 },
+    { name: "나균안", throws: "R", era:2.7, whip:1.401, k9:9.2, bb9:3.2, ip:140, recentForm: 1.08, war:1.80 },
     { name: "한현희", throws: "R", era:4.50, whip:1.30, k9:7.0, bb9:3.0, ip:130, recentForm: 0.90, war:1.20 },
     { name: "레예스", throws: "R", era:4.00, whip:1.22, k9:8.0, bb9:2.8, ip:140, recentForm: 1.0, war:2.00 },
   ],
@@ -552,9 +552,9 @@ function regressPitcher(p) {
 const KBO_TEAMS = {
   samsung: { id: "samsung", name: "삼성 라이온즈", short: "삼성", color: "#074CA1", aliases: ["삼성","라이온즈"], stadium: "daegu", logo: "https://6ptotvmi5753.edge.naverncp.com/KBO_IMAGE/emblem/regular/2026/initial_SS.png",
     lineup: [
-      { name: "디아즈", pos: "DH", bat: "R", avg:0.339, obp:0.396, slg:0.636, hr:3, spd:5, recentForm: 1.01, war:8.41, defRAA:9.86, rbi:158 },
+      { name: "디아즈", pos: "DH", bat: "R", avg:0.329, obp:0.383, slg:0.602, hr:3, spd:5, recentForm: 0.96, war:8.41, defRAA:9.86, rbi:158 },
       { name: "구자욱", pos: "LF", bat: "R", avg:0.319, obp:0.402, slg:0.516, hr:19, spd:6, recentForm: 1.05, war:6.80 },
-      { name: "김성윤", pos: "RF", bat: "R", avg:0.35, obp:0.412, slg:0.511, hr:0, spd:7, recentForm: 1.07, war:5.85, sb:26 },
+      { name: "김성윤", pos: "RF", bat: "R", avg:0.342, obp:0.414, slg:0.496, hr:6, spd:7, recentForm: 1.08, war:5.85, sb:26 },
       { name: "김지찬", pos: "CF", bat: "R", avg:0.167, obp:0.375, slg:0.333, hr:0, spd:9, recentForm: 0.92 },
       { name: "이재현", pos: "3B", bat: "R", avg:0.254, obp:0.36, slg:0.427, hr:16, spd:5, recentForm: 0.98 },
       { name: "전병우", pos: "SS", bat: "R", avg:.272, obp:.338, slg:.408, hr:10, spd:5, recentForm: 1.0 },
@@ -564,25 +564,25 @@ const KBO_TEAMS = {
     ],
     starters: [
       { name: "후라도", throws: "R", era:4.5, whip:1.17, k9:3, bb9:0, ip:6, recentForm: 1.15, war:7.57, wpaLI:3.48, fip:2.80 },
-      { name: "오러클린", throws: "L", era:4.22, whip:1.327, k9:8, bb9:3.5, ip:124, recentForm: 0.92, war:1.50, fip:4.00 },
+      { name: "오러클린", throws: "L", era:5.04, whip:1.532, k9:8, bb9:3.5, ip:124, recentForm: 0.92, war:1.50, fip:4.00 },
       { name: "원태인", throws: "R", era:3.24, whip:1.10, k9:5.8, bb9:2.3, ip:166.2, recentForm: 1.05, war:4.20 },
       { name: "최원태", throws: "R", era:4.31, whip:1.376, k9:8.7, bb9:3.5, ip:6, recentForm: 0.92, war:1.00 },
-      { name: "양창섭", throws: "R", era:3.76, whip:1.287, k9:7.2, bb9:3.1, ip:100, recentForm: 1.04, war:0.80 },
+      { name: "양창섭", throws: "R", era:3.97, whip:1.312, k9:8, bb9:3.4, ip:100, recentForm: 0.92, war:0.80 },
       { name: "이승현", throws: "R", era:4.72, whip:1.35, k9:6.0, bb9:3.5, ip:90, recentForm: 0.95, war:0.80 },
       { name: "레예스", throws: "R", era:3.85, whip:1.250, k9:8.2, bb9:3.0, ip:30, recentForm: 1, war:0.3 }],
-    bullpen: { era:3.85, whip:1.25, k9:8.2, bb9:3.0 }, teamRating: 82, record: { w:4, t:1, l:2, pct:"0.667", rs:38, ra:29 } },
+    bullpen: { era:3.85, whip:1.25, k9:8.2, bb9:3.0 }, teamRating: 83, record: { w:4, t:1, l:2, pct:"0.667", rs:38, ra:29 } },
 
   kia: { id: "kia", name: "기아 타이거즈", short: "기아", color: "#EA0029", aliases: ["기아","타이거즈","KIA"], stadium: "gwangju", logo: "https://6ptotvmi5753.edge.naverncp.com/KBO_IMAGE/emblem/regular/2026/initial_HT.png",
     lineup: [
       { name: "김도영", pos: "SS", bat: "R", avg:0.315, obp:0.429, slg:0.538, hr:1, spd:8, recentForm: 1.08, war:5.50 },
       { name: "나성범", pos: "RF", bat: "R", avg:0.333, obp:0.4, slg:0.667, hr:1, spd:5, recentForm: 0.85 },
       { name: "카스트로", pos: "LF", bat: "S", avg:0.346, obp:0.415, slg:0.606, hr:1, spd:5, recentForm: 1.08, war:2.00 },
-      { name: "박민", pos: "1B", bat: "R", avg:0.417, obp:0.512, slg:0.675, hr:12, spd:4, recentForm: 1.00 },
-      { name: "김선빈", pos: "2B", bat: "R", avg:0.302, obp:0.387, slg:0.422, hr:0, spd:7, recentForm: 1.08 },
-      { name: "데일", pos: "3B", bat: "R", avg:0.29, obp:0.367, slg:0.415, hr:1, spd:5, recentForm: 1.07, war:1.50 },
+      { name: "박민", pos: "1B", bat: "R", avg:0.39, obp:0.477, slg:0.612, hr:12, spd:4, recentForm: 1.00 },
+      { name: "김선빈", pos: "2B", bat: "R", avg:0.279, obp:0.383, slg:0.396, hr:1, spd:7, recentForm: 1.08 },
+      { name: "데일", pos: "3B", bat: "R", avg:0.291, obp:0.369, slg:0.418, hr:1, spd:5, recentForm: 1.08, war:1.50 },
       { name: "이창진", pos: "CF", bat: "R", avg:.270, obp:.335, slg:.400, hr:8, spd:8, recentForm: 0.98 },
       { name: "한준수", pos: "C", bat: "R", avg:.250, obp:.315, slg:.370, hr:6, spd:3, recentForm: 0.95 },
-      { name: "김호령", pos: "DH", bat: "R", avg:0, obp:0.2, slg:0.15, hr:0, spd:6, recentForm: 0.97 },
+      { name: "김호령", pos: "DH", bat: "R", avg:0.282, obp:0.354, slg:0.405, hr:1, spd:6, recentForm: 0.97 },
     ],
     starters: [
       { name: "네일", throws: "R", era:0, whip:0.5, k9:7.5, bb9:1.5, ip:6, recentForm: 1.10, war:6.59, wpaLI:3.37, fip:3.08 },
@@ -590,27 +590,27 @@ const KBO_TEAMS = {
       { name: "이의리", throws: "R", era:7.94, whip:1.77, k9:9.5, bb9:7.0, ip:39.2, recentForm: 0.75, war:0.20 },
       { name: "양현종", throws: "L", era:5.06, whip:1.49, k9:6.4, bb9:3.4, ip:172, recentForm: 1.0, war:5.50, wpaLI:3.2 },
       { name: "김태형", throws: "R", era:5.00, whip:1.40, k9:7.0, bb9:3.5, ip:30, recentForm: 1.0, war:0.30 }],
-    bullpen: { era:3.55, whip:1.20, k9:8.5, bb9:2.8 }, teamRating: 61, record: { w:1, t:0, l:6, pct:"0.143", rs:24, ra:40 } },
+    bullpen: { era:3.55, whip:1.20, k9:8.5, bb9:2.8 }, teamRating: 59, record: { w:1, t:0, l:6, pct:"0.143", rs:24, ra:40 } },
 
   lg: { id: "lg", name: "LG 트윈스", short: "LG", color: "#C30452", aliases: ["LG","엘지","트윈스"], stadium: "jamsil", logo: "https://6ptotvmi5753.edge.naverncp.com/KBO_IMAGE/emblem/regular/2026/initial_LG.png",
     lineup: [
-      { name: "오스틴", pos: "1B", bat: "R", avg:0.379, obp:0.449, slg:0.687, hr:3, spd:4, recentForm: 1.08, war:5.69, rbi:110 },
+      { name: "오스틴", pos: "1B", bat: "R", avg:0.354, obp:0.433, slg:0.641, hr:3, spd:4, recentForm: 1.08, war:5.69, rbi:110 },
       { name: "박해민", pos: "CF", bat: "L", avg:0.276, obp:0.379, slg:0.346, hr:3, spd:9, recentForm: 1.10, defRAA:11.90, sb:49, war:4.50 },
       { name: "구본혁", pos: "2B", bat: "R", avg:0.125, obp:0.222, slg:0.125, hr:0, spd:6, recentForm: 1.02, defRAA:13.34, war:3.80 },
       { name: "홍창기", pos: "RF", bat: "R", avg:0.286, obp:0.545, slg:0.286, hr:0, spd:7, recentForm: 0.88 },
-      { name: "문성주", pos: "LF", bat: "L", avg:0.321, obp:0.397, slg:0.377, hr:0, spd:7, recentForm: 1.06, war:2.50 },
+      { name: "문성주", pos: "LF", bat: "L", avg:0.335, obp:0.406, slg:0.387, hr:0, spd:7, recentForm: 1.05, war:2.50 },
       { name: "박동원", pos: "C", bat: "R", avg:0.253, obp:0.342, slg:0.455, hr:22, spd:3, recentForm: 1.08, war:3.00 },
-      { name: "문보경", pos: "DH", bat: "R", avg:0.282, obp:0.389, slg:0.46, hr:1, spd:4, recentForm: 1.04, rbi:108, war:4.10 },
+      { name: "문보경", pos: "DH", bat: "R", avg:0.276, obp:0.371, slg:0.46, hr:24, spd:4, recentForm: 1.04, rbi:108, war:4.10 },
       { name: "오지환", pos: "SS", bat: "R", avg:0.253, obp:0.314, slg:0.43, hr:16, spd:5, recentForm: 0.95, war:2.00 },
       { name: "신민재", pos: "3B", bat: "R", avg:0.313, obp:0.395, slg:0.382, hr:1, spd:6, recentForm: 1.0 },
     ],
     starters: [
       { name: "임찬규", throws: "L", era:5.4, whip:1.6, k9:1.8, bb9:3.6, ip:5, recentForm: 1.05, war:4.50, fip:3.40 },
       { name: "치리노스", throws: "R", era:3.31, whip:1.18, k9:7.0, bb9:2.2, ip:177, recentForm: 1.02, war:5.03, wpaLI:3.08, fip:3.01 },
-      { name: "톨허스트", throws: "R", era:4.78, whip:1.322, k9:8.9, bb9:3.2, ip:150, recentForm: 0.92, war:3.00, fip:3.30 },
-      { name: "송승기", throws: "L", era:3.5, whip:1.38, k9:7.8, bb9:3.1, ip:120, recentForm: 1.08, war:1.20 },
-      { name: "웰스", throws: "L", era:3.15, whip:1.10, k9:8.0, bb9:2.5, ip:20, recentForm: 1.0, war:1.00 }],
-    bullpen: { era:3.50, whip:1.18, k9:8.8, bb9:2.5 }, teamRating: 79, record: { w:3, t:0, l:4, pct:"0.429", rs:31, ra:36 } },
+      { name: "톨허스트", throws: "R", era:6.72, whip:1.464, k9:10.8, bb9:3.2, ip:150, recentForm: 0.92, war:3.00, fip:3.30 },
+      { name: "송승기", throws: "L", era:3.35, whip:1.371, k9:7.8, bb9:3.1, ip:120, recentForm: 1.08, war:1.20 },
+      { name: "웰스", throws: "L", era:3.58, whip:1.3, k9:7.48, bb9:3.36, ip:20, recentForm: 1.0, war:1.00 }],
+    bullpen: { era:3.50, whip:1.18, k9:8.8, bb9:2.5 }, teamRating: 78, record: { w:3, t:0, l:4, pct:"0.429", rs:31, ra:36 } },
 
   doosan: { id: "doosan", name: "두산 베어스", short: "두산", color: "#131230", aliases: ["두산","베어스"], stadium: "jamsil", logo: "https://6ptotvmi5753.edge.naverncp.com/KBO_IMAGE/emblem/regular/2026/initial_OB.png",
     lineup: [
@@ -629,39 +629,39 @@ const KBO_TEAMS = {
       { name: "잭로그", throws: "R", era:2.81, whip:1.12, k9:8.0, bb9:2.8, ip:176, recentForm: 1.10, war:4.53, wpaLI:3.05, fip:3.20 },
       { name: "곽빈", throws: "R", era:9, whip:1.75, k9:11.3, bb9:4.5, ip:4, recentForm: 0.95, war:1.50 },
       { name: "최승용", throws: "R", era:4.80, whip:1.40, k9:7.2, bb9:3.5, ip:90, recentForm: 1.0, war:0.50 },
-      { name: "최민석", throws: "R", era:4.80, whip:1.38, k9:7.0, bb9:3.2, ip:80, recentForm: 1.0, war:0.50 },
+      { name: "최민석", throws: "R", era:2.98, whip:1.239, k9:8.043, bb9:4.184, ip:80, recentForm: 1.0, war:0.50 },
       { name: "콜어빈", throws: "R", era:4.48, whip:1.53, k9:8, bb9:4.9, ip:30, recentForm: 1, war:0.3 },
       { name: "최원준", throws: "R", era:3.80, whip:1.250, k9:8.2, bb9:2.8, ip:30, recentForm: 1, war:0.3 },
       { name: "김유성", throws: "R", era:3.80, whip:1.250, k9:8.2, bb9:2.8, ip:30, recentForm: 1, war:0.3 }],
-    bullpen: { era:3.80, whip:1.25, k9:8.2, bb9:2.8 }, teamRating: 65, record: { w:1, t:1, l:5, pct:"0.167", rs:28, ra:55 } },
+    bullpen: { era:3.80, whip:1.25, k9:8.2, bb9:2.8 }, teamRating: 64, record: { w:1, t:1, l:5, pct:"0.167", rs:28, ra:55 } },
 
   kt: { id: "kt", name: "KT 위즈", short: "KT", color: "#000000", aliases: ["KT","케이티","위즈"], stadium: "suwon", logo: "https://6ptotvmi5753.edge.naverncp.com/KBO_IMAGE/emblem/regular/2026/initial_KT.png",
     lineup: [
-      { name: "안현민", pos: "OF", bat: "R", avg:0.36, obp:0.476, slg:0.625, hr:2, spd:6, recentForm: 1.08, war:7.24, defRAA:1.36 },
+      { name: "안현민", pos: "OF", bat: "R", avg:0.351, obp:0.483, slg:0.611, hr:2, spd:6, recentForm: 1.08, war:7.24, defRAA:1.36 },
       { name: "힐리어드", pos: "LF", bat: "L", avg:0.275, obp:0.349, slg:0.441, hr:0, spd:6, recentForm: 1.0, war:2.50 },
       { name: "허경민", pos: "2B", bat: "R", avg:0.283, obp:0.362, slg:0.355, hr:4, spd:6, recentForm: 1.08, war:2.00 },
       { name: "배정대", pos: "CF", bat: "R", avg:.290, obp:.355, slg:.415, hr:8, spd:8, recentForm: 0.98, war:2.80 },
-      { name: "장성우", pos: "C", bat: "R", avg:0.292, obp:0.377, slg:0.531, hr:1, spd:3, recentForm: 1.08 },
+      { name: "장성우", pos: "C", bat: "R", avg:0.298, obp:0.385, slg:0.535, hr:2, spd:3, recentForm: 1.08 },
       { name: "오윤석", pos: "SS", bat: "R", avg:.258, obp:.320, slg:.378, hr:5, spd:7, recentForm: 0.97 },
       { name: "권동진", pos: "3B", bat: "R", avg:.255, obp:.315, slg:.375, hr:8, spd:5, recentForm: 0.95 },
       { name: "김상수", pos: "1B", bat: "R", avg:0.296, obp:0.4, slg:0.415, hr:0, spd:6, recentForm: 1.08 },
-      { name: "김현수", pos: "DH", bat: "L", avg:0.313, obp:0.398, slg:0.432, hr:1, spd:4, recentForm: 1.05 },
+      { name: "김현수", pos: "DH", bat: "L", avg:0.318, obp:0.406, slg:0.429, hr:1, spd:4, recentForm: 1.08 },
     ],
     starters: [
       { name: "사우어", throws: "R", era:3.88, whip:1.329, k9:6.8, bb9:3.9, ip:5, recentForm: 0.94, war:3.50, fip:3.20 },
       { name: "보쉴리", throws: "R", era:2.8, whip:1.255, k9:7.8, bb9:3.3, ip:160, recentForm: 1.08, war:3.80, fip:3.10 },
       { name: "소형준", throws: "R", era:3.30, whip:1.15, k9:7.8, bb9:2.5, ip:155, recentForm: 1.05, war:4.19, fip:2.94 },
       { name: "고영표", throws: "R", era:3.30, whip:1.24, k9:8.6, bb9:1.7, ip:150, recentForm: 1.0, war:4.10, fip:3.16 },
-      { name: "오원석", throws: "R", era:4.80, whip:1.35, k9:7.0, bb9:3.2, ip:70, recentForm: 1.0, war:0.50 },
+      { name: "오원석", throws: "R", era:3.4, whip:1.22, k9:8.56, bb9:2.82, ip:70, recentForm: 1.0, war:0.50 },
       { name: "헤이수스", throws: "R", era:3.70, whip:1.220, k9:8.3, bb9:2.8, ip:30, recentForm: 1, war:0.3 },
       { name: "쿠에바스", throws: "R", era:3.70, whip:1.220, k9:8.3, bb9:2.8, ip:30, recentForm: 1, war:0.3 }],
-    bullpen: { era:3.70, whip:1.22, k9:8.3, bb9:2.8, closer:"박영현", closerEra:3.39, saves:35 }, teamRating: 76, record: { w:5, t:0, l:2, pct:"0.714", rs:60, ra:45 } },
+    bullpen: { era:3.70, whip:1.22, k9:8.3, bb9:2.8, closer:"박영현", closerEra:3.39, saves:35 }, teamRating: 77, record: { w:5, t:0, l:2, pct:"0.714", rs:60, ra:45 } },
 
   ssg: { id: "ssg", name: "SSG 랜더스", short: "SSG", color: "#CE0E2D", aliases: ["SSG","랜더스"], stadium: "incheon", logo: "https://6ptotvmi5753.edge.naverncp.com/KBO_IMAGE/emblem/regular/2026/initial_SK.png",
     lineup: [
-      { name: "최정", pos: "3B", bat: "R", avg:0.322, obp:0.439, slg:0.526, hr:1, spd:3, recentForm: 1.08, war:3.50 },
-      { name: "에레디아", pos: "LF", bat: "R", avg:0.28, obp:0.333, slg:0.48, hr:2, spd:5, recentForm: 1.08, war:4.20 },
-      { name: "고명준", pos: "RF", bat: "R", avg:0.357, obp:0.398, slg:0.577, hr:2, spd:5, recentForm: 1.08, war:2.80 },
+      { name: "최정", pos: "3B", bat: "R", avg:0.315, obp:0.428, slg:0.551, hr:1, spd:3, recentForm: 1.08, war:3.50 },
+      { name: "에레디아", pos: "LF", bat: "R", avg:0.281, obp:0.33, slg:0.483, hr:2, spd:5, recentForm: 1.06, war:4.20 },
+      { name: "고명준", pos: "RF", bat: "R", avg:0.351, obp:0.392, slg:0.576, hr:2, spd:5, recentForm: 1.08, war:2.80 },
       { name: "한유섭", pos: "CF", bat: "R", avg:.295, obp:.360, slg:.438, hr:10, spd:8, recentForm: 0.95, war:3.00 },
       { name: "정준재", pos: "SS", bat: "R", avg:.245, obp:.340, slg:.288, hr:2, spd:9, recentForm: 0.90, sb:37, war:2.50 },
       { name: "이재원", pos: "C", bat: "R", avg:.258, obp:.320, slg:.378, hr:8, spd:3, recentForm: 0.92 },
@@ -678,15 +678,15 @@ const KBO_TEAMS = {
       { name: "최민준", throws: "R", era:4.50, whip:1.30, k9:7.5, bb9:3.0, ip:90, recentForm: 1.0, war:0.80 },
       { name: "화이트", throws: "R", era:4.31, whip:1.423, k9:7.6, bb9:3.7, ip:30, recentForm: 0.92, war:0.5 },
       { name: "문승원", throws: "R", era:3.80, whip:1.250, k9:8.3, bb9:2.8, ip:30, recentForm: 1, war:0.3 }],
-    bullpen: { era:3.80, whip:1.25, k9:8.3, bb9:2.8 }, teamRating: 84, record: { w:6, t:0, l:1, pct:"0.857", rs:64, ra:35 } },
+    bullpen: { era:3.80, whip:1.25, k9:8.3, bb9:2.8 }, teamRating: 86, record: { w:6, t:0, l:1, pct:"0.857", rs:64, ra:35 } },
 
   hanwha: { id: "hanwha", name: "한화 이글스", short: "한화", color: "#FF6600", aliases: ["한화","이글스"], stadium: "daejeon", logo: "https://6ptotvmi5753.edge.naverncp.com/KBO_IMAGE/emblem/regular/2026/initial_HH.png",
     lineup: [
       { name: "오재원", pos: "SS", bat: "R", avg:0.34, obp:0.407, slg:0.434, hr:1, spd:8, recentForm: 1.08 },
-      { name: "문현빈", pos: "CF", bat: "R", avg:0.339, obp:0.416, slg:0.551, hr:1, spd:8, recentForm: 1.08, war:4.00 },
+      { name: "문현빈", pos: "CF", bat: "R", avg:0.339, obp:0.429, slg:0.544, hr:1, spd:8, recentForm: 1.08, war:4.00 },
       { name: "노시환", pos: "3B", bat: "R", avg:0.26, obp:0.354, slg:0.497, hr:32, spd:4, recentForm: 1.08, war:6.70 },
       { name: "강백호", pos: "1B", bat: "R", avg:0.273, obp:0.273, slg:0.636, hr:1, spd:4, recentForm: 0.95, war:1.50 },
-      { name: "페라자", pos: "LF", bat: "R", avg:0.344, obp:0.418, slg:0.512, hr:1, spd:6, recentForm: 1.08, war:2.50 },
+      { name: "페라자", pos: "LF", bat: "R", avg:0.348, obp:0.43, slg:0.525, hr:1, spd:6, recentForm: 1.08, war:2.50 },
       { name: "황영묵", pos: "RF", bat: "R", avg:.270, obp:.332, slg:.405, hr:10, spd:6, recentForm: 0.98 },
       { name: "송곤", pos: "C", bat: "R", avg:.250, obp:.310, slg:.365, hr:7, spd:3, recentForm: 0.93 },
       { name: "김인환", pos: "2B", bat: "R", avg:.260, obp:.318, slg:.375, hr:5, spd:6, recentForm: 0.95 },
@@ -702,13 +702,13 @@ const KBO_TEAMS = {
       { name: "폰세", throws: "R", era:4.20, whip:1.320, k9:7.5, bb9:3.2, ip:30, recentForm: 1, war:0.3 },
       { name: "와이스", throws: "R", era:4.20, whip:1.320, k9:7.5, bb9:3.2, ip:30, recentForm: 1, war:0.3 },
       { name: "엄상백", throws: "R", era:4.20, whip:1.320, k9:7.5, bb9:3.2, ip:30, recentForm: 1, war:0.3 }],
-    bullpen: { era:4.20, whip:1.32, k9:7.5, bb9:3.2 }, teamRating: 71, record: { w:4, t:0, l:3, pct:"0.571", rs:63, ra:58 } },
+    bullpen: { era:4.20, whip:1.32, k9:7.5, bb9:3.2 }, teamRating: 72, record: { w:4, t:0, l:3, pct:"0.571", rs:63, ra:58 } },
 
   lotte: { id: "lotte", name: "롯데 자이언츠", short: "롯데", color: "#041E42", aliases: ["롯데","자이언츠"], stadium: "sajik", logo: "https://6ptotvmi5753.edge.naverncp.com/KBO_IMAGE/emblem/regular/2026/initial_LT.png",
     lineup: [
-      { name: "레이예스", pos: "OF", bat: "R", avg:0.326, obp:0.386, slg:0.475, hr:13, spd:5, recentForm: 1.18, rbi:107, war:4.00 },
+      { name: "레이예스", pos: "OF", bat: "R", avg:0.323, obp:0.403, slg:0.504, hr:2, spd:5, recentForm: 1.18, rbi:107, war:4.00 },
       { name: "전준우", pos: "RF", bat: "R", avg:0.293, obp:0.369, slg:0.42, hr:8, spd:5, recentForm: 1.08, war:3.20 },
-      { name: "안치홍", pos: "2B", bat: "R", avg:0.295, obp:0.406, slg:0.437, hr:1, spd:5, recentForm: 1.08, war:2.50 },
+      { name: "안치홍", pos: "2B", bat: "R", avg:0.289, obp:0.407, slg:0.42, hr:1, spd:5, recentForm: 1.08, war:2.50 },
       { name: "윤동희", pos: "CF", bat: "R", avg:0.279, obp:0.352, slg:0.448, hr:0, spd:8, recentForm: 1.30, war:2.00 },
       { name: "손호영", pos: "LF", bat: "R", avg:0.3, obp:0.3, slg:0.9, hr:2, spd:6, recentForm: 1.02 },
       { name: "황성빈", pos: "SS", bat: "R", avg:.260, obp:.320, slg:.368, hr:5, spd:7, recentForm: 1.0 },
@@ -717,44 +717,44 @@ const KBO_TEAMS = {
       { name: "박시원", pos: "1B", bat: "R", avg:.265, obp:.330, slg:.420, hr:10, spd:4, recentForm: 1.0 },
     ],
     starters: [
-      { name: "로드리게스", throws: "R", era:4.78, whip:1.501, k9:7.1, bb9:4.9, ip:5, recentForm: 0.92, war:3.00, fip:3.30 },
-      { name: "비슬리", throws: "R", era:4.31, whip:1.373, k9:8.2, bb9:3.5, ip:5, recentForm: 0.92, war:3.00, fip:3.20 },
+      { name: "로드리게스", throws: "R", era:6.72, whip:2.003, k9:5.2, bb9:7.9, ip:5, recentForm: 0.92, war:3.00, fip:3.30 },
+      { name: "비슬리", throws: "R", era:5.33, whip:1.618, k9:8.2, bb9:3.5, ip:5, recentForm: 0.92, war:3.00, fip:3.20 },
       { name: "박세웅", throws: "R", era:4.93, whip:1.30, k9:8.7, bb9:3.0, ip:160.2, recentForm: 0.95, war:2.50, fip:4.20 },
       { name: "나균안", throws: "R", era:4.30, whip:1.28, k9:7.5, bb9:3.0, ip:140, recentForm: 0.95, war:1.80 },
-      { name: "김진욱", throws: "R", era:4.50, whip:1.32, k9:7.2, bb9:3.0, ip:100, recentForm: 1.0, war:0.80 },
+      { name: "김진욱", throws: "R", era:3.578, whip:1.144, k9:7.885, bb9:3.069, ip:100, recentForm: 1.0, war:0.80 },
       { name: "반즈", throws: "R", era:4.00, whip:1.280, k9:7.8, bb9:3.0, ip:30, recentForm: 1, war:0.3 },
       { name: "데이비슨", throws: "R", era:4.00, whip:1.280, k9:7.8, bb9:3.0, ip:30, recentForm: 1.08, war:0.3 }],
-    bullpen: { era:4.00, whip:1.28, k9:7.8, bb9:3.0, closer:"김원중", closerSv:32 }, teamRating: 68, record: { w:2, t:0, l:5, pct:"0.286", rs:30, ra:51 } },
+    bullpen: { era:4.00, whip:1.28, k9:7.8, bb9:3.0, closer:"김원중", closerSv:32 }, teamRating: 67, record: { w:2, t:0, l:5, pct:"0.286", rs:30, ra:51 } },
 
   nc: { id: "nc", name: "NC 다이노스", short: "NC", color: "#315288", aliases: ["NC","엔씨","다이노스"], stadium: "changwon", logo: "https://6ptotvmi5753.edge.naverncp.com/KBO_IMAGE/emblem/regular/2026/initial_NC.png",
     lineup: [
       { name: "데이비슨", pos: "1B", bat: "R", avg:0.28, obp:0.36, slg:0.436, hr:1, spd:4, recentForm: 1.08, war:5.00 },
       { name: "김주원", pos: "SS", bat: "R", avg:0.289, obp:0.379, slg:0.451, hr:15, spd:9, recentForm: 1.05, war:6.62, sb:44, defRAA:0.58 },
-      { name: "박건우", pos: "RF", bat: "R", avg:0.299, obp:0.384, slg:0.513, hr:1, spd:5, recentForm: 1.08, war:3.50 },
+      { name: "박건우", pos: "RF", bat: "R", avg:0.287, obp:0.377, slg:0.506, hr:2, spd:5, recentForm: 1.08, war:3.50 },
       { name: "서호철", pos: "3B", bat: "R", avg:0, obp:0.167, slg:0.15, hr:0, spd:5, recentForm: 0.95, war:2.50 },
       { name: "권희동", pos: "CF", bat: "R", avg:0.246, obp:0.393, slg:0.363, hr:6, spd:8, recentForm: 0.97, war:2.80 },
       { name: "김태군", pos: "C", bat: "R", avg:.255, obp:.320, slg:.375, hr:7, spd:3, recentForm: 0.93 },
       { name: "허윤", pos: "LF", bat: "R", avg:.265, obp:.330, slg:.400, hr:7, spd:9, recentForm: 1.10, sb:20 },
-      { name: "박민우", pos: "2B", bat: "R", avg:0.351, obp:0.439, slg:0.531, hr:0, spd:7, recentForm: 1.08 },
+      { name: "박민우", pos: "2B", bat: "R", avg:0.339, obp:0.422, slg:0.504, hr:0, spd:7, recentForm: 1.08 },
       { name: "김성욱", pos: "DH", bat: "L", avg:0.143, obp:0.143, slg:0.143, hr:0, spd:6, recentForm: 0.95 },
     ],
     starters: [
       { name: "구창모", throws: "L", era:2.8, whip:1.089, k9:7.8, bb9:3.3, ip:5, recentForm: 1.08, war:4.50, fip:3.00 },
       { name: "토다", throws: "R", era:3.66, whip:1.255, k9:7.2, bb9:3.5, ip:81.2, recentForm: 1.08, war:1.50, fip:3.20 },
       { name: "테일러", throws: "R", era:3.3, whip:1.287, k9:8.2, bb9:4, ip:5, recentForm: 1.08, war:3.00, fip:3.30 },
-      { name: "신민혁", throws: "R", era:3.76, whip:1.333, k9:7.2, bb9:3.8, ip:140, recentForm: 1.04, war:1.80 },
+      { name: "신민혁", throws: "R", era:3.4, whip:1.28, k9:7.66, bb9:3.36, ip:140, recentForm: 1.04, war:1.80 },
       { name: "버하겐", throws: "R", era:3.80, whip:1.22, k9:8.5, bb9:2.5, ip:130, recentForm: 1.0, war:2.00 },
       { name: "로건", throws: "R", era:4.53, whip:1.43, k9:7.8, bb9:3.5, ip:30, recentForm: 1, war:0.3 },
       { name: "라일리", throws: "R", era:3.85, whip:1.250, k9:8.0, bb9:3.0, ip:30, recentForm: 1, war:0.3 }],
-    bullpen: { era:3.85, whip:1.25, k9:8.0, bb9:3.0 }, teamRating: 85, record: { w:6, t:0, l:1, pct:"0.857", rs:45, ra:21 } },
+    bullpen: { era:3.85, whip:1.25, k9:8.0, bb9:3.0 }, teamRating: 87, record: { w:6, t:0, l:1, pct:"0.857", rs:45, ra:21 } },
 
   kiwoom: { id: "kiwoom", name: "키움 히어로즈", short: "키움", color: "#820024", aliases: ["키움","히어로즈"], stadium: "gocheok", logo: "https://6ptotvmi5753.edge.naverncp.com/KBO_IMAGE/emblem/regular/2026/initial_WO.png",
     lineup: [
       { name: "송성문", pos: "3B", bat: "R", avg:0.315, obp:0.387, slg:0.53, hr:26, spd:8, recentForm: 1.20, war:8.76, sb:25 },
-      { name: "브룩스", pos: "1B", bat: "R", avg:0.296, obp:0.358, slg:0.427, hr:1, spd:5, recentForm: 1.06, war:2.00 },
+      { name: "브룩스", pos: "1B", bat: "R", avg:0.292, obp:0.366, slg:0.416, hr:1, spd:5, recentForm: 1.04, war:2.00 },
       { name: "이주형", pos: "LF", bat: "R", avg:0.24, obp:0.337, slg:0.368, hr:11, spd:6, recentForm: 0.95, war:2.00 },
       { name: "변상권", pos: "SS", bat: "L", avg:.260, obp:.325, slg:.395, hr:9, spd:5, recentForm: 0.93, war:1.50 },
-      { name: "김휘집", pos: "CF", bat: "R", avg:0.249, obp:0.349, slg:0.42, hr:17, spd:8, recentForm: 1.08 },
+      { name: "김휘집", pos: "CF", bat: "R", avg:0.29, obp:0.384, slg:0.397, hr:1, spd:8, recentForm: 1.05 },
       { name: "박동훈", pos: "C", bat: "R", avg:.248, obp:.310, slg:.368, hr:7, spd:3, recentForm: 0.92 },
       { name: "이준혁", pos: "RF", bat: "R", avg:.275, obp:.345, slg:.405, hr:10, spd:6, recentForm: 0.95, war:1.50 },
       { name: "김건웅", pos: "2B", bat: "R", avg:.255, obp:.318, slg:.370, hr:5, spd:6, recentForm: 0.92 },
@@ -765,11 +765,11 @@ const KBO_TEAMS = {
       { name: "요키시", throws: "R", era:3.70, whip:1.18, k9:8.5, bb9:2.8, ip:150, recentForm: 1.0, war:3.00, fip:3.40 },
       { name: "알칸타라", throws: "R", era:3.61, whip:1.287, k9:8.5, bb9:2.9, ip:120, recentForm: 1.08, war:2.00, fip:3.50 },
       { name: "하영민", throws: "R", era:4.99, whip:1.37, k9:7.9, bb9:2.4, ip:153.1, recentForm: 0.95, war:1.50 },
-      { name: "배동현", throws: "R", era:3.11, whip:1.372, k9:7.9, bb9:2.7, ip:80, recentForm: 1.08, war:0.30 },
+      { name: "배동현", throws: "R", era:3.48, whip:1.282, k9:7.8, bb9:2.9, ip:80, recentForm: 1.08, war:0.30 },
       { name: "정현우", throws: "R", era:4.50, whip:1.35, k9:7.0, bb9:3.0, ip:80, recentForm: 1.0, war:0.50 },
       { name: "로젠버그", throws: "R", era:4.40, whip:1.330, k9:7.8, bb9:3.2, ip:30, recentForm: 1, war:0.3 },
       { name: "김윤하", throws: "R", era:4.40, whip:1.330, k9:7.8, bb9:3.2, ip:30, recentForm: 1, war:0.3 }],
-    bullpen: { era:4.40, whip:1.33, k9:7.8, bb9:3.2 }, teamRating: 53, record: { w:2, t:0, l:5, pct:"0.286", rs:37, ra:50 } },
+    bullpen: { era:4.40, whip:1.33, k9:7.8, bb9:3.2 }, teamRating: 52, record: { w:2, t:0, l:5, pct:"0.286", rs:37, ra:50 } },
 };
 
 const TEAM_IDS = Object.keys(KBO_TEAMS);
@@ -1882,6 +1882,31 @@ const PredictionLogTab = () => {
     }
     const days = Object.entries(dayStats).sort();
 
+    // v9.5: Calibration 분석 (primary 버전 기준)
+    const calBins = [
+      { lo: 0.50, hi: 0.55, label: "50-55" },
+      { lo: 0.55, hi: 0.60, label: "55-60" },
+      { lo: 0.60, hi: 0.65, label: "60-65" },
+      { lo: 0.65, hi: 0.70, label: "65-70" },
+      { lo: 0.70, hi: 0.75, label: "70-75" },
+      { lo: 0.75, hi: 1.01, label: "75+" },
+    ];
+    for (const b of calBins) {
+      const subset = primary.filter(g => {
+        const p = Math.max(g.predHomePct, g.predAwayPct) / 100;
+        return p >= b.lo && p < b.hi;
+      });
+      b.n = subset.length;
+      b.hits = subset.filter(g => g.hit).length;
+      b.actualRate = b.n > 0 ? b.hits / b.n : null;
+      b.avgPred = b.n > 0 ? subset.reduce((s, g) => s + Math.max(g.predHomePct, g.predAwayPct) / 100, 0) / b.n : (b.lo + b.hi) / 2;
+    }
+    const brier = primary.reduce((s, g) => {
+      const p = Math.max(g.predHomePct, g.predAwayPct) / 100;
+      return s + Math.pow(p - (g.hit ? 1 : 0), 2);
+    }, 0) / primary.length;
+    const calibration = { bins: calBins, brier };
+
     // 모멘텀 비교 (v9.1-no-mom vs v9.2-mom)
     let abCompare = null;
     if (versions["v9.1-no-mom"] && versions["v9.2-mom"]) {
@@ -1901,7 +1926,7 @@ const PredictionLogTab = () => {
       version: verList.find(v => versions[v] === primary) || "default",
       versions: verList,
       total, hits, accuracy,
-      confStats, teamRanked, days, abCompare,
+      confStats, teamRanked, days, abCompare, calibration,
       recentGames: primary.slice(-15).reverse(),
     };
   }, [log]);
@@ -1958,6 +1983,50 @@ const PredictionLogTab = () => {
           {parseFloat(analysis.abCompare.delta) > 0 && "+"}{analysis.abCompare.delta}%p
         </span>
       </div>
+    </div>)}
+
+    {analysis.calibration && (<div className="glass-card-strong rounded-2xl p-5">
+      <div className="flex items-baseline justify-between mb-3">
+        <h3 className="text-sm font-bold text-white">🎯 Calibration (예측 확률 vs 실제 적중률)</h3>
+        <div className="text-xs text-slate-500">Brier: <span className={`font-bold ${analysis.calibration.brier < 0.25 ? "text-emerald-400" : analysis.calibration.brier < 0.27 ? "text-amber-400" : "text-red-400"}`}>{analysis.calibration.brier.toFixed(3)}</span> <span className="text-slate-600">(낮을수록 좋음, 0.25 = 동전던지기)</span></div>
+      </div>
+      <div className="space-y-2">
+        {analysis.calibration.bins.map(b => {
+          if (b.n === 0) return null;
+          const predW = `${(b.avgPred * 100).toFixed(0)}%`;
+          const actW = b.actualRate != null ? `${(b.actualRate * 100).toFixed(0)}%` : "—";
+          const diff = b.actualRate != null ? (b.actualRate - b.avgPred) * 100 : 0;
+          const diffColor = Math.abs(diff) < 5 ? "text-emerald-400" : Math.abs(diff) < 15 ? "text-amber-400" : "text-red-400";
+          const sign = diff >= 0 ? "+" : "";
+          return (<div key={b.label} className="flex items-center gap-2 text-xs">
+            <div className="w-14 text-slate-400">{b.label}%</div>
+            <div className="w-10 text-right text-slate-500">n={b.n}</div>
+            <div className="flex-1 relative bg-dark-600/40 rounded-lg h-6 overflow-hidden border border-white/5">
+              {/* 예측 막대 (회색) */}
+              <div className="absolute inset-y-0 left-0 bg-slate-600/40 border-r-2 border-slate-400" style={{width: `${b.avgPred * 100}%`}}/>
+              {/* 실제 막대 (그라디언트) */}
+              {b.actualRate != null && (
+                <div className={`absolute inset-y-0 left-0 ${diff >= 0 ? "bg-gradient-to-r from-emerald-500/60 to-emerald-400/60" : "bg-gradient-to-r from-red-500/60 to-red-400/60"}`} style={{width: `${b.actualRate * 100}%`, mixBlendMode: "screen"}}/>
+              )}
+              {/* 50% 기준선 */}
+              <div className="absolute inset-y-0 border-l border-white/20" style={{left: "50%"}}/>
+            </div>
+            <div className="w-12 text-right text-slate-400">{predW}</div>
+            <div className="w-12 text-right text-slate-200 font-bold">{actW}</div>
+            <div className={`w-14 text-right font-bold ${diffColor}`}>{sign}{diff.toFixed(0)}%p</div>
+          </div>);
+        })}
+      </div>
+      <div className="mt-3 text-xs text-slate-500 flex items-center gap-3 flex-wrap">
+        <span><span className="inline-block w-3 h-3 bg-slate-600/60 border-r-2 border-slate-400 mr-1"/>예측 확률</span>
+        <span><span className="inline-block w-3 h-3 bg-emerald-500/60 mr-1"/>실제 ≥ 예측 (under-confident)</span>
+        <span><span className="inline-block w-3 h-3 bg-red-500/60 mr-1"/>실제 &lt; 예측 (over-confident)</span>
+      </div>
+      {analysis.calibration.brier > 0.26 && (
+        <div className="mt-3 p-3 bg-amber-500/10 border border-amber-500/30 rounded-lg text-xs text-amber-300">
+          ⚠️ 모델이 over-confident — 표본이 더 누적되면 temperature 압축 또는 ★★★ threshold 상향 고려
+        </div>
+      )}
     </div>)}
 
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

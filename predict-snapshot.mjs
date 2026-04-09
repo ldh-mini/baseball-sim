@@ -38,9 +38,10 @@ function run(cmd) {
 }
 
 function predictDay(targetDate, opts = {}) {
-  const { abMomentum = false } = opts;
+  const { abMomentum = false, abCalibration = false } = opts;
+  const label = abMomentum ? ' (A/B 모멘텀)' : abCalibration ? ' (A/B calibration)' : '';
   console.log(`\n${'═'.repeat(60)}`);
-  console.log(`📅 ${targetDate} 시점 예측${abMomentum ? ' (A/B 모멘텀)' : ''}`);
+  console.log(`📅 ${targetDate} 시점 예측${label}`);
   console.log('═'.repeat(60));
 
   const prevDate = dateMinusOne(targetDate);
@@ -61,14 +62,23 @@ function predictDay(targetDate, opts = {}) {
   fs.copyFileSync('schedule-today.json', schedFile);
 
   // 실행할 버전 목록
-  const variants = abMomentum
-    ? [
-        { tag: 'v9.1-no-mom', blendArgs: `--snapshot ${prevSnap} --no-momentum` },
-        { tag: 'v9.2-mom',    blendArgs: `--snapshot ${prevSnap}` },
-      ]
-    : [
-        { tag: 'v9.2', blendArgs: `--snapshot ${prevSnap}` },
-      ];
+  let variants;
+  if (abMomentum) {
+    variants = [
+      { tag: 'v9.1-no-mom', blendArgs: `--snapshot ${prevSnap} --no-momentum`, simArgs: '' },
+      { tag: 'v9.2-mom',    blendArgs: `--snapshot ${prevSnap}`,                simArgs: '' },
+    ];
+  } else if (abCalibration) {
+    variants = [
+      { tag: 'v9.2-temp1.0', blendArgs: `--snapshot ${prevSnap}`, simArgs: '--temp 1.0' },
+      { tag: 'v9.5-temp0.7', blendArgs: `--snapshot ${prevSnap}`, simArgs: '--temp 0.7' },
+      { tag: 'v9.5-temp0.5', blendArgs: `--snapshot ${prevSnap}`, simArgs: '--temp 0.5' },
+    ];
+  } else {
+    variants = [
+      { tag: 'v9.2', blendArgs: `--snapshot ${prevSnap}`, simArgs: '' },
+    ];
+  }
 
   for (const v of variants) {
     console.log(`\n[2:${v.tag}] blend-stats ${v.blendArgs}`);
@@ -77,8 +87,8 @@ function predictDay(targetDate, opts = {}) {
     const teamLine = r.out.split('\n').filter(l => l.includes('팀 레이팅')).slice(0, 1);
     if (teamLine[0]) console.log('  ', teamLine[0].trim());
 
-    console.log(`\n[3:${v.tag}] sim-today ${schedFile} --version ${v.tag}`);
-    r = run(`node sim-today.mjs ${schedFile} --log --quiet --version ${v.tag}`);
+    console.log(`\n[3:${v.tag}] sim-today ${schedFile} --version ${v.tag} ${v.simArgs}`);
+    r = run(`node sim-today.mjs ${schedFile} --log --quiet --version ${v.tag} ${v.simArgs}`);
     if (!r.ok) { console.error('  ❌', r.err); return false; }
     const log = JSON.parse(fs.readFileSync('prediction-log.json', 'utf8'));
     const entry = log.predictions.find(p => p.date === targetDate && p.version === v.tag);
@@ -97,21 +107,25 @@ async function main() {
   const positional = args.filter(a => !a.startsWith('--'));
   const start = positional[0];
   const end = positional[1] || start;
-  const abMomentum = args.includes('--ab') && args[args.indexOf('--ab') + 1] === 'momentum';
+  const abIdx = args.indexOf('--ab');
+  const abMode = abIdx >= 0 ? args[abIdx + 1] : null;
+  const abMomentum = abMode === 'momentum';
+  const abCalibration = abMode === 'calibration';
 
   if (!start) {
-    console.error('사용법: node predict-snapshot.mjs YYYY-MM-DD [endDate] [--ab momentum]');
+    console.error('사용법: node predict-snapshot.mjs YYYY-MM-DD [endDate] [--ab momentum|calibration]');
     process.exit(1);
   }
 
-  console.log(`🎯 시점기반 백테스트: ${start} ~ ${end}${abMomentum ? ' (A/B momentum)' : ''}\n`);
+  const label = abMomentum ? ' (A/B momentum)' : abCalibration ? ' (A/B calibration)' : '';
+  console.log(`🎯 시점기반 백테스트: ${start} ~ ${end}${label}\n`);
 
   let processed = 0, skipped = 0;
   const startD = new Date(start);
   const endD = new Date(end);
   for (let d = new Date(startD); d <= endD; d.setDate(d.getDate() + 1)) {
     const dateStr = d.toISOString().slice(0, 10);
-    const ok = predictDay(dateStr, { abMomentum });
+    const ok = predictDay(dateStr, { abMomentum, abCalibration });
     if (ok) processed++;
     else skipped++;
   }

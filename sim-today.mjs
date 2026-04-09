@@ -81,15 +81,33 @@ const NM={"삼성":"samsung","기아":"kia","KIA":"kia","LG":"lg","두산":"doos
 const ST={잠실:"jamsil",문학:"incheon",수원:"suwon",대구:"daegu",광주:"gwangju",대전:"daejeon",사직:"sajik",창원:"changwon",고척:"gocheok",인천:"incheon",부산:"sajik"};
 function findSP(team,name){if(!name)return 0;const i=team.starters.findIndex(s=>s.name===name||name.includes(s.name)||s.name.includes(name));return i>=0?i:0;}
 
-// ── CLI 옵션 파싱 (v9.2/9.3) ──
+// ── CLI 옵션 파싱 (v9.2~9.5) ──
 // 사용법: node sim-today.mjs [scheduleFile] [--log] [--quiet] [--version vX.Y]
+//         [--temp 0.6]              v9.5 출력 확률 압축 (0.5 쪽으로 모음)
+//         [--threshold "55,60"]     v9.5 ★/★★/★★★ 경계 (기본 55,60)
 const argv = process.argv.slice(2);
 const LOG_MODE = argv.includes('--log');
 const QUIET = argv.includes('--quiet');
 let VERSION_TAG = 'v9.2';
 const vIdx = argv.indexOf('--version');
 if (vIdx >= 0 && argv[vIdx + 1]) VERSION_TAG = argv[vIdx + 1];
-const positional = argv.filter((a, i) => !a.startsWith('--') && argv[i-1] !== '--version');
+
+// v9.5: temperature 압축
+let TEMPERATURE = 1.0;
+const tIdx = argv.indexOf('--temp');
+if (tIdx >= 0 && argv[tIdx + 1]) TEMPERATURE = parseFloat(argv[tIdx + 1]);
+
+// v9.5: 신뢰도 임계값
+let THRESH_2 = 55, THRESH_3 = 60;
+const thIdx = argv.indexOf('--threshold');
+if (thIdx >= 0 && argv[thIdx + 1]) {
+  const parts = argv[thIdx + 1].split(',').map(Number);
+  if (parts.length >= 2) { THRESH_2 = parts[0]; THRESH_3 = parts[1]; }
+}
+
+// 옵션 인자값(--version v9.2-mom 등)은 positional에서 제외
+const flagsWithValue = new Set(['--version', '--temp', '--threshold']);
+const positional = argv.filter((a, i) => !a.startsWith('--') && !flagsWithValue.has(argv[i-1]));
 
 // ── 일정/선발 자동 로드 (schedule-today.json) ──
 const schedFile = positional[0] || 'schedule-today.json';
@@ -132,15 +150,32 @@ for (const g of games) {
   const sim = new Sim(home, away, ST[g.stadium], 'cloudy', hsi, asi, { dayOfWeek: dow, time: g.time });
   const mc = sim.mc(N);
 
-  const homePct = parseFloat(mc.homeWinPct);
-  const awayPct = parseFloat(mc.awayWinPct);
-  const predWinner = homePct >= 50 ? g.home : g.away;
-  const predPct = homePct >= 50 ? mc.homeWinPct : mc.awayWinPct;
-  const conf = parseFloat(predPct) >= 60 ? '★★★' : parseFloat(predPct) >= 55 ? '★★' : '★';
+  let homePct = parseFloat(mc.homeWinPct);
+  let awayPct = parseFloat(mc.awayWinPct);
+
+  // v9.5: temperature 압축 — 출력 확률을 0.5 쪽으로 모음 (calibration 보정)
+  if (TEMPERATURE !== 1.0) {
+    const compress = (p) => 50 + (p - 50) * TEMPERATURE;
+    const total = homePct + awayPct;
+    homePct = +compress(homePct).toFixed(1);
+    awayPct = +compress(awayPct).toFixed(1);
+    // 정규화 (draw 등 합 ≠ 100인 경우 비율 유지)
+    const newTotal = homePct + awayPct;
+    if (newTotal > 0 && total > 0) {
+      const scale = total / newTotal;
+      homePct = +(homePct * scale).toFixed(1);
+      awayPct = +(awayPct * scale).toFixed(1);
+    }
+  }
+
+  const predWinner = homePct >= awayPct ? g.home : g.away;
+  const predPct = (homePct >= awayPct ? homePct : awayPct).toFixed(1);
+  const pf = parseFloat(predPct);
+  const conf = pf >= THRESH_3 ? '★★★' : pf >= THRESH_2 ? '★★' : '★';
 
   log(`\n${g.away} @ ${g.home} (${g.stadium} ${g.time})`);
   log(`  선발: ${g.awaySP}(${awaySPData.name}, ERA:${awaySPData.era}) vs ${g.homeSP}(${homeSPData.name}, ERA:${homeSPData.era})`);
-  log(`  시뮬: ${g.away} ${mc.awayWinPct}% - ${mc.homeWinPct}% ${g.home} | 평균: ${mc.avgAway} - ${mc.avgHome}`);
+  log(`  시뮬: ${g.away} ${awayPct}% - ${homePct}% ${g.home} | 평균: ${mc.avgAway} - ${mc.avgHome}${TEMPERATURE !== 1.0 ? ` (temp=${TEMPERATURE})` : ''}`);
   log(`  ▶ 예측: ${predWinner} 승 (${predPct}%) ${conf}`);
 
   predictionEntries.push({
