@@ -14167,6 +14167,98 @@
           "hit": null
         }
       ]
+    },
+    {
+      "date": "2026-04-09",
+      "predictedAt": "2026-04-09T01:26:32.538Z",
+      "version": "v9.2",
+      "games": [
+        {
+          "away": "키움",
+          "home": "두산",
+          "stadium": "잠실",
+          "time": "18:30",
+          "awaySP": "알칸타라",
+          "homeSP": "이영하",
+          "predWinner": "키움",
+          "predHomePct": 46.5,
+          "predAwayPct": 50.5,
+          "avgHome": 3.1,
+          "avgAway": 3.7,
+          "confidence": "★",
+          "actualHome": null,
+          "actualAway": null,
+          "hit": null
+        },
+        {
+          "away": "한화",
+          "home": "SSG",
+          "stadium": "문학",
+          "time": "18:30",
+          "awaySP": "에르난데스",
+          "homeSP": "화이트",
+          "predWinner": "한화",
+          "predHomePct": 47.8,
+          "predAwayPct": 50.5,
+          "avgHome": 5.3,
+          "avgAway": 5.6,
+          "confidence": "★",
+          "actualHome": null,
+          "actualAway": null,
+          "hit": null
+        },
+        {
+          "away": "KT",
+          "home": "롯데",
+          "stadium": "부산",
+          "time": "18:30",
+          "awaySP": "사우어",
+          "homeSP": "로드리게스",
+          "predWinner": "KT",
+          "predHomePct": 41.4,
+          "predAwayPct": 56.5,
+          "avgHome": 4.5,
+          "avgAway": 5.5,
+          "confidence": "★★",
+          "actualHome": null,
+          "actualAway": null,
+          "hit": null
+        },
+        {
+          "away": "LG",
+          "home": "NC",
+          "stadium": "창원",
+          "time": "18:30",
+          "awaySP": "치리노스",
+          "homeSP": "구창모",
+          "predWinner": "LG",
+          "predHomePct": 40.6,
+          "predAwayPct": 58.2,
+          "avgHome": 3.2,
+          "avgAway": 4.3,
+          "confidence": "★★",
+          "actualHome": null,
+          "actualAway": null,
+          "hit": null
+        },
+        {
+          "away": "삼성",
+          "home": "KIA",
+          "stadium": "광주",
+          "time": "18:30",
+          "awaySP": "후라도",
+          "homeSP": "네일",
+          "predWinner": "KIA",
+          "predHomePct": 55.2,
+          "predAwayPct": 43.3,
+          "avgHome": 4.1,
+          "avgAway": 3.8,
+          "confidence": "★★",
+          "actualHome": null,
+          "actualAway": null,
+          "hit": null
+        }
+      ]
     }
   ]
 }
