@@ -1534,6 +1534,49 @@ const TodayGamePanel = ({g, wk, wd}) => {
   </div>);
 };
 
+const FactorCard = ({pred, home, away}) => {
+  if (!pred || !pred.factors) return null;
+  const f = pred.factors;
+  const hn = home.short, an = away.short;
+  return (<div className="mt-3 space-y-2 animate-fadeIn">
+    {f.narrative && <div className="glass-card rounded-xl p-3 border-l-4 border-neon-purple">
+      <div className="text-xs font-semibold text-neon-purple mb-1">🔮 AI 분석</div>
+      <div className="text-sm text-slate-200 leading-relaxed">{f.narrative}</div>
+    </div>}
+    {f.topFactors && f.topFactors.length > 0 && <div className="glass-card rounded-xl p-3">
+      <div className="text-xs font-semibold text-slate-400 mb-2">핵심 요인</div>
+      <div className="space-y-1.5">
+        {f.topFactors.map((tf, i) => {
+          const pct = Math.min(100, tf.impact * 600);
+          const isHome = tf.edge === "home";
+          return (<div key={i} className="flex items-center gap-2">
+            <span className="text-xs font-bold text-slate-400 w-16 shrink-0">{tf.label}</span>
+            <div className="flex-1 h-2 bg-dark-600 rounded-full overflow-hidden">
+              <div className="h-full rounded-full transition-all" style={{width:`${pct}%`,background:isHome?"#3b82f6":"#ec4899"}}/>
+            </div>
+            <span className={`text-xs font-semibold w-20 text-right shrink-0 ${isHome?"text-blue-400":"text-pink-400"}`}>
+              {isHome?hn:an} +{(tf.impact*100).toFixed(1)}%
+            </span>
+          </div>);
+        })}
+      </div>
+    </div>}
+    <div className="glass-card rounded-xl p-3">
+      <div className="text-xs font-semibold text-slate-400 mb-2">선발투수 비교</div>
+      <div className="grid grid-cols-3 gap-1 text-center text-xs">
+        <div className="text-slate-400">{an}</div><div className="text-slate-600">항목</div><div className="text-slate-400">{hn}</div>
+        <div className={`font-bold ${f.awaySP.era<f.homeSP.era?"text-emerald-400":"text-slate-300"}`}>{typeof f.awaySP.era==='number'?f.awaySP.era.toFixed(2):f.awaySP.era}</div><div className="text-slate-500">ERA</div><div className={`font-bold ${f.homeSP.era<f.awaySP.era?"text-emerald-400":"text-slate-300"}`}>{typeof f.homeSP.era==='number'?f.homeSP.era.toFixed(2):f.homeSP.era}</div>
+        <div className={`font-bold ${f.awaySP.fip<f.homeSP.fip?"text-emerald-400":"text-slate-300"}`}>{f.awaySP.fip}</div><div className="text-slate-500">FIP</div><div className={`font-bold ${f.homeSP.fip<f.awaySP.fip?"text-emerald-400":"text-slate-300"}`}>{f.homeSP.fip}</div>
+        <div className="text-slate-300">{f.awaySP.name}</div><div className="text-slate-500">이름</div><div className="text-slate-300">{f.homeSP.name}</div>
+      </div>
+    </div>
+    <div className="flex gap-2 text-xs">
+      <div className="glass-card rounded-lg p-2 flex-1 text-center"><div className="text-slate-500">상대전적</div><div className="font-bold text-neon-purple">{hn} 홈 {f.h2hWinRate}%</div></div>
+      <div className="glass-card rounded-lg p-2 flex-1 text-center"><div className="text-slate-500">구장</div><div className="font-bold text-slate-300">{f.parkName} ({f.parkFactor})</div></div>
+    </div>
+  </div>);
+};
+
 const TodayTab = () => {
   const[d,setD]=useState(new Date().toISOString().split("T")[0]);
   const[sch,setSch]=useState([]);
@@ -1542,6 +1585,17 @@ const TodayTab = () => {
   const wR=useRef({});
   const[w]=useState("cloudy");
   const[expanded,setExpanded]=useState(null);
+  const[predMap,setPredMap]=useState({});
+  // prediction-log.json에서 해당 날짜 factors 로드
+  useEffect(()=>{(async()=>{
+    const log=await fetchStaticJSON("prediction-log.json");
+    if(!log||!log.predictions){setPredMap({});return;}
+    const norm=n=>{const m={"KIA":"기아"};return m[n]||n;};
+    const entries=log.predictions.filter(p=>p.date===d).sort((a,b)=>(b.predictedAt||'').localeCompare(a.predictedAt||''));
+    const map={};
+    for(const entry of entries){for(const g of entry.games){const key=`${norm(g.away)}_${norm(g.home)}`;if(!map[key])map[key]=g;}}
+    setPredMap(map);
+  })();},[d]);
   useEffect(()=>{
     let cancel=false;
     (async()=>{
@@ -1619,7 +1673,19 @@ const TodayTab = () => {
           <div className="text-xs text-slate-500"><span className={g.home.starters[g.homeStarterIdx].throws==="L"?"text-cyan-400":"text-pink-400"}>{g.home.starters[g.homeStarterIdx].throws}</span> {g.home.starters[g.homeStarterIdx].name} <span className="text-slate-600">ERA {g.home.starters[g.homeStarterIdx].era}</span></div>
         </div>
       </div>
-      {isExp&&<TodayGamePanel g={g} wk={wk} wd={wd}/>}
+      {(()=>{const pred=predMap[`${g.away.short}_${g.home.short}`]; return (<>
+        {pred&&pred.factors&&pred.factors.narrative&&!isExp&&<div className="mt-2 px-1">
+          <div className="text-xs text-slate-400 leading-relaxed"><span className="text-neon-purple font-semibold">🔮</span> {pred.factors.narrative}</div>
+          <div className="flex items-center gap-3 mt-1.5">
+            <div className="text-xs"><span className="text-slate-500">예측:</span> <span className="font-bold text-cyan-400">{pred.predWinner}</span> <span className="text-slate-500">{pred.confidence} ({Math.max(pred.predHomePct,pred.predAwayPct)}%)</span></div>
+            <div className="text-xs text-slate-600">평균 {pred.avgAway}-{pred.avgHome}</div>
+          </div>
+        </div>}
+        {isExp&&<>
+          {pred&&pred.factors&&<FactorCard pred={pred} home={g.home} away={g.away}/>}
+          <TodayGamePanel g={g} wk={wk} wd={wd}/>
+        </>}
+      </>);})()}
     </div>);})}
     </div></div>);
 };

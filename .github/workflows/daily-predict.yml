@@ -85,7 +85,7 @@ jobs:
 
       - name: Predict today
         if: steps.mode.outputs.mode == 'predict' || steps.mode.outputs.mode == 'both'
-        run: node sim-today.mjs --log
+        run: node sim-today.mjs --log --version v9.6 --temp 0.7 --threshold "55,65"
 
       - name: Reset jsx (blend-stats가 in-place 수정한 것을 원복)
         if: always()

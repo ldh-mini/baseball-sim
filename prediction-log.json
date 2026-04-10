@@ -14077,6 +14077,368 @@
       ]
     },
     {
+      "date": "2026-04-05",
+      "predictedAt": "2026-04-10T08:06:00.500Z",
+      "version": "v9.6",
+      "games": [
+        {
+          "away": "한화",
+          "home": "두산",
+          "stadium": "잠실",
+          "time": "14:00",
+          "awaySP": "황준서",
+          "homeSP": "잭로그",
+          "predWinner": "두산",
+          "predHomePct": 54.7,
+          "predAwayPct": 44,
+          "avgHome": 6.3,
+          "avgAway": 5.5,
+          "confidence": "★",
+          "factors": {
+            "homeRating": 53,
+            "awayRating": 60,
+            "homeSP": {
+              "name": "잭로그",
+              "era": 2.81,
+              "fip": 3.52,
+              "recentForm": 1.1
+            },
+            "awaySP": {
+              "name": "황준서",
+              "era": 3.875,
+              "fip": 3.55,
+              "recentForm": 1
+            },
+            "homeRecord": "2승6패",
+            "awayRecord": "5승4패",
+            "h2hWinRate": 44,
+            "parkFactor": 0.9,
+            "parkName": "잠실야구장",
+            "homeMomentum": 0,
+            "awayMomentum": 0,
+            "topFactors": [
+              {
+                "key": "sp",
+                "label": "선발투수",
+                "edge": "home",
+                "impact": 0.043,
+                "desc": "잭로그(ERA 2.81) vs 황준서(3.88)"
+              },
+              {
+                "key": "rating",
+                "label": "팀 전력",
+                "edge": "away",
+                "impact": 0.014,
+                "desc": "두산 2승6패 vs 한화 5승4패"
+              },
+              {
+                "key": "h2h",
+                "label": "상대전적",
+                "edge": "away",
+                "impact": 0.012,
+                "desc": "두산 홈 승률 44%"
+              },
+              {
+                "key": "park",
+                "label": "구장 효과",
+                "edge": "away",
+                "impact": 0.01,
+                "desc": "잠실야구장 투수 유리(0.9)"
+              }
+            ],
+            "narrative": "잭로그(ERA 2.81) vs 황준서(3.88), 선발 대결에서 두산 우위. 박빙으로 이변 가능."
+          },
+          "actualHome": null,
+          "actualAway": null,
+          "hit": null
+        },
+        {
+          "away": "SSG",
+          "home": "롯데",
+          "stadium": "부산",
+          "time": "14:00",
+          "awaySP": "베니지아노",
+          "homeSP": "박세웅",
+          "predWinner": "롯데",
+          "predHomePct": 64.5,
+          "predAwayPct": 34.7,
+          "avgHome": 8.5,
+          "avgAway": 5.9,
+          "confidence": "★★",
+          "factors": {
+            "homeRating": 51,
+            "awayRating": 78,
+            "homeSP": {
+              "name": "박세웅",
+              "era": 4.93,
+              "fip": 3.45,
+              "recentForm": 0.95
+            },
+            "awaySP": {
+              "name": "베니지아노",
+              "era": 3.835175,
+              "fip": 3.55,
+              "recentForm": 0.92
+            },
+            "homeRecord": "2승7패",
+            "awayRecord": "7승2패",
+            "h2hWinRate": 41,
+            "parkFactor": 1.1,
+            "parkName": "사직야구장",
+            "homeMomentum": 0,
+            "awayMomentum": 0,
+            "topFactors": [
+              {
+                "key": "rating",
+                "label": "팀 전력",
+                "edge": "away",
+                "impact": 0.054,
+                "desc": "롯데 2승7패 vs SSG 7승2패"
+              },
+              {
+                "key": "sp",
+                "label": "선발투수",
+                "edge": "away",
+                "impact": 0.044,
+                "desc": "베니지아노(ERA 3.84) vs 박세웅(4.93)"
+              },
+              {
+                "key": "h2h",
+                "label": "상대전적",
+                "edge": "away",
+                "impact": 0.018,
+                "desc": "롯데 홈 승률 41%"
+              },
+              {
+                "key": "park",
+                "label": "구장 효과",
+                "edge": "home",
+                "impact": 0.01,
+                "desc": "사직야구장 타자 유리(1.1)"
+              }
+            ],
+            "narrative": "사직야구장 홈 구장 효과가 롯데에게 유리. 다만 SSG의 시즌 성적이 앞섬."
+          },
+          "actualHome": null,
+          "actualAway": null,
+          "hit": null
+        },
+        {
+          "away": "삼성",
+          "home": "KT",
+          "stadium": "수원",
+          "time": "14:00",
+          "awaySP": "오러클린",
+          "homeSP": "보쉴리",
+          "predWinner": "KT",
+          "predHomePct": 68.4,
+          "predAwayPct": 31.1,
+          "avgHome": 9.4,
+          "avgAway": 5.8,
+          "confidence": "★★★",
+          "factors": {
+            "homeRating": 76,
+            "awayRating": 67,
+            "homeSP": {
+              "name": "보쉴리",
+              "era": 2.8,
+              "fip": 3.66,
+              "recentForm": 1.08
+            },
+            "awaySP": {
+              "name": "오러클린",
+              "era": 4.78425,
+              "fip": 3.64,
+              "recentForm": 0.92
+            },
+            "homeRecord": "7승2패",
+            "awayRecord": "5승3패",
+            "h2hWinRate": 50,
+            "parkFactor": 1.05,
+            "parkName": "수원KT위즈파크",
+            "homeMomentum": 0,
+            "awayMomentum": 0,
+            "topFactors": [
+              {
+                "key": "sp",
+                "label": "선발투수",
+                "edge": "home",
+                "impact": 0.079,
+                "desc": "보쉴리(ERA 2.8) vs 오러클린(4.78)"
+              },
+              {
+                "key": "rating",
+                "label": "팀 전력",
+                "edge": "home",
+                "impact": 0.018,
+                "desc": "KT 7승2패 vs 삼성 5승3패"
+              },
+              {
+                "key": "park",
+                "label": "구장 효과",
+                "edge": "home",
+                "impact": 0.005,
+                "desc": "수원KT위즈파크 타자 유리(1.05)"
+              },
+              {
+                "key": "momentum",
+                "label": "최근 폼",
+                "edge": "home",
+                "impact": 0,
+                "desc": "KT ? / 삼성 ?"
+              }
+            ],
+            "narrative": "보쉴리(ERA 2.8)이 오러클린(4.78) 대비 압도적 우위. 높은 확률 예측."
+          },
+          "actualHome": null,
+          "actualAway": null,
+          "hit": null
+        },
+        {
+          "away": "NC",
+          "home": "KIA",
+          "stadium": "광주",
+          "time": "14:00",
+          "awaySP": "토다",
+          "homeSP": "올러",
+          "predWinner": "KIA",
+          "predHomePct": 71,
+          "predAwayPct": 28.7,
+          "avgHome": 8,
+          "avgAway": 3.9,
+          "confidence": "★★★",
+          "factors": {
+            "homeRating": 50,
+            "awayRating": 68,
+            "homeSP": {
+              "name": "올러",
+              "era": 3.2412500000000004,
+              "fip": 3.14,
+              "recentForm": 1.12
+            },
+            "awaySP": {
+              "name": "토다",
+              "era": 3.72895,
+              "fip": 3.66,
+              "recentForm": 1.08
+            },
+            "homeRecord": "2승7패",
+            "awayRecord": "6승3패",
+            "h2hWinRate": 47,
+            "parkFactor": 1.06,
+            "parkName": "광주기아챔피언스필드",
+            "homeMomentum": 0,
+            "awayMomentum": 0,
+            "topFactors": [
+              {
+                "key": "rating",
+                "label": "팀 전력",
+                "edge": "away",
+                "impact": 0.036,
+                "desc": "기아 2승7패 vs NC 6승3패"
+              },
+              {
+                "key": "sp",
+                "label": "선발투수",
+                "edge": "home",
+                "impact": 0.02,
+                "desc": "올러(ERA 3.24) vs 토다(3.73)"
+              },
+              {
+                "key": "park",
+                "label": "구장 효과",
+                "edge": "home",
+                "impact": 0.006,
+                "desc": "광주기아챔피언스필드 타자 유리(1.06)"
+              },
+              {
+                "key": "h2h",
+                "label": "상대전적",
+                "edge": "away",
+                "impact": 0.006,
+                "desc": "기아 홈 승률 47%"
+              }
+            ],
+            "narrative": "올러(ERA 3.24) vs 토다(3.73), 선발 대결에서 KIA 우위. 높은 확률 예측."
+          },
+          "actualHome": null,
+          "actualAway": null,
+          "hit": null
+        },
+        {
+          "away": "LG",
+          "home": "키움",
+          "stadium": "고척",
+          "time": "14:00",
+          "awaySP": "톨허스트",
+          "homeSP": "와일스",
+          "predWinner": "LG",
+          "predHomePct": 48.8,
+          "predAwayPct": 49.6,
+          "avgHome": 7.2,
+          "avgAway": 7.5,
+          "confidence": "★",
+          "factors": {
+            "homeRating": 45,
+            "awayRating": 65,
+            "homeSP": {
+              "name": "와일스",
+              "era": 4.0033625,
+              "fip": 3.55,
+              "recentForm": 0.92
+            },
+            "awaySP": {
+              "name": "톨허스트",
+              "era": 6.6125,
+              "fip": 3.68,
+              "recentForm": 0.92
+            },
+            "homeRecord": "3승6패",
+            "awayRecord": "5승4패",
+            "h2hWinRate": 29,
+            "parkFactor": 0.92,
+            "parkName": "고척스카이돔",
+            "homeMomentum": 0,
+            "awayMomentum": 0,
+            "topFactors": [
+              {
+                "key": "sp",
+                "label": "선발투수",
+                "edge": "home",
+                "impact": 0.104,
+                "desc": "와일스(ERA 4) vs 톨허스트(6.61)"
+              },
+              {
+                "key": "h2h",
+                "label": "상대전적",
+                "edge": "away",
+                "impact": 0.041,
+                "desc": "키움 홈 승률 29%"
+              },
+              {
+                "key": "rating",
+                "label": "팀 전력",
+                "edge": "away",
+                "impact": 0.04,
+                "desc": "키움 3승6패 vs LG 5승4패"
+              },
+              {
+                "key": "park",
+                "label": "구장 효과",
+                "edge": "away",
+                "impact": 0.008,
+                "desc": "고척스카이돔 투수 유리(0.92)"
+              }
+            ],
+            "narrative": "LG의 상대전적 우위 (키움 홈 승률 29%). 팀 전력에서도 앞섬. 다만 키움 선발투수가 우위. 박빙으로 이변 가능."
+          },
+          "actualHome": null,
+          "actualAway": null,
+          "hit": null
+        }
+      ]
+    },
+    {
       "date": "2026-04-08",
       "predictedAt": "2026-04-08T09:03:09.147Z",
       "version": "v9.2",

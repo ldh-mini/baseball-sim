@@ -75,6 +75,125 @@ class Sim {
     return{home:sc.home,away:sc.away,winner:sc.home>sc.away?"home":sc.away>sc.home?"away":"draw"};}
   mc(n=1000){let hw=0,aw=0,dr=0;const hs=[],as=[];for(let i=0;i<n;i++){const r=this.game();if(r.winner==="home")hw++;else if(r.winner==="away")aw++;else dr++;hs.push(r.home);as.push(r.away);}
     return{homeWins:hw,awayWins:aw,draws:dr,homeWinPct:((hw/n)*100).toFixed(1),awayWinPct:((aw/n)*100).toFixed(1),avgHome:_.mean(hs).toFixed(1),avgAway:_.mean(as).toFixed(1)};}
+  getFactors(){
+    const h=this.h, a=this.a, hP=this.hP, aP=this.aP;
+    const hn=h.short||h.name, an=a.short||a.name;
+    // 선발투수 impact: ERA 차이 기반 (사용자 친화적)
+    const eraDiff=aP.era-hP.era; // 양수=홈 투수가 더 좋음
+    const spImpact=Math.min(0.15, Math.abs(eraDiff)*0.04);
+    // 팀 전력 (rating + elo 통합)
+    const rDiff=h.teamRating-a.teamRating;
+    const ratingImpact=Math.min(0.10, Math.abs(rDiff)*0.002);
+    // 모멘텀
+    const hMom=h.momentum||0, aMom=a.momentum||0;
+    const momDiff=hMom-aMom;
+    const momImpact=Math.min(0.08, Math.abs(momDiff)*0.012);
+    // H2H
+    const h2hRate=H2H_RECORDS[h.id]?.[a.id]||0.5;
+    const h2hImpact=Math.abs(h2hRate-0.5)*0.20;
+    // 구장
+    const pf=this.st.parkFactor;
+    const parkImpact=Math.abs(pf-1.0)*0.10;
+
+    // 승률 기반 전적 요약
+    const hRec=h.record, aRec=a.record;
+    const hPct=hRec?+(hRec.w/(hRec.w+hRec.l)).toFixed(3):0.5;
+    const aPct=aRec?+(aRec.w/(aRec.w+aRec.l)).toFixed(3):0.5;
+
+    const factors=[
+      {key:"sp",label:"선발투수",edge:eraDiff>0?"home":"away",impact:spImpact,
+       desc:`${eraDiff>0?hP.name:aP.name}(ERA ${+(eraDiff>0?hP.era:aP.era).toFixed(2)}) vs ${eraDiff>0?aP.name:hP.name}(${+(eraDiff>0?aP.era:hP.era).toFixed(2)})`},
+      {key:"momentum",label:"최근 폼",edge:momDiff>=0?"home":"away",impact:momImpact,
+       desc:`${hn} ${hRec?.last10raw||'?'} / ${an} ${aRec?.last10raw||'?'}`},
+      {key:"rating",label:"팀 전력",edge:rDiff>=0?"home":"away",impact:ratingImpact,
+       desc:`${hn} ${hRec?`${hRec.w}승${hRec.l}패`:'?'} vs ${an} ${aRec?`${aRec.w}승${aRec.l}패`:'?'}`},
+      {key:"h2h",label:"상대전적",edge:h2hRate>=0.5?"home":"away",impact:h2hImpact,
+       desc:`${hn} 홈 승률 ${(h2hRate*100).toFixed(0)}%`},
+      {key:"park",label:"구장 효과",edge:pf>=1?"home":"away",impact:parkImpact,
+       desc:pf>=1.05?`${this.st.name||''} 타자 유리(${pf})`:pf<=0.95?`${this.st.name||''} 투수 유리(${pf})`:`${this.st.name||''} 중립(${pf})`},
+    ];
+    factors.sort((a,b)=>b.impact-a.impact);
+    return {
+      homeRating:h.teamRating, awayRating:a.teamRating,
+      homeSP:{name:hP.name,era:hP.era,fip:+hP.fip.toFixed(2),recentForm:+(hP.recentForm||1).toFixed(2)},
+      awaySP:{name:aP.name,era:aP.era,fip:+aP.fip.toFixed(2),recentForm:+(aP.recentForm||1).toFixed(2)},
+      homeRecord:`${hRec?.w||0}승${hRec?.l||0}패`, awayRecord:`${aRec?.w||0}승${aRec?.l||0}패`,
+      h2hWinRate:+(h2hRate*100).toFixed(0),
+      parkFactor:pf, parkName:this.st.name||'',
+      homeMomentum:hMom, awayMomentum:aMom,
+      topFactors:factors.slice(0,4).map(f=>({...f,impact:+f.impact.toFixed(3)})),
+    };
+  }
+}
+
+// ── 한 줄 해설 생성 (룰 기반 템플릿) ──
+function generateNarrative(factors, predWinner, predLoser, conf, winnerSide) {
+  // winnerSide: "home" or "away"
+  const top = factors.topFactors;
+  if (!top || top.length === 0) return `${predWinner} 소폭 우세 예측.`;
+
+  const parts = [];
+  const pros = top.filter(f => f.edge === winnerSide);   // predWinner에게 유리한 요인
+  const cons = top.filter(f => f.edge !== winnerSide);    // 불리한 요인
+
+  // 1차: 가장 큰 유리 요인
+  const f1 = pros[0];
+  if (f1) {
+    if (f1.key === 'sp') {
+      const sp = winnerSide === 'home' ? factors.homeSP : factors.awaySP;
+      const opp = winnerSide === 'home' ? factors.awaySP : factors.homeSP;
+      const se = +sp.era.toFixed(2), oe = +opp.era.toFixed(2);
+      if (Math.abs(se - oe) >= 1.5)
+        parts.push(`${sp.name}(ERA ${se})이 ${opp.name}(${oe}) 대비 압도적 우위`);
+      else
+        parts.push(`${sp.name}(ERA ${se}) vs ${opp.name}(${oe}), 선발 대결에서 ${predWinner} 우위`);
+    } else if (f1.key === 'momentum') {
+      parts.push(`${predWinner}의 최근 상승세가 핵심 (${f1.desc})`);
+    } else if (f1.key === 'rating') {
+      parts.push(`${predWinner}의 종합 전력 우세 (${f1.desc})`);
+    } else if (f1.key === 'h2h') {
+      parts.push(`${predWinner}의 상대전적 우위 (${f1.desc})`);
+    } else if (f1.key === 'park') {
+      parts.push(`${factors.parkName} 홈 구장 효과가 ${predWinner}에게 유리`);
+    } else {
+      parts.push(`${predWinner}의 종합 요인이 우세`);
+    }
+  }
+
+  // 2차: 추가 유리 요인 (impact 2.5% 이상)
+  if (pros.length >= 2 && pros[1].impact >= 0.025) {
+    const f2 = pros[1];
+    if (f2.key === 'momentum') parts.push(`최근 폼도 ${predWinner}이 우세`);
+    else if (f2.key === 'sp') {
+      const sp = winnerSide === 'home' ? factors.homeSP : factors.awaySP;
+      parts.push(`선발 ${sp.name}(ERA ${+sp.era.toFixed(2)})도 유리`);
+    }
+    else if (f2.key === 'rating') parts.push(`팀 전력에서도 앞섬`);
+    else if (f2.key === 'h2h') parts.push(`상대전적도 유리`);
+    else parts.push(`${f2.label}도 유리`);
+  }
+
+  // 유리 요인 없이 MC에서 이긴 경우 (모든 factor가 상대에게 유리)
+  if (!f1) {
+    if (winnerSide === 'home')
+      parts.push(`${predWinner}은 개별 지표에서 열세이나 홈 어드밴티지 + 구장 효과로 우세`);
+    else
+      parts.push(`${predWinner}의 종합 시뮬레이션에서 소폭 우세`);
+  }
+
+  // 불리 요인 (가장 큰 것 1개)
+  if (cons.length > 0 && cons[0].impact >= 0.04) {
+    const c = cons[0];
+    if (c.key === 'momentum') parts.push(`다만 ${predLoser}의 최근 폼이 좋아 주의 필요`);
+    else if (c.key === 'sp') parts.push(`다만 ${predLoser} 선발투수가 우위`);
+    else if (c.key === 'rating') parts.push(`다만 ${predLoser}의 시즌 성적이 앞섬`);
+  }
+
+  // 신뢰도 수식어
+  if (conf === '★★★') parts.push('높은 확률 예측');
+  else if (conf === '★') parts.push('박빙으로 이변 가능');
+
+  return parts.join('. ') + '.';
 }
 
 const NM={"삼성":"samsung","기아":"kia","KIA":"kia","LG":"lg","두산":"doosan","KT":"kt","SSG":"ssg","한화":"hanwha","롯데":"lotte","NC":"nc","키움":"kiwoom"};
@@ -88,17 +207,17 @@ function findSP(team,name){if(!name)return 0;const i=team.starters.findIndex(s=>
 const argv = process.argv.slice(2);
 const LOG_MODE = argv.includes('--log');
 const QUIET = argv.includes('--quiet');
-let VERSION_TAG = 'v9.2';
+let VERSION_TAG = 'v9.6';
 const vIdx = argv.indexOf('--version');
 if (vIdx >= 0 && argv[vIdx + 1]) VERSION_TAG = argv[vIdx + 1];
 
 // v9.5: temperature 압축
-let TEMPERATURE = 1.0;
+let TEMPERATURE = 0.7;
 const tIdx = argv.indexOf('--temp');
 if (tIdx >= 0 && argv[tIdx + 1]) TEMPERATURE = parseFloat(argv[tIdx + 1]);
 
 // v9.5: 신뢰도 임계값
-let THRESH_2 = 55, THRESH_3 = 60;
+let THRESH_2 = 55, THRESH_3 = 65;
 const thIdx = argv.indexOf('--threshold');
 if (thIdx >= 0 && argv[thIdx + 1]) {
   const parts = argv[thIdx + 1].split(',').map(Number);
@@ -135,6 +254,7 @@ const log = (...a) => { if (!QUIET) console.log(...a); };
 
 log('='.repeat(70));
 log(`  ${TARGET_DATE} 경기 예측 (${N}회 시뮬레이션, ${VERSION})`);
+log(`  ⚙️  temp=${TEMPERATURE}, threshold=${THRESH_2}/${THRESH_3}`);
 log('='.repeat(70));
 
 const predictionEntries = [];
@@ -173,10 +293,17 @@ for (const g of games) {
   const pf = parseFloat(predPct);
   const conf = pf >= THRESH_3 ? '★★★' : pf >= THRESH_2 ? '★★' : '★';
 
+  // factor 수집 + 해설 생성
+  const factors = sim.getFactors();
+  const predLoser = predWinner === g.home ? g.away : g.home;
+  const winnerSide = predWinner === g.home ? 'home' : 'away';
+  factors.narrative = generateNarrative(factors, predWinner, predLoser, conf, winnerSide);
+
   log(`\n${g.away} @ ${g.home} (${g.stadium} ${g.time})`);
   log(`  선발: ${g.awaySP}(${awaySPData.name}, ERA:${awaySPData.era}) vs ${g.homeSP}(${homeSPData.name}, ERA:${homeSPData.era})`);
   log(`  시뮬: ${g.away} ${awayPct}% - ${homePct}% ${g.home} | 평균: ${mc.avgAway} - ${mc.avgHome}${TEMPERATURE !== 1.0 ? ` (temp=${TEMPERATURE})` : ''}`);
   log(`  ▶ 예측: ${predWinner} 승 (${predPct}%) ${conf}`);
+  log(`  💬 ${factors.narrative}`);
 
   predictionEntries.push({
     away: g.away, home: g.home,
@@ -188,6 +315,7 @@ for (const g of games) {
     avgHome: parseFloat(mc.avgHome),
     avgAway: parseFloat(mc.avgAway),
     confidence: conf,
+    factors,
     actualHome: null,
     actualAway: null,
     hit: null,

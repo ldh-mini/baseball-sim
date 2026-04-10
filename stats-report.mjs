@@ -337,6 +337,167 @@ function calibrationReport(log, versionFilter = null) {
   }
 }
 
+// ── Inspect 리포트 (v9.6) — ★ 등급별 케이스 상세 dump ──
+function inspectReport(log, stars, versionFilter, outPath) {
+  const starLabel = '★'.repeat(stars);
+  const confBounds = { 1: [50, 55], 2: [55, 60], 3: [60, 100] };
+  const [lo, hi] = confBounds[stars] || [50, 100];
+
+  console.log('='.repeat(70));
+  console.log(`🔍 Inspect: ${starLabel} (${lo}%~${hi}%) 케이스 상세`);
+  console.log('='.repeat(70));
+
+  const games = [];
+  for (const p of log.predictions) {
+    if (versionFilter && p.version !== versionFilter) continue;
+    for (const g of p.games) {
+      if (g.hit === null) continue;
+      const predProb = Math.max(g.predHomePct, g.predAwayPct);
+      if (predProb < lo || predProb >= hi) continue;
+      games.push({
+        ...g, predProb, version: p.version, date: p.date,
+        scoreDiff: g.actualHome != null ? Math.abs(g.actualHome - g.actualAway) : null,
+        predAvgDiff: Math.abs((g.avgHome || 0) - (g.avgAway || 0)),
+      });
+    }
+  }
+
+  if (games.length === 0) { console.log('해당 조건의 데이터 없음'); return; }
+
+  // 정렬: 오답 먼저, 그 중 점수차 큰 순
+  games.sort((a, b) => {
+    if (a.hit !== b.hit) return a.hit ? 1 : -1;
+    return (b.scoreDiff || 0) - (a.scoreDiff || 0);
+  });
+
+  const totalHits = games.filter(g => g.hit).length;
+  console.log(`\n📌 ${versionFilter || '전체'} / ${starLabel} / ${games.length}경기 / 적중 ${totalHits} (${(totalHits/games.length*100).toFixed(1)}%)\n`);
+
+  // 집계: 구장별
+  const byStadium = {};
+  const byPredTeam = {};
+  const byActualWinner = {};
+  const bySP = {};
+  for (const g of games) {
+    const std = g.stadium || '?';
+    byStadium[std] = byStadium[std] || { hit: 0, miss: 0 };
+    g.hit ? byStadium[std].hit++ : byStadium[std].miss++;
+
+    byPredTeam[g.predWinner] = byPredTeam[g.predWinner] || { hit: 0, miss: 0 };
+    g.hit ? byPredTeam[g.predWinner].hit++ : byPredTeam[g.predWinner].miss++;
+
+    const actualWinner = g.actualHome > g.actualAway ? g.home : g.away;
+    byActualWinner[actualWinner] = byActualWinner[actualWinner] || { n: 0 };
+    byActualWinner[actualWinner].n++;
+
+    // 우세측 선발투수
+    const favSP = g.predWinner === g.home ? (g.homeSP || '?') : (g.awaySP || '?');
+    bySP[favSP] = bySP[favSP] || { hit: 0, miss: 0 };
+    g.hit ? bySP[favSP].hit++ : bySP[favSP].miss++;
+  }
+
+  // 경기별 테이블
+  const lines = [];
+  lines.push(`# ${starLabel} 케이스 분석 (${versionFilter || '전체'}, n=${games.length})`);
+  lines.push('');
+  lines.push(`적중: ${totalHits}/${games.length} (${(totalHits/games.length*100).toFixed(1)}%)`);
+  lines.push('');
+  lines.push('## 경기별 상세');
+  lines.push('');
+  lines.push('| # | 날짜 | 경기 | 구장 | 선발(원정/홈) | 예측 | prob | 실제스코어 | 점수차 | 적중 | 의심원인 |');
+  lines.push('|---|------|------|------|---------------|------|------|-----------|--------|------|----------|');
+  games.forEach((g, i) => {
+    const matchup = `${g.away}@${g.home}`;
+    const sp = `${g.awaySP || '?'}/${g.homeSP || '?'}`;
+    const pred = `${g.predWinner} ${g.confidence}`;
+    const score = g.actualHome != null ? `${g.actualAway}-${g.actualHome}` : '?';
+    const mark = g.hit ? '✅' : '❌';
+    lines.push(`| ${i+1} | ${g.date} | ${matchup} | ${g.stadium || '?'} | ${sp} | ${pred} | ${g.predProb.toFixed(1)}% | ${score} | ${g.scoreDiff ?? '?'} | ${mark} | |`);
+  });
+
+  // 구장별 집계
+  lines.push('');
+  lines.push('## 구장별 집계');
+  lines.push('');
+  lines.push('| 구장 | 적중 | 오답 | 적중률 |');
+  lines.push('|------|------|------|--------|');
+  for (const [s, v] of Object.entries(byStadium).sort((a, b) => b[1].miss - a[1].miss)) {
+    lines.push(`| ${s} | ${v.hit} | ${v.miss} | ${((v.hit/(v.hit+v.miss))*100).toFixed(0)}% |`);
+  }
+
+  // 예측팀별 집계
+  lines.push('');
+  lines.push('## 예측 우세팀별 집계');
+  lines.push('');
+  lines.push('| 팀 | 적중 | 오답 | 적중률 |');
+  lines.push('|------|------|------|--------|');
+  for (const [t, v] of Object.entries(byPredTeam).sort((a, b) => b[1].miss - a[1].miss)) {
+    lines.push(`| ${t} | ${v.hit} | ${v.miss} | ${((v.hit/(v.hit+v.miss))*100).toFixed(0)}% |`);
+  }
+
+  // 실제 승팀 분포
+  lines.push('');
+  lines.push('## 실제 승팀 분포');
+  lines.push('');
+  lines.push('| 팀 | 승수 |');
+  lines.push('|------|------|');
+  for (const [t, v] of Object.entries(byActualWinner).sort((a, b) => b[1].n - a[1].n)) {
+    lines.push(`| ${t} | ${v.n} |`);
+  }
+
+  // 우세측 선발투수별
+  lines.push('');
+  lines.push('## 우세측 선발투수별 집계');
+  lines.push('');
+  lines.push('| 투수 | 적중 | 오답 | 적중률 |');
+  lines.push('|------|------|------|--------|');
+  for (const [sp, v] of Object.entries(bySP).sort((a, b) => b[1].miss - a[1].miss)) {
+    lines.push(`| ${sp} | ${v.hit} | ${v.miss} | ${((v.hit/(v.hit+v.miss))*100).toFixed(0)}% |`);
+  }
+
+  // predProb 구간별
+  lines.push('');
+  lines.push('## 확률 세부 구간별');
+  lines.push('');
+  const subBins = [
+    { lo: 50, hi: 55 }, { lo: 55, hi: 60 }, { lo: 60, hi: 65 },
+    { lo: 65, hi: 70 }, { lo: 70, hi: 75 }, { lo: 75, hi: 100 },
+  ];
+  lines.push('| 구간 | n | 적중 | 적중률 |');
+  lines.push('|------|---|------|--------|');
+  for (const sb of subBins) {
+    const sub = games.filter(g => g.predProb >= sb.lo && g.predProb < sb.hi);
+    if (sub.length === 0) continue;
+    const h = sub.filter(g => g.hit).length;
+    lines.push(`| [${sb.lo}%,${sb.hi}%) | ${sub.length} | ${h} | ${((h/sub.length)*100).toFixed(0)}% |`);
+  }
+
+  // 점수차 분석
+  const misses = games.filter(g => !g.hit);
+  const avgScoreDiffMiss = misses.length > 0 ? misses.reduce((s, g) => s + (g.scoreDiff || 0), 0) / misses.length : 0;
+  const hitsArr = games.filter(g => g.hit);
+  const avgScoreDiffHit = hitsArr.length > 0 ? hitsArr.reduce((s, g) => s + (g.scoreDiff || 0), 0) / hitsArr.length : 0;
+  lines.push('');
+  lines.push('## 점수차 분석');
+  lines.push('');
+  lines.push(`- 오답 경기 평균 점수차: ${avgScoreDiffMiss.toFixed(1)}`);
+  lines.push(`- 적중 경기 평균 점수차: ${avgScoreDiffHit.toFixed(1)}`);
+  lines.push(`- 끝내기(1점차) 오답: ${misses.filter(g => g.scoreDiff === 1).length}건`);
+
+  lines.push('');
+  lines.push('## 결론');
+  lines.push('');
+  lines.push('> (분석 후 작성)');
+
+  const output = lines.join('\n');
+  console.log('\n' + output);
+
+  if (outPath) {
+    fs.writeFileSync(outPath, output, 'utf8');
+    console.log(`\n💾 저장: ${outPath}`);
+  }
+}
+
 function main() {
   if (!fs.existsSync(LOG_FILE)) {
     console.error(`❌ ${LOG_FILE} 없음`);
@@ -344,6 +505,15 @@ function main() {
   }
   const log = JSON.parse(fs.readFileSync(LOG_FILE, 'utf8'));
 
+  if (process.argv.includes('--inspect')) {
+    const idx = process.argv.indexOf('--inspect');
+    const stars = parseInt(process.argv[idx + 1]) || 3;
+    const vIdx = process.argv.indexOf('--version');
+    const version = vIdx >= 0 && process.argv[vIdx + 1] ? process.argv[vIdx + 1] : null;
+    const oIdx = process.argv.indexOf('--out');
+    const outPath = oIdx >= 0 && process.argv[oIdx + 1] ? process.argv[oIdx + 1] : null;
+    return inspectReport(log, stars, version, outPath);
+  }
   if (process.argv.includes('--calibration')) {
     const idx = process.argv.indexOf('--calibration');
     const version = process.argv[idx + 1] && !process.argv[idx + 1].startsWith('--') ? process.argv[idx + 1] : null;

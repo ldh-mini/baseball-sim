@@ -70,9 +70,10 @@ function predictDay(targetDate, opts = {}) {
     ];
   } else if (abCalibration) {
     variants = [
-      { tag: 'v9.2-temp1.0', blendArgs: `--snapshot ${prevSnap}`, simArgs: '--temp 1.0' },
-      { tag: 'v9.5-temp0.7', blendArgs: `--snapshot ${prevSnap}`, simArgs: '--temp 0.7' },
-      { tag: 'v9.5-temp0.5', blendArgs: `--snapshot ${prevSnap}`, simArgs: '--temp 0.5' },
+      { tag: 'v9.2-baseline', blendArgs: `--snapshot ${prevSnap} --prior-games 30`, simArgs: '--temp 1.0 --threshold "55,60"' },
+      { tag: 'v9.6-fix',      blendArgs: `--snapshot ${prevSnap} --prior-games 15`, simArgs: '--temp 0.7 --threshold "55,65"' },
+      { tag: 'v9.6-temp-only', blendArgs: `--snapshot ${prevSnap} --prior-games 30`, simArgs: '--temp 0.7 --threshold "55,60"' },
+      { tag: 'v9.6-prior-only', blendArgs: `--snapshot ${prevSnap} --prior-games 15`, simArgs: '--temp 1.0 --threshold "55,60"' },
     ];
   } else {
     variants = [

@@ -74,7 +74,7 @@ function escRe(s) { return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
 function parseArgs() {
   const args = process.argv.slice(2);
   const opts = {
-    snapshot: null, noRecent: false, noMomentum: false,
+    snapshot: null, noRecent: false, noMomentum: false, priorGames: 15,
     // v9.4 그리드 서치 결론: l10=10 유지
     // - 9일 × 5경기 그리드에서 l10=5가 표면상 1등 (59.5% vs 50%)이었으나
     // - 같은 데이터로 5일 시점 비교 시 l10=5는 v9.1과 동일한 56% (효과 0)
@@ -92,6 +92,7 @@ function parseArgs() {
     else if (args[i] === '--mom-l10' && args[i+1]) { opts.momL10 = parseFloat(args[++i]); }
     else if (args[i] === '--mom-streak' && args[i+1]) { opts.momStreak = parseFloat(args[++i]); }
     else if (args[i] === '--mom-fn' && args[i+1]) { opts.momFn = args[++i]; }
+    else if (args[i] === '--prior-games' && args[i+1]) { opts.priorGames = parseFloat(args[++i]); }
   }
   return opts;
 }
@@ -389,7 +390,7 @@ async function main() {
       if (prior == null) continue;
 
       const rating2026 = calcRating(t);
-      const w = Math.min(1.0, t.g / 30);
+      const w = Math.min(1.0, t.g / opts.priorGames);
       let newRating = Math.round(rating2026 * w + prior * (1 - w));
 
       // Layer 2C: 모멘텀 보정 (v9.2/9.4) — 가중치/함수 형태 파라미터화
