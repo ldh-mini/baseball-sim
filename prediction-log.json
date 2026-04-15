@@ -14627,6 +14627,98 @@
           "hit": null
         }
       ]
+    },
+    {
+      "date": "2026-04-15",
+      "predictedAt": "2026-04-15T01:49:20.799Z",
+      "version": "v9.2",
+      "games": [
+        {
+          "away": "롯데",
+          "home": "LG",
+          "stadium": "잠실",
+          "time": "18:30",
+          "awaySP": "김진욱",
+          "homeSP": "웰스",
+          "predWinner": "LG",
+          "predHomePct": 60.7,
+          "predAwayPct": 37.8,
+          "avgHome": 5.2,
+          "avgAway": 4.1,
+          "confidence": "★★★",
+          "actualHome": null,
+          "actualAway": null,
+          "hit": null
+        },
+        {
+          "away": "두산",
+          "home": "SSG",
+          "stadium": "문학",
+          "time": "18:30",
+          "awaySP": "이영하",
+          "homeSP": "최민준",
+          "predWinner": "SSG",
+          "predHomePct": 57.6,
+          "predAwayPct": 40.4,
+          "avgHome": 4.2,
+          "avgAway": 3.6,
+          "confidence": "★★",
+          "actualHome": null,
+          "actualAway": null,
+          "hit": null
+        },
+        {
+          "away": "KT",
+          "home": "NC",
+          "stadium": "창원",
+          "time": "18:30",
+          "awaySP": "오원석",
+          "homeSP": "신민혁",
+          "predWinner": "NC",
+          "predHomePct": 48.8,
+          "predAwayPct": 47.4,
+          "avgHome": 3.5,
+          "avgAway": 3.7,
+          "confidence": "★",
+          "actualHome": null,
+          "actualAway": null,
+          "hit": null
+        },
+        {
+          "away": "키움",
+          "home": "KIA",
+          "stadium": "광주",
+          "time": "18:30",
+          "awaySP": "정세영",
+          "homeSP": "김태형",
+          "predWinner": "KIA",
+          "predHomePct": 67.3,
+          "predAwayPct": 31.1,
+          "avgHome": 5.9,
+          "avgAway": 3.9,
+          "confidence": "★★★",
+          "actualHome": null,
+          "actualAway": null,
+          "hit": null
+        },
+        {
+          "away": "삼성",
+          "home": "한화",
+          "stadium": "대전",
+          "time": "18:30",
+          "awaySP": "양창섭",
+          "homeSP": "에르난데스",
+          "predWinner": "한화",
+          "predHomePct": 58.3,
+          "predAwayPct": 40.3,
+          "avgHome": 6.2,
+          "avgAway": 5.2,
+          "confidence": "★★",
+          "actualHome": null,
+          "actualAway": null,
+          "hit": null
+        }
+      ]
     }
   ]
 }
