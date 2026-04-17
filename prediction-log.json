@@ -14811,6 +14811,98 @@
           "hit": null
         }
       ]
+    },
+    {
+      "date": "2026-04-17",
+      "predictedAt": "2026-04-17T01:52:51.868Z",
+      "version": "v9.2",
+      "games": [
+        {
+          "away": "KIA",
+          "home": "두산",
+          "stadium": "잠실",
+          "time": "18:30",
+          "awaySP": "이의리",
+          "homeSP": "잭로그",
+          "predWinner": "두산",
+          "predHomePct": 56.3,
+          "predAwayPct": 41,
+          "avgHome": 4.8,
+          "avgAway": 4.3,
+          "confidence": "★★",
+          "actualHome": null,
+          "actualAway": null,
+          "hit": null
+        },
+        {
+          "away": "한화",
+          "home": "롯데",
+          "stadium": "부산",
+          "time": "18:30",
+          "awaySP": "박준영",
+          "homeSP": "비슬리",
+          "predWinner": "한화",
+          "predHomePct": 39.2,
+          "predAwayPct": 58.9,
+          "avgHome": 4.1,
+          "avgAway": 5.5,
+          "confidence": "★★",
+          "actualHome": null,
+          "actualAway": null,
+          "hit": null
+        },
+        {
+          "away": "LG",
+          "home": "삼성",
+          "stadium": "대구",
+          "time": "18:30",
+          "awaySP": "임찬규",
+          "homeSP": "오러클린",
+          "predWinner": "LG",
+          "predHomePct": 42.8,
+          "predAwayPct": 55.1,
+          "avgHome": 4.6,
+          "avgAway": 5.5,
+          "confidence": "★★",
+          "actualHome": null,
+          "actualAway": null,
+          "hit": null
+        },
+        {
+          "away": "SSG",
+          "home": "NC",
+          "stadium": "창원",
+          "time": "18:30",
+          "awaySP": "김건우",
+          "homeSP": "테일러",
+          "predWinner": "NC",
+          "predHomePct": 56.3,
+          "predAwayPct": 39.5,
+          "avgHome": 3.3,
+          "avgAway": 2.9,
+          "confidence": "★★",
+          "actualHome": null,
+          "actualAway": null,
+          "hit": null
+        },
+        {
+          "away": "키움",
+          "home": "KT",
+          "stadium": "수원",
+          "time": "18:30",
+          "awaySP": "와일스",
+          "homeSP": "소형준",
+          "predWinner": "KT",
+          "predHomePct": 57.8,
+          "predAwayPct": 39.1,
+          "avgHome": 3.8,
+          "avgAway": 3.3,
+          "confidence": "★★",
+          "actualHome": null,
+          "actualAway": null,
+          "hit": null
+        }
+      ]
     }
   ]
 }
