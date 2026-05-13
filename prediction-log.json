@@ -16835,6 +16835,98 @@
           "hit": null
         }
       ]
+    },
+    {
+      "date": "2026-05-13",
+      "predictedAt": "2026-05-13T02:28:31.469Z",
+      "version": "v9.2",
+      "games": [
+        {
+          "away": "삼성",
+          "home": "LG",
+          "stadium": "잠실",
+          "time": "18:30",
+          "awaySP": "원태인",
+          "homeSP": "톨허스트",
+          "predWinner": "LG",
+          "predHomePct": 60.8,
+          "predAwayPct": 36.7,
+          "avgHome": 5,
+          "avgAway": 3.8,
+          "confidence": "★★★",
+          "actualHome": null,
+          "actualAway": null,
+          "hit": null
+        },
+        {
+          "away": "NC",
+          "home": "롯데",
+          "stadium": "부산",
+          "time": "18:30",
+          "awaySP": "테일러",
+          "homeSP": "비슬리",
+          "predWinner": "롯데",
+          "predHomePct": 56.6,
+          "predAwayPct": 40.9,
+          "avgHome": 3.5,
+          "avgAway": 2.9,
+          "confidence": "★★",
+          "actualHome": null,
+          "actualAway": null,
+          "hit": null
+        },
+        {
+          "away": "SSG",
+          "home": "KT",
+          "stadium": "수원",
+          "time": "18:30",
+          "awaySP": "타케다",
+          "homeSP": "보쉴리",
+          "predWinner": "KT",
+          "predHomePct": 59.2,
+          "predAwayPct": 38.6,
+          "avgHome": 4.6,
+          "avgAway": 3.8,
+          "confidence": "★★",
+          "actualHome": null,
+          "actualAway": null,
+          "hit": null
+        },
+        {
+          "away": "두산",
+          "home": "KIA",
+          "stadium": "광주",
+          "time": "18:30",
+          "awaySP": "최준호",
+          "homeSP": "양현종",
+          "predWinner": "KIA",
+          "predHomePct": 55.7,
+          "predAwayPct": 42.4,
+          "avgHome": 4.9,
+          "avgAway": 4.5,
+          "confidence": "★★",
+          "actualHome": null,
+          "actualAway": null,
+          "hit": null
+        },
+        {
+          "away": "한화",
+          "home": "키움",
+          "stadium": "고척",
+          "time": "18:30",
+          "awaySP": "에르난데스",
+          "homeSP": "박정훈",
+          "predWinner": "키움",
+          "predHomePct": 52.5,
+          "predAwayPct": 46,
+          "avgHome": 5.1,
+          "avgAway": 5,
+          "confidence": "★",
+          "actualHome": null,
+          "actualAway": null,
+          "hit": null
+        }
+      ]
     }
   ]
 }
