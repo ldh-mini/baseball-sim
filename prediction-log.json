@@ -17111,6 +17111,98 @@
           "hit": null
         }
       ]
+    },
+    {
+      "date": "2026-05-16",
+      "predictedAt": "2026-05-16T02:11:12.026Z",
+      "version": "v9.2",
+      "games": [
+        {
+          "away": "한화",
+          "home": "KT",
+          "stadium": "수원",
+          "time": "14:00",
+          "awaySP": "화이트",
+          "homeSP": "배제성",
+          "predWinner": "KT",
+          "predHomePct": 62.6,
+          "predAwayPct": 36.6,
+          "avgHome": 8.8,
+          "avgAway": 7.1,
+          "confidence": "★★★",
+          "actualHome": null,
+          "actualAway": null,
+          "hit": null
+        },
+        {
+          "away": "롯데",
+          "home": "두산",
+          "stadium": "잠실",
+          "time": "17:00",
+          "awaySP": "박세웅",
+          "homeSP": "잭로그",
+          "predWinner": "두산",
+          "predHomePct": 73.3,
+          "predAwayPct": 25,
+          "avgHome": 5.6,
+          "avgAway": 3.2,
+          "confidence": "★★★",
+          "actualHome": null,
+          "actualAway": null,
+          "hit": null
+        },
+        {
+          "away": "LG",
+          "home": "SSG",
+          "stadium": "문학",
+          "time": "17:00",
+          "awaySP": "이정용",
+          "homeSP": "최민준",
+          "predWinner": "LG",
+          "predHomePct": 47.9,
+          "predAwayPct": 50,
+          "avgHome": 5,
+          "avgAway": 5.2,
+          "confidence": "★",
+          "actualHome": null,
+          "actualAway": null,
+          "hit": null
+        },
+        {
+          "away": "KIA",
+          "home": "삼성",
+          "stadium": "대구",
+          "time": "17:00",
+          "awaySP": "이의리",
+          "homeSP": "오러클린",
+          "predWinner": "삼성",
+          "predHomePct": 62.5,
+          "predAwayPct": 36.3,
+          "avgHome": 6.9,
+          "avgAway": 5.6,
+          "confidence": "★★★",
+          "actualHome": null,
+          "actualAway": null,
+          "hit": null
+        },
+        {
+          "away": "키움",
+          "home": "NC",
+          "stadium": "창원",
+          "time": "17:00",
+          "awaySP": "로젠버그",
+          "homeSP": "구창모",
+          "predWinner": "NC",
+          "predHomePct": 57.3,
+          "predAwayPct": 41.3,
+          "avgHome": 4.8,
+          "avgAway": 4.3,
+          "confidence": "★★",
+          "actualHome": null,
+          "actualAway": null,
+          "hit": null
+        }
+      ]
     }
   ]
 }
