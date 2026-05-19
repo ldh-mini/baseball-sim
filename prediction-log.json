@@ -17295,6 +17295,98 @@
           "hit": null
         }
       ]
+    },
+    {
+      "date": "2026-05-19",
+      "predictedAt": "2026-05-19T02:35:06.031Z",
+      "version": "v9.2",
+      "games": [
+        {
+          "away": "NC",
+          "home": "두산",
+          "stadium": "잠실",
+          "time": "18:30",
+          "awaySP": "테일러",
+          "homeSP": "최민석",
+          "predWinner": "두산",
+          "predHomePct": 49.9,
+          "predAwayPct": 46.5,
+          "avgHome": 3.2,
+          "avgAway": 3.3,
+          "confidence": "★",
+          "actualHome": null,
+          "actualAway": null,
+          "hit": null
+        },
+        {
+          "away": "LG",
+          "home": "KIA",
+          "stadium": "광주",
+          "time": "18:30",
+          "awaySP": "톨허스트",
+          "homeSP": "올러",
+          "predWinner": "KIA",
+          "predHomePct": 53,
+          "predAwayPct": 45.4,
+          "avgHome": 4.1,
+          "avgAway": 3.9,
+          "confidence": "★",
+          "actualHome": null,
+          "actualAway": null,
+          "hit": null
+        },
+        {
+          "away": "SSG",
+          "home": "키움",
+          "stadium": "고척",
+          "time": "18:30",
+          "awaySP": "타케다",
+          "homeSP": "박정훈",
+          "predWinner": "키움",
+          "predHomePct": 49.3,
+          "predAwayPct": 49.2,
+          "avgHome": 3.8,
+          "avgAway": 4.3,
+          "confidence": "★",
+          "actualHome": null,
+          "actualAway": null,
+          "hit": null
+        },
+        {
+          "away": "롯데",
+          "home": "한화",
+          "stadium": "대전",
+          "time": "18:30",
+          "awaySP": "비슬리",
+          "homeSP": "에르난데스",
+          "predWinner": "롯데",
+          "predHomePct": 48.5,
+          "predAwayPct": 50.1,
+          "avgHome": 4.8,
+          "avgAway": 5,
+          "confidence": "★",
+          "actualHome": null,
+          "actualAway": null,
+          "hit": null
+        },
+        {
+          "away": "KT",
+          "home": "삼성",
+          "stadium": "포항",
+          "time": "18:30",
+          "awaySP": "보쉴리",
+          "homeSP": "원태인",
+          "predWinner": "삼성",
+          "predHomePct": 50.8,
+          "predAwayPct": 47,
+          "avgHome": 4.1,
+          "avgAway": 4.2,
+          "confidence": "★",
+          "actualHome": null,
+          "actualAway": null,
+          "hit": null
+        }
+      ]
     }
   ]
 }
