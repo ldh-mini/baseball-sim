@@ -1,6 +1,6 @@
 {
   "crawlDate": "2026-06-06",
-  "crawlTime": "2026-06-06T02:28:24.102Z",
+  "crawlTime": "2026-06-06T10:04:26.976Z",
   "teams": {
     "samsung": {
       "teamKR": "삼성",
@@ -68,35 +68,35 @@
     },
     "kt": {
       "teamKR": "KT",
-      "g": 57,
-      "w": 33,
+      "g": 58,
+      "w": 34,
       "l": 23,
       "t": 1,
-      "pct": 0.589,
+      "pct": 0.596,
       "rs": 328,
       "ra": 446,
       "runDiff": -118,
-      "runDiffPerGame": -2.07,
+      "runDiffPerGame": -2.03,
       "last10raw": "6승0무4패",
       "last10pct": 0.6,
-      "streakRaw": "2패",
-      "streak": -2
+      "streakRaw": "1승",
+      "streak": 1
     },
     "ssg": {
       "teamKR": "SSG",
-      "g": 57,
+      "g": 58,
       "w": 25,
-      "l": 31,
+      "l": 32,
       "t": 1,
-      "pct": 0.446,
+      "pct": 0.439,
       "rs": 297,
       "ra": 430,
       "runDiff": -133,
-      "runDiffPerGame": -2.33,
+      "runDiffPerGame": -2.29,
       "last10raw": "3승0무7패",
       "last10pct": 0.3,
-      "streakRaw": "3승",
-      "streak": 3
+      "streakRaw": "1패",
+      "streak": -1
     },
     "hanwha": {
       "teamKR": "한화",
