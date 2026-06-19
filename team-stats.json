@@ -1,6 +1,6 @@
 {
   "crawlDate": "2026-06-19",
-  "crawlTime": "2026-06-19T03:34:07.810Z",
+  "crawlTime": "2026-06-19T12:06:27.028Z",
   "teams": {
     "samsung": {
       "teamKR": "삼성",
@@ -36,35 +36,35 @@
     },
     "lg": {
       "teamKR": "LG",
-      "g": 68,
-      "w": 42,
+      "g": 69,
+      "w": 43,
       "l": 26,
       "t": 0,
-      "pct": 0.618,
+      "pct": 0.623,
       "rs": 350,
       "ra": 454,
       "runDiff": -104,
-      "runDiffPerGame": -1.53,
-      "last10raw": "6승0무4패",
-      "last10pct": 0.6,
-      "streakRaw": "2패",
-      "streak": -2
+      "runDiffPerGame": -1.51,
+      "last10raw": "7승0무3패",
+      "last10pct": 0.7,
+      "streakRaw": "1승",
+      "streak": 1
     },
     "doosan": {
       "teamKR": "두산",
-      "g": 69,
+      "g": 70,
       "w": 34,
-      "l": 33,
+      "l": 34,
       "t": 2,
-      "pct": 0.507,
+      "pct": 0.5,
       "rs": 317,
       "ra": 570,
       "runDiff": -253,
-      "runDiffPerGame": -3.67,
+      "runDiffPerGame": -3.61,
       "last10raw": "5승0무5패",
       "last10pct": 0.5,
-      "streakRaw": "1승",
-      "streak": 1
+      "streakRaw": "1패",
+      "streak": -1
     },
     "kt": {
       "teamKR": "KT",
