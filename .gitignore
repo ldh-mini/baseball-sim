@@ -3,9 +3,14 @@ node_modules/
 dist/
 
 # Env / secrets
+# .env.example은 템플릿이므로 트랙킹 (실제 키는 .env에만)
 .env
 .env.local
 .env.*.local
+!.env.example
+
+# 인수인계용 배포 아카이브 (git archive로 재생성 가능)
+*.zip
 
 # OS / IDE
 .DS_Store
