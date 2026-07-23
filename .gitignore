@@ -23,6 +23,10 @@ __pycache__/
 schedule-2025-*.json
 schedule-2026-*.json
 prediction-log.backup-*.json
+prediction-log.snapshot-*.json
+
+# 로컬 데이터 백업 보관소 (archive/data-snapshots/) — 커밋하지 않음
+archive/data-snapshots/
 
 # public/data: 빌드 시 워크플로우가 자동 생성 (root 데이터 파일을 복사)
 public/data/

@@ -1,8 +1,10 @@
-# KBO 경기 결과 예측 시뮬레이터
+# Scoracle — KBO 경기 예측 AI
 
-> 세이버메트릭스 + 베이지안 블렌딩 + 모멘텀 보정을 활용한 KBO 야구 경기 예측 엔진. 매일 자동 크롤링으로 데이터를 갱신하고, 시점기반 백테스트로 적중률을 검증한다.
+> **Score + Oracle**. 세이버메트릭스 + 베이지안 블렌딩 + 모멘텀 + calibration 보정을 활용한 KBO 경기 예측 엔진. 매일 자동 크롤링으로 데이터를 갱신하고, 시점기반 백테스트로 적중률을 검증하며, 경기별 AI 해설을 제공한다.
 
-**현재 버전**: v9.4 (2026-04)
+**현재 버전**: v9.6 (2026-04) — calibration fix + 경기 해설/요인 분석 시스템
+
+> 📋 **프로젝트를 인수받으셨나요?** → [HANDOVER.md](HANDOVER.md)를 먼저 읽으세요. 현재 파이프라인에 알려진 이슈가 있습니다.
 
 ## 주요 특징
 
@@ -95,6 +97,8 @@ stats-report.mjs       전체/신뢰도/팀별/주별 적중률 + McNemar 검정
 | v9.2 | 75.0% | 4/5 시점 80% | Layer 2C 모멘텀, 일별 스냅샷, verify/report |
 | v9.3 | 75.0% | **시점 68% (17/25)** | Playwright 백필, A/B 검증, **모멘텀 +8%p** |
 | v9.4 | 75.0% | 84경기 백테스트 | 그리드 서치, McNemar 검정, 가중치 파라미터화 |
+| v9.5 | — | 42경기 61.9% | GitHub Pages + PWA, calibration 인프라 (Brier/RMSE), **anomaly 발견** ★★★ 33% / ★ 82% |
+| **v9.6** | — | 모니터링 중 | **temp 0.7 + prior g/15 + threshold 65%** + 경기 해설/요인 분석 (Sim.getFactors + FactorCard UI) |
 
 ## 기술 스택
 
@@ -106,7 +110,7 @@ stats-report.mjs       전체/신뢰도/팀별/주별 적중률 + McNemar 검정
 ## 디렉토리
 
 ```
-야구시뮬레이션/
+scoracle/
 ├── kbo-simulation.jsx              메인 앱 (엔진 + UI, ~1800줄)
 ├── src/                            엔트리/스타일
 ├── crawl-*.mjs                     데이터 크롤러 (4개)
