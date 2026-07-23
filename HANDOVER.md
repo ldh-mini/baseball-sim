@@ -2,11 +2,11 @@
 
 작성일: 2026-07-23
 대상: 프로젝트를 이어받는 개발자
-현행 코드 버전: v9.6 (로컬 기준) / **운영 배포 버전: v9.2**
+현행 코드 버전: v9.6 (배포 완료, 2026-07-23) / 실전 검증 표본은 v9.2 기준
 
 ---
 
-## 0. 먼저 읽어야 할 3가지 (⚠️ 현안)
+## 0. 먼저 읽어야 할 것 (⚠️ 현안)
 
 인수 시점에 **정상 동작하지 않는 부분**이 있습니다. 문서의 다른 내용보다 먼저 확인하세요.
 
@@ -49,30 +49,27 @@ node crawl-schedule.mjs
 2. 캐시 fallback 시 **캐시 날짜가 오늘이 아니면 exit 1** 로 바꿔 워크플로우가 실패하도록 (침묵 실패 제거)
 3. 같은 패턴이 `crawl-recent.mjs`(워크플로우에서 `continue-on-error: true`)에도 있는지 점검
 
-### ⚠️ 2. v9.6이 운영에 배포되지 않았음
+### ⚠️ 2. v9.6 효과가 아직 실전 검증되지 않음
 
-로컬에서 개발·커밋된 v9.6(calibration fix + 경기 해설)이 **2026-04-10 이후 원격에 푸시되지 않았습니다.** 원격은 여전히 v9.2 엔진으로 예측하고 있었습니다.
+v9.6(calibration fix + 경기 해설)은 2026-04-10에 개발되었으나 **2026-07-23에야 배포**되었습니다. 그 사이 운영은 v9.2 엔진으로 돌았습니다.
 
-- `prediction-log.json`의 v9.6 항목: **1건** (로컬 테스트분)
-- 실전 로그 189건은 전부 v9.2 기준
+- 누적 실전 로그 189건은 **전부 v9.2 기준**
+- `prediction-log.json`의 v9.6 항목: 1건 (로컬 테스트분)
 
-→ v9.6 calibration fix의 실제 효과는 **아직 검증되지 않은 상태**입니다. 배포 후 표본을 다시 쌓아야 합니다.
+→ v9.6의 세 파라미터(temp 0.7 / prior g/15 / threshold 65%)가 calibration 역전을 실제로 고쳤는지는 **표본이 없어 알 수 없습니다.** 현안 1(일정 크롤러)을 고쳐 예측이 다시 쌓이기 시작하면, 50경기 이상 누적 후 `node stats-report.mjs --calibration`으로 재분석해야 합니다.
 
-### ⚠️ 3. 리브랜딩이 절반만 되어 있음 (배포 시 사이트 깨짐 주의)
+### ✅ 3. 리브랜딩 (2026-07-23 완료)
 
-코드는 `Scoracle`로 리브랜딩되어 **Pages base 경로가 `/scoracle/`** 로 바뀌어 있는데, GitHub 리포지토리 이름은 아직 `baseball-sim`입니다.
+리포지토리가 `scoracle`로 rename되었고 v9.6 + 리브랜딩 코드가 배포되었습니다. Pages 자산·매니페스트·데이터 fetch 모두 200 확인.
 
-| 파일 | 값 |
-|------|-----|
-| [vite.config.js](vite.config.js) | `base: '/scoracle/'` |
-| [public/manifest.webmanifest](public/manifest.webmanifest) | `start_url: '/scoracle/'` |
-| [index.html](index.html) | OG URL `.../scoracle/` |
-| 실제 리포 | `github.com/ldh-mini/baseball-sim` |
+| 항목 | 현재 |
+|------|------|
+| 리포 | `github.com/ldh-mini/scoracle` (구 URL은 301 리다이렉트) |
+| Pages | `https://ldh-mini.github.io/scoracle/` |
 
-**이 상태로 배포하면 GitHub Pages에서 정적 자산이 404가 납니다.** 둘 중 하나를 먼저 하세요.
-
-- (A) 리포지토리 이름을 `scoracle`로 rename → 코드 그대로 배포 (권장)
-- (B) 위 3개 파일의 경로를 `/baseball-sim/`으로 되돌린 뒤 배포
+> ⚠️ **구 Pages URL(`/baseball-sim/`)은 404입니다.** GitHub은 리포지토리 URL만 리다이렉트하고 Pages 경로는 리다이렉트하지 않습니다. 기존 링크·북마크, 그리고 구 URL에서 설치된 PWA는 동작하지 않으므로 신 URL로 재설치가 필요합니다.
+>
+> 로컬 폴더명(`야구시뮬레이션`)은 아직 그대로입니다. 필요 시 수동 rename하세요 (동작에는 영향 없음).
 
 ---
 
@@ -82,8 +79,8 @@ node crawl-schedule.mjs
 
 | 항목 | 내용 |
 |------|------|
-| 리포지토리 | `github.com/ldh-mini/baseball-sim` (rename 예정: `scoracle`) |
-| 배포 | GitHub Pages (`ldh-mini.github.io/baseball-sim/`) |
+| 리포지토리 | `github.com/ldh-mini/scoracle` |
+| 배포 | GitHub Pages — https://ldh-mini.github.io/scoracle/ |
 | 자동화 | GitHub Actions — 매일 09시/17시 KST |
 | 기술 스택 | React 19 + Vite 8 + Tailwind 3 / Node.js 크롤러 / cheerio + Playwright |
 | 데이터 출처 | KBO 공식 사이트, Statiz (2025 시즌 prior) |
@@ -261,7 +258,8 @@ scoracle/
 - [x] 미커밋 작업 정리 및 원격 기준 정합화
 - [x] 사용하지 않는 파일 `archive/`로 분리
 - [x] 인수인계 문서 작성 (이 문서)
-- [ ] v9.6 코드 원격 푸시 (**리브랜딩 경로 결정 후** — 현안 3)
+- [x] 리포지토리 rename (`baseball-sim` → `scoracle`) + Pages 동작 확인
+- [x] v9.6 + 리브랜딩 코드 원격 푸시
 - [ ] `v9.6` 태그 생성
 
 ### 2단계 — 병행 운영 (1~2주 권장)
@@ -289,11 +287,10 @@ scoracle/
 | 우선순위 | 작업 | 비고 |
 |---------|------|------|
 | **1** | 일정 크롤러 복구 + 침묵 실패 제거 | 현안 1 — 이것 없이는 나머지 무의미 |
-| **2** | v9.6 배포 및 calibration 재검증 | 현안 2 |
-| **3** | 리브랜딩 완료 (리포 rename + 경로 정합) | 현안 3 |
-| 4 | Discord webhook 일일 알림 | 원 플랜 1순위, ROI 높음 |
-| 5 | LLM 해설 서버사이드화 | API 키 구조 문제 동시 해결 |
-| 6 | 모멘텀 가중치 재검증 | 표본 200경기+ 필요 |
+| **2** | v9.6 calibration 재검증 (배포는 완료) | 현안 2 — 1번 해결 후 표본 50경기 누적 필요 |
+| 3 | Discord webhook 일일 알림 | 원 플랜 1순위, ROI 높음 |
+| 4 | LLM 해설 서버사이드화 | API 키 구조 문제 동시 해결 |
+| 5 | 모멘텀 가중치 재검증 | 표본 200경기+ 필요 |
 | — | MLB / 타 종목 확장, 구독 시스템 | 장기 로드맵 ([프로젝트_개요서.md](프로젝트_개요서.md) 8장) |
 
 ---
