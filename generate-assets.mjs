@@ -78,18 +78,18 @@ const OG_IMAGE_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 
 
   <!-- 텍스트 (오른쪽) -->
   <g transform="translate(470 0)">
-    <text x="0" y="220" font-family="Arial Black, sans-serif" font-size="64" font-weight="900" fill="#ffffff">KBO 경기 예측</text>
-    <text x="0" y="290" font-family="Arial Black, sans-serif" font-size="64" font-weight="900" fill="#a78bfa">시뮬레이터</text>
+    <text x="0" y="220" font-family="Arial Black, sans-serif" font-size="96" font-weight="900" fill="#ffffff">Scoracle</text>
+    <text x="0" y="290" font-family="Arial Black, sans-serif" font-size="44" font-weight="900" fill="#a78bfa">KBO 경기 예측 AI</text>
 
     <line x1="0" y1="320" x2="600" y2="320" stroke="#7c3aed" stroke-width="3"/>
 
-    <text x="0" y="370" font-family="Arial, sans-serif" font-size="28" fill="#cbd5e1">베이지안 블렌딩 + Layer 2C 모멘텀</text>
-    <text x="0" y="410" font-family="Arial, sans-serif" font-size="28" fill="#cbd5e1">시점기반 백테스트로 검증</text>
+    <text x="0" y="370" font-family="Arial, sans-serif" font-size="28" fill="#cbd5e1">Score + Oracle · 베이지안 + 모멘텀</text>
+    <text x="0" y="410" font-family="Arial, sans-serif" font-size="28" fill="#cbd5e1">calibration 보정 + 경기별 AI 해설</text>
 
     <!-- 배지들 -->
     <g transform="translate(0 450)">
       <rect x="0" y="0" width="120" height="40" rx="20" fill="#7c3aed" opacity="0.2" stroke="#a78bfa" stroke-width="2"/>
-      <text x="60" y="27" font-family="Arial, sans-serif" font-size="20" font-weight="bold" fill="#a78bfa" text-anchor="middle">v9.5</text>
+      <text x="60" y="27" font-family="Arial, sans-serif" font-size="20" font-weight="bold" fill="#a78bfa" text-anchor="middle">v9.6</text>
 
       <rect x="135" y="0" width="180" height="40" rx="20" fill="#0ea5e9" opacity="0.2" stroke="#38bdf8" stroke-width="2"/>
       <text x="225" y="27" font-family="Arial, sans-serif" font-size="20" font-weight="bold" fill="#38bdf8" text-anchor="middle">매일 자동 갱신</text>
@@ -100,7 +100,7 @@ const OG_IMAGE_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 
   </g>
 
   <!-- 하단 푸터 -->
-  <text x="1180" y="600" font-family="Arial, sans-serif" font-size="18" fill="#64748b" text-anchor="end">github.com/ldh-mini/baseball-sim</text>
+  <text x="1180" y="600" font-family="Arial, sans-serif" font-size="18" fill="#64748b" text-anchor="end">github.com/ldh-mini/scoracle</text>
 </svg>`;
 
 async function main() {
